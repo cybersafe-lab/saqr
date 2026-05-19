@@ -1,0 +1,55 @@
+{
+    "name": "cybersafe-lab/saqr",
+    "description": "Grounded retrieval-augmented Q&A library for Saudi Arabia's cybersecurity and data-protection frameworks (PDPL, NCA-ECC, NCA-CCC, SAMA, ISO 27001).",
+    "type": "library",
+    "license": "Apache-2.0",
+    "keywords": [
+        "rag",
+        "retrieval-augmented-generation",
+        "cybersecurity",
+        "compliance",
+        "grc",
+        "saudi-arabia",
+        "pdpl",
+        "nca-ecc",
+        "sama",
+        "iso27001",
+        "anthropic",
+        "claude"
+    ],
+    "authors": [
+        {
+            "name": "Mohammed AlYahya",
+            "email": "security@malyahya.com",
+            "homepage": "https://malyahya.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-json": "*",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5 || ^10.0"
+    },
+    "suggest": {
+        "ext-curl": "Required for the bundled HTTP client used by Generator (Anthropic call)."
+    },
+    "autoload": {
+        "psr-4": {
+            "Saqr\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Saqr\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "lint": "find src -name '*.php' -print0 | xargs -0 -n1 php -l"
+    },
+    "minimum-stability": "stable",
+    "config": {
+        "sort-packages": true
+    }
+}

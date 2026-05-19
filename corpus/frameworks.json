@@ -1,0 +1,329 @@
+{
+  "schema_version": "0.1",
+  "language": "en",
+  "license": "Apache-2.0",
+  "source": "Curated practitioner notes by Mohammed AlYahya. Verify critical decisions against official regulator publications.",
+  "entries": [
+    {
+      "category": "AUTHORITIES",
+      "keywords": [
+        "national cybersecurity authority",
+        "who is nca",
+        "what is nca",
+        "nca authority",
+        "about nca"
+      ],
+      "answer": "The <strong>National Cybersecurity Authority (NCA)</strong> is Saudi Arabia's central cybersecurity regulator, established in 2017. It publishes the national baseline controls every public-sector and critical-infrastructure entity must implement, and it has inspection authority. Its main control sets are <strong>ECC</strong> (baseline), <strong>CCC</strong> (critical systems), <strong>CSCC</strong> (cloud), <strong>DCC</strong> (data), <strong>TCC</strong> (telework), and <strong>OSMACC</strong> (organizational social media). Ask me about any of them by name."
+    },
+    {
+      "category": "AUTHORITIES",
+      "keywords": [
+        "sdaia",
+        "data and ai authority",
+        "saudi data ai authority"
+      ],
+      "answer": "<strong>SDAIA</strong> (Saudi Data and AI Authority) is the national authority for data and AI policy, and the <em>enforcement body for PDPL</em>. Where NCA owns the cybersecurity baseline, SDAIA owns the data/privacy baseline. They overlap on things like data classification — which is why I read NCA DCC and PDPL together, not separately, when advising clients."
+    },
+    {
+      "category": "AUTHORITIES",
+      "keywords": [
+        "who is sama",
+        "about sama",
+        "saudi central bank",
+        "what is sama"
+      ],
+      "answer": "<strong>SAMA</strong> (Saudi Central Bank, formerly Saudi Arabian Monetary Authority) is the regulator for all banks, insurance companies, and financing companies in Saudi Arabia. It publishes two of the most important financial-sector frameworks: the <strong>Cyber Security Framework (CSF)</strong> and the <strong>IT Governance Framework (ITGF)</strong>. Ask me about either by name."
+    },
+    {
+      "category": "AUTHORITIES",
+      "keywords": [
+        "cst",
+        "citc",
+        "communications space technology",
+        "communications and information technology commission"
+      ],
+      "answer": "<strong>CST</strong> (Communications, Space & Technology Commission — formerly <strong>CITC</strong>, the Communications and IT Commission) is the telecom and ICT-sector regulator. It publishes the <strong>Cybersecurity Regulatory Framework (CRF)</strong> for service providers in the ICT sector. If your business touches telecom, ISP, hosting, or regulated digital services, you will likely owe CST on top of whatever NCA baseline applies."
+    },
+    {
+      "category": "NCA FRAMEWORKS",
+      "keywords": [
+        "nca ecc",
+        "ecc",
+        "essential cybersecurity controls",
+        "essential controls"
+      ],
+      "answer": "<strong>NCA ECC</strong> — Essential Cybersecurity Controls, issued 2018. The baseline for every in-scope public-sector and critical-infrastructure entity in Saudi Arabia. Built around <em>5 main domains, 29 subdomains, and 114 controls</em>, covering governance, defense, resilience, third-party/cloud, and ICS. Mandatory for in-scope entities. Read it as a <strong>floor, not a ceiling</strong>: passing ECC means you have the baseline; it does not mean you are mature. I almost always pair ECC scoping with ISO 27001 evidence rigor."
+    },
+    {
+      "category": "NCA FRAMEWORKS",
+      "keywords": [
+        "ecc domains",
+        "ecc main domains",
+        "ecc structure",
+        "ecc subdomains",
+        "what is in ecc",
+        "ecc coverage",
+        "ecc network security",
+        "network security ecc",
+        "ecc network",
+        "network in ecc",
+        "ecc governance",
+        "ecc defense",
+        "ecc resilience",
+        "ecc ics",
+        "ecc third party",
+        "ecc cloud"
+      ],
+      "answer": "<strong>NCA ECC is structured around 5 main domains, 29 subdomains, and 114 controls.</strong> The five main domains are: <strong>(1) Cybersecurity Governance</strong> — strategy, policies, roles, risk management, compliance, audit. <strong>(2) Cybersecurity Defense</strong> — this is where network security, asset management, identity and access, data protection, cryptography, vulnerability management, endpoint and email security, secure configuration, and event logging all live. <strong>(3) Cybersecurity Resilience</strong> — business continuity and disaster recovery from a cyber angle. <strong>(4) Third-Party and Cloud Computing Cybersecurity</strong> — supplier risk and cloud adoption controls. <strong>(5) Industrial Control Systems Cybersecurity</strong> — for OT/ICS environments. <em>Practitioner note:</em> most of what people ask about — network security, IAM, data protection, logging — sits inside Domain 2 (Cybersecurity Defense). I do not have the individual control IDs in my corpus; pull the official NCA ECC document for that level of detail."
+    },
+    {
+      "category": "NCA FRAMEWORKS",
+      "keywords": [
+        "nca ccc",
+        "critical systems cybersecurity",
+        "critical systems controls",
+        "critical national infrastructure",
+        "cni controls"
+      ],
+      "answer": "<strong>NCA CCC</strong> — Critical Systems Cybersecurity Controls, issued 2019. Layered <em>on top of</em> ECC for critical systems and critical national infrastructure (energy, water, finance, health, telecom, transport, government services). Stricter than ECC: expects segmentation, stronger monitoring, and zero-trust-style assumptions for critical-system boundaries. Rule of thumb: <strong>if you are in scope of CCC, you are also in scope of ECC</strong> — treat CCC as the ceiling and ECC as the floor, and build one unified control set that satisfies both."
+    },
+    {
+      "category": "NCA FRAMEWORKS",
+      "keywords": [
+        "cscc",
+        "cloud cybersecurity controls",
+        "nca cloud",
+        "cloud controls saudi",
+        "csp controls"
+      ],
+      "answer": "<strong>NCA CSCC</strong> — Cloud Cybersecurity Controls, issued 2020. Applies to both <em>Cloud Service Providers</em> (CSPs) operating in Saudi Arabia and to <em>cloud tenants</em>. Tiered by data classification and service sensitivity — the higher the classification of data you put in the cloud, the tighter the control set. Two practical implications: (1) data localization constraints for sensitive classes, (2) a formal cloud risk assessment before adoption, not after. I usually scope CSCC against the data classification from NCA DCC — they are designed to be read together."
+    },
+    {
+      "category": "NCA FRAMEWORKS",
+      "keywords": [
+        "nca dcc",
+        "data cybersecurity controls",
+        "data classification saudi",
+        "data controls nca"
+      ],
+      "answer": "<strong>NCA DCC</strong> — Data Cybersecurity Controls. Focused on data classification and protection across the data lifecycle. Uses a <em>four-tier classification scheme</em> (roughly: Top Secret, Secret, Confidential, Public), and maps protection requirements to each tier. <strong>Practical order I recommend:</strong> do the DCC classification exercise <em>before</em> touching CSCC or PDPL — because both of those are downstream of knowing which data you actually hold at which sensitivity. DCC is where most programs should start if they have never done a data inventory."
+    },
+    {
+      "category": "NCA FRAMEWORKS",
+      "keywords": [
+        "nca tcc",
+        "telework cybersecurity",
+        "telework controls",
+        "remote work controls saudi"
+      ],
+      "answer": "<strong>NCA TCC</strong> — Telework Cybersecurity Controls. Created to formalize expectations around secure remote work: endpoint hygiene, secure connectivity (VPN/ZTNA), session protection, and identity verification for off-network access. In practice I treat TCC as a <em>subset of ECC</em> rather than a new program — almost everything it asks for can be satisfied by a well-designed access-control and endpoint-management program. Where it matters most is <em>documenting</em> those controls explicitly so a regulator can see the telework use case was considered."
+    },
+    {
+      "category": "NCA FRAMEWORKS",
+      "keywords": [
+        "osmacc",
+        "social media cybersecurity",
+        "social media controls",
+        "organizations social media"
+      ],
+      "answer": "<strong>NCA OSMACC</strong> — Organizations' Social Media Accounts Cybersecurity Controls. A narrow, targeted control set covering account takeover protection, MFA on official accounts, content approval workflows, access lifecycle for social-media admins, and incident response for compromised accounts. Looks small until you remember how many national-brand takeover incidents have started with a reused password on a shared corporate X/Instagram account. I treat OSMACC as <strong>a one-afternoon compliance exercise for mature organizations</strong> — it should not eat program capacity, but it should not be skipped."
+    },
+    {
+      "category": "NCA FRAMEWORKS",
+      "keywords": [
+        "scywf",
+        "cybersecurity workforce framework",
+        "saudi cybersecurity workforce",
+        "nca workforce"
+      ],
+      "answer": "<strong>NCA SCyWF</strong> — Saudi Cybersecurity Workforce Framework. Role/skill taxonomy for cybersecurity jobs in Saudi Arabia, mapped loosely to the US NICE framework. Used for workforce planning, role definitions, and training pathways. Useful if you are <em>building a security team structure</em> or justifying headcount to HR and finance; less relevant for day-to-day control operations. I reach for it when a client asks \"what should the org chart look like?\" not when they ask \"what should the controls do?\""
+    },
+    {
+      "category": "SAMA FRAMEWORKS",
+      "keywords": [
+        "sama csf",
+        "sama cyber security framework",
+        "csf sama",
+        "cyber security framework sama"
+      ],
+      "answer": "<strong>SAMA CSF</strong> — Cyber Security Framework, issued 2017 (v1.0). The cybersecurity-specific framework for all SAMA-regulated entities (banks, insurance, financing companies). Structured around four main domains — <em>cybersecurity leadership and governance, cyber risk management and compliance, cyber operations and technology, and third-party cybersecurity</em> — with a 4-level maturity scale. <strong>CSF is narrower and sharper than ITGF</strong>: ITGF is about IT governance generally; CSF is about cyber posture specifically. A well-run bank treats them as one integrated program, not two separate projects."
+    },
+    {
+      "category": "SAMA FRAMEWORKS",
+      "keywords": [
+        "sama itgf",
+        "itgf",
+        "it governance framework sama",
+        "it governance framework saudi"
+      ],
+      "answer": "<strong>SAMA ITGF</strong> — IT Governance Framework. The IT governance framework all SAMA-regulated banks and financial institutions must comply with. Expects: a <em>3 lines of defence</em> model, board-level IT risk ownership, KRIs and KPIs tied to real decisions, and inspection-readiness as an ongoing posture, not a point-in-time exercise. <strong>Read it as a decision framework, not a checklist</strong> — SAMA is asking whether your decisions are defensible, not whether you have the controls. I have reduced critical audit findings by ~35% at a Tier-1 bank by applying exactly that reading."
+    },
+    {
+      "category": "SAMA FRAMEWORKS",
+      "keywords": [
+        "sama bcm",
+        "sama business continuity",
+        "business continuity sama"
+      ],
+      "answer": "<strong>SAMA BCM Framework</strong> — Business Continuity Management framework for SAMA-regulated entities. Covers business impact analysis, recovery strategies, crisis management, and testing. I treat it as <em>operational continuity discipline</em>, not a cybersecurity document — but it overlaps heavily with cyber resilience, especially for ransomware scenarios. A bank that has done BCM properly already has most of the artifacts cyber resilience needs. <em>Note: always verify current BCM framework version against SAMA's latest circulars before implementation.</em>"
+    },
+    {
+      "category": "CST / ARAMCO / PDPL",
+      "keywords": [
+        "cst crf",
+        "crf",
+        "cybersecurity regulatory framework",
+        "citc crf",
+        "ict cybersecurity saudi"
+      ],
+      "answer": "<strong>CST CRF</strong> — Cybersecurity Regulatory Framework, issued by CST (formerly CITC). The sector-specific cybersecurity framework for telecom operators, ISPs, hosting providers, and other regulated ICT service providers in Saudi Arabia. Structured around domains similar to NCA ECC but with ICT-sector-specific expectations on network integrity, subscriber data, lawful interception, and service availability. <strong>If you are in ICT, you owe CST CRF in addition to NCA baseline</strong> — treat them as overlapping, not either/or."
+    },
+    {
+      "category": "CST / ARAMCO / PDPL",
+      "keywords": [
+        "aramco",
+        "sacs-002",
+        "sacs",
+        "aramco ccc",
+        "aramco cybersecurity",
+        "aramco certification",
+        "third party cybersecurity aramco"
+      ],
+      "answer": "<strong>Saudi Aramco SACS-002</strong> is Aramco's Third Party Cybersecurity Standard. Any contractor or supplier connecting to Aramco systems or handling Aramco data must obtain a <strong>Cybersecurity Compliance Certificate (CCC)</strong> — not to be confused with NCA's CCC (Critical Systems Controls). Aramco CCC is tiered by contractor type and connectivity profile: different tiers (commonly described as Gold/Silver/Bronze-style levels) apply depending on whether you are on-site, remotely connected, or handling sensitive data. <strong>Practical reality:</strong> for most contractors this is a 3–6 month engagement with an accredited auditor, and it is the single most common \"we cannot start the contract until…\" blocker I see in the energy sector."
+    },
+    {
+      "category": "CST / ARAMCO / PDPL",
+      "keywords": [
+        "pdpl",
+        "personal data protection",
+        "privacy law",
+        "personal data saudi"
+      ],
+      "answer": "<strong>PDPL</strong> — Personal Data Protection Law, enforced by SDAIA. Governs how personal data is collected, processed, stored, and transferred. Key obligations: <em>lawful basis</em> for every processing activity, <em>data subject rights</em> (access, correction, deletion, objection), <em>breach notification</em>, and constraints on <em>cross-border transfer</em>. PDPL has extraterritorial effect — it can reach foreign companies processing Saudi residents' data. <strong>I treat PDPL as a data problem with a control wrapper.</strong> Solve the data problem first — discovery, ownership, lawful basis — and the controls tell you what they need to be. Most failures I see are ownership gaps, not control gaps."
+    },
+    {
+      "category": "CST / ARAMCO / PDPL",
+      "keywords": [
+        "iso 27001",
+        "iso27001",
+        "27001",
+        "isms"
+      ],
+      "answer": "<strong>ISO/IEC 27001</strong> — the international standard for Information Security Management Systems (ISMS). Risk-based, certifiable, globally recognized. Strength: rigor on evidence and the management-system loop (Plan-Do-Check-Act). Weakness in a Saudi context: it is not country-specific and does not satisfy NCA or SAMA on its own. My rule: <strong>build to ISO's evidence standard, scope to NCA's mandatory controls.</strong> That single sentence has saved clients months of duplicate documentation work."
+    },
+    {
+      "category": "COMPARISONS",
+      "keywords": [
+        "iso vs nca",
+        "iso vs ecc",
+        "nca vs iso",
+        "ecc vs iso",
+        "iso and nca",
+        "iso and ecc"
+      ],
+      "answer": "<strong>NCA ECC vs ISO 27001 — short version:</strong> ~80% control overlap. NCA is more prescriptive about <em>who owns what</em> and Saudi-specific obligations (data localization, national CIP). ISO is more flexible on the \"how\" but more rigorous on <em>show me the evidence</em>. <strong>Build to ISO's evidence standard, scope to NCA's mandatory controls.</strong> Order matters — building NCA-first usually produces documentation too thin for ISO and forces rework. Exception: if a regulator inspection is imminent, scope-and-close NCA first; ISO can wait."
+    },
+    {
+      "category": "COMPARISONS",
+      "keywords": [
+        "ecc vs ccc",
+        "ccc vs ecc",
+        "difference ecc ccc",
+        "ecc and ccc"
+      ],
+      "answer": "<strong>NCA ECC vs NCA CCC:</strong> ECC is the <em>baseline</em> every in-scope entity must meet. CCC is a <em>layered, stricter set</em> for critical systems and critical national infrastructure. If you are in scope of CCC, you are automatically in scope of ECC — treat CCC as the ceiling and ECC as the floor. <strong>Build one unified control catalog that satisfies both at once</strong>, tagged per control which regime requires it. Running them as two separate projects is how programs waste six months."
+    },
+    {
+      "category": "COMPARISONS",
+      "keywords": [
+        "sama vs nca",
+        "nca vs sama",
+        "sama or nca",
+        "banking vs government framework"
+      ],
+      "answer": "<strong>SAMA vs NCA:</strong> different audiences. SAMA (CSF + ITGF) is <em>financial-sector-specific</em>, with deeper expectations on three-lines-of-defence, KRI escalation, and board-level risk ownership. NCA ECC is the <em>broader Saudi baseline</em> for government and critical-sector entities. If you are a Saudi bank, SAMA wins on hierarchy — but you will still satisfy ECC as a side effect of doing SAMA properly. If you are a non-bank in scope of ECC, you are not under SAMA."
+    },
+    {
+      "category": "COMPARISONS",
+      "keywords": [
+        "pdpl vs dcc",
+        "dcc vs pdpl",
+        "pdpl and dcc"
+      ],
+      "answer": "<strong>PDPL vs NCA DCC:</strong> they look similar but target different concerns. PDPL is about <em>personal data</em> — rights of the data subject, lawful basis, cross-border transfer. NCA DCC is about <em>all organizational data</em> — classification, protection, lifecycle. Where they overlap is classification: PDPL creates categories of personal data (personal, sensitive), DCC creates organizational classification tiers (Top Secret → Public). <strong>Run one data discovery exercise that outputs both classifications in one pass</strong> — never do them twice."
+    },
+    {
+      "category": "COMPARISONS",
+      "keywords": [
+        "aramco vs nca",
+        "nca vs aramco",
+        "aramco and nca"
+      ],
+      "answer": "<strong>Aramco SACS-002 vs NCA ECC:</strong> SACS-002 is a <em>private-sector procurement requirement</em>, not a national regulation. NCA ECC is a <em>national regulatory baseline</em>. A contractor working for Aramco needs the Aramco CCC certificate <em>and</em> — if they also handle government or critical-infrastructure scope — NCA compliance. They do not substitute for each other. In practice I see contractors treat Aramco CCC as the binding requirement because it is the blocker to revenue, and layer NCA where applicable."
+    },
+    {
+      "category": "COMPARISONS",
+      "keywords": [
+        "where do i start",
+        "where to start",
+        "how do i start",
+        "starting point",
+        "first step",
+        "how to begin"
+      ],
+      "answer": "<strong>Start with three questions:</strong> (1) <em>Which regulator can inspect you in the next 12 months?</em> Build to satisfy them first. (2) <em>What data do you actually hold and where?</em> No control program survives bad data discovery. (3) <em>Who owns risk decisions?</em> If the answer is \"the security team,\" you have a governance gap before you have a control gap. Once you have those three, the framework choice almost picks itself."
+    },
+    {
+      "category": "COMPARISONS",
+      "keywords": [
+        "maturity",
+        "maturity level",
+        "maturity model"
+      ],
+      "answer": "<strong>Maturity</strong> in NCA / SAMA contexts is typically a 1–5 scale (Initial → Optimized). My rule: <em>target Level 3 (Defined and consistently applied) across the program before chasing Level 4–5 anywhere</em>. Uneven maturity (5 in one domain, 2 in another) is what regulators flag, not absolute level. Pick your weakest domain and pull it up before optimizing your strongest."
+    },
+    {
+      "category": "COMPARISONS",
+      "keywords": [
+        "audit",
+        "audit finding",
+        "inspection",
+        "examination"
+      ],
+      "answer": "<strong>Audit findings are usually capture problems, not control problems.</strong> If your risk register is filled in by people who do not trust it, you will close findings and grow new ones at the same rate. The fix is upstream: make the act of capturing risk produce useful inputs (asset classification, residual scoring, KRI links, ownership at the right level). I have used this approach to reduce critical findings ~35% in 6 months at a Tier-1 bank, without a tool change."
+    },
+    {
+      "category": "COMPARISONS",
+      "keywords": [
+        "third party",
+        "vendor risk",
+        "supplier cybersecurity"
+      ],
+      "answer": "<strong>Third-party cybersecurity</strong> shows up in every Saudi framework: NCA ECC has a third-party domain, SAMA CSF has its own third-party section, Aramco SACS-002 is entirely about contractors, and PDPL imposes processor/sub-processor obligations. <strong>One practical rule:</strong> build a single third-party risk register keyed by supplier, and tag each supplier with which regimes apply. Running a separate vendor program per regulator is the most common source of duplicated work I see."
+    },
+    {
+      "category": "META",
+      "keywords": [
+        "who are you",
+        "about this bot",
+        "about you",
+        "who built you",
+        "creator",
+        "what are you"
+      ],
+      "answer": "<strong>English:</strong> I am the GRC Assistant built by <strong>Mohammed AlYahya</strong>. I answer questions on Saudi cybersecurity and data frameworks — NCA, SAMA, CST, Aramco SACS-002, PDPL, and ISO 27001 — grounded in his own curated practitioner notes.<br><br><strong>العربية:</strong> أنا مساعد الحوكمة والمخاطر والامتثال الخاص بـ<strong>محمد اليحيا</strong>. أجيب على الأسئلة المتعلقة بأطر الأمن السيبراني وحماية البيانات في المملكة العربية السعودية — NCA وSAMA وCST ومعيار أرامكو SACS-002 ونظام حماية البيانات الشخصية PDPL وأيزو 27001 — اعتماداً على ملاحظاته العملية المختارة."
+    },
+    {
+      "category": "META",
+      "keywords": [
+        "list frameworks",
+        "what frameworks",
+        "what can you answer",
+        "what do you know",
+        "topics",
+        "help"
+      ],
+      "answer": "I can answer questions on the main Saudi cybersecurity and data regimes:<br><br><strong>NCA</strong> — ECC, CCC, CSCC, DCC, TCC, OSMACC, SCyWF<br><strong>SAMA</strong> — CSF, ITGF, BCM<br><strong>CST</strong> — CRF<br><strong>Saudi Aramco</strong> — SACS-002 / CCC<br><strong>SDAIA</strong> — PDPL<br><strong>International</strong> — ISO 27001<br><br>I can also compare any two of these, and explain where to start a program, how to read maturity levels, and how to handle third-party cybersecurity across all of them. Ask by name."
+    }
+  ]
+}
