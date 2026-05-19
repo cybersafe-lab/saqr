@@ -1,5 +1,5 @@
-  name: CI
-  
+ name: CI
+
   on:
     push:
       branches: [main]
@@ -8,7 +8,7 @@
 
   jobs:
     lint:
-      name: PHP ${{ matrix.php }} — lint + composer validate
+      name: PHP ${{ matrix.php }} lint + composer validate
       runs-on: ubuntu-latest
       strategy:
         fail-fast: false
@@ -31,7 +31,7 @@
 
         - name: Install dependencies
           run: composer install --prefer-dist --no-progress --no-interaction
-  
+
         - name: Lint all PHP files
           run: find src examples -name '*.php' -print0 | xargs -0 -n1 php -l
 
