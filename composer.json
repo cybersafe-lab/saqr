@@ -30,7 +30,9 @@
         "ext-mbstring": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5 || ^10.0"
+        "pestphp/pest": "^3",
+        "pestphp/pest-plugin-arch": "^3",
+        "phpunit/phpunit": "^9.5 || ^10.0 || ^11.0"
     },
     "suggest": {
         "ext-curl": "Required for the bundled HTTP client used by Generator (Anthropic call)."
@@ -50,6 +52,9 @@
     },
     "minimum-stability": "stable",
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }
