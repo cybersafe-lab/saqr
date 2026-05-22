@@ -13,13 +13,12 @@
   },
   "files": [
     "dist/",
-    "../corpus/frameworks.json",
-    "../bin/",
-    "../src/",
+    "vendor-bundled/",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
+    "prepack": "node scripts/bundle.mjs",
     "build": "tsc -p .",
     "test": "vitest run",
     "test:watch": "vitest"

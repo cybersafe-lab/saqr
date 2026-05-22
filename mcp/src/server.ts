@@ -6,30 +6,47 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { createRequire } from "node:module";
+import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 import { PhpBridge } from "./php-bridge.js";
 import { TOOLS, TOOL_NAME_TO_CMD } from "./tools.js";
 
-// Resolve bundled assets via require.resolve so the package works from
-// npx, npm link, global installs, and the Docker image alike.
+// Resolve bundled assets with a three-tier fallback:
+//   1. require.resolve — works when the package is installed via npm/npx
+//      (vendor-bundled/ is published inside the package root).
+//   2. Filesystem check relative to dist/ — works after `npm run prepack` in
+//      the source tree (vendor-bundled/ is a sibling of dist/).
+//   3. Dev tree fallback — works during development where dist/ lives inside
+//      mcp/ and the assets sit at the repo root (two levels up).
 const req = createRequire(import.meta.url);
 const HERE = dirname(fileURLToPath(import.meta.url));
 
-function resolveBundledPath(npmName: string, fallbackRelativeToDist: string): string {
+function resolveAsset(npmVendorPath: string, distRelative: string, devRelative: string): string {
   try {
-    return req.resolve(npmName);
-  } catch {
-    return resolve(HERE, fallbackRelativeToDist);
-  }
+    return req.resolve(npmVendorPath);
+  } catch { /* not reachable via require.resolve — try filesystem fallbacks */ }
+  const viaVendorBundled = resolve(HERE, distRelative);
+  if (existsSync(viaVendorBundled)) return viaVendorBundled;
+  return resolve(HERE, devRelative);
 }
 
-const CLI_PATH = resolveBundledPath("@cybersafe-lab/saqr-mcp/../bin/saqr-cli", "../../bin/saqr-cli");
-const CORPUS_DEFAULT_PATH = resolveBundledPath("@cybersafe-lab/saqr-mcp/../corpus/frameworks.json", "../../corpus/frameworks.json");
+// Published package: vendor-bundled/{bin,corpus} live inside the npm package.
+// Dev tree (mcp/dist/server.js → mcp/vendor-bundled/ → repo/{bin,corpus}).
+const CLI_PATH = resolveAsset(
+  "@cybersafe-lab/saqr-mcp/vendor-bundled/bin/saqr-cli",
+  "../vendor-bundled/bin/saqr-cli",
+  "../../bin/saqr-cli",
+);
+const CORPUS_DEFAULT_PATH = resolveAsset(
+  "@cybersafe-lab/saqr-mcp/vendor-bundled/corpus/frameworks.json",
+  "../vendor-bundled/corpus/frameworks.json",
+  "../../corpus/frameworks.json",
+);
 
 const bridge = new PhpBridge({ cliPath: CLI_PATH, corpusDefaultPath: CORPUS_DEFAULT_PATH });
 
-const server = new Server(
+export const server = new Server(
   { name: "saqr-mcp", version: "0.1.0" },
   { capabilities: { tools: {} } },
 );
