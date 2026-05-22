@@ -12,7 +12,7 @@ The corpus is plain JSON. The retriever is plain PHP. The optional generator is 
 
 Saqr ships an MCP server so any MCP-compatible AI client can query the corpus as tools.
 
-### Option A — via npm (requires PHP 8.1+ on the host)
+### Option A — via npm (requires PHP 8.2+ on the host)
 
 Add to your `claude_desktop_config.json`:
 
@@ -139,7 +139,7 @@ The corpus is **curated practitioner notes**, not regulator-issued text. It enco
 
 ## Requirements
 
-- PHP **8.1** or newer (tested on 8.1, 8.2, 8.3)
+- PHP **8.2** or newer (tested on 8.2, 8.3)
 - ext-json (always available)
 - ext-mbstring (for Arabic text handling)
 - ext-curl (for the optional Anthropic call)
