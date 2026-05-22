@@ -76,7 +76,7 @@ export class PhpBridge {
     const p = id ? this.pending.get(id) : undefined;
     if (!p) return;
     clearTimeout(p.timeoutId);
-    this.pending.delete(id);
+    this.pending.delete(id!);
     if (msg.ok === true) {
       p.resolve(msg.result);
     } else {
