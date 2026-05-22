@@ -44,6 +44,10 @@ export class PhpBridge {
     if (this.respawnTimestamps.length >= 3) {
       throw new Error("INTERNAL: saqr backend repeatedly crashing");
     }
+    if (this.respawnTimestamps.length > 0) {
+      // A prior spawn has occurred within the last 60 s — this is a respawn after a crash.
+      process.stderr.write("WARN saqr.respawn\n");
+    }
     this.respawnTimestamps.push(now);
 
     this.child = spawn(this.phpPath, [this.opts.cliPath, "serve"], {

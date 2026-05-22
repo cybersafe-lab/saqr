@@ -14,8 +14,9 @@ $blocklist = [
     'ignore previous instructions',
     'ignore the above',
     'system:',
+    '<source>',  // reserved XML-like delimiter used in some LLM prompting schemes
     '</source>',
-    '[SOURCE',  // reserved delimiter, must never appear in corpus
+    '[SOURCE',   // reserved delimiter used by Generator context blocks
     'disregard',
 ];
 

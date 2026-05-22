@@ -139,7 +139,7 @@ The corpus is **curated practitioner notes**, not regulator-issued text. It enco
 
 ## Requirements
 
-- PHP **7.4** or newer (tested on 7.4, 8.0, 8.1, 8.2, 8.3)
+- PHP **8.1** or newer (tested on 8.1, 8.2, 8.3)
 - ext-json (always available)
 - ext-mbstring (for Arabic text handling)
 - ext-curl (for the optional Anthropic call)

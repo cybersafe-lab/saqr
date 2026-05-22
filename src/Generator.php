@@ -30,7 +30,7 @@ final class Generator
         ?string $apiKey = null,
         string $model = 'claude-haiku-4-5',
         int $maxTokens = 500,
-        int $timeoutSeconds = 20,
+        int $timeoutSeconds = 9,
         ?string $systemPrompt = null
     ) {
         $this->apiKey = $apiKey
