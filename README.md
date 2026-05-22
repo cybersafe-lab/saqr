@@ -8,6 +8,56 @@ The corpus is plain JSON. The retriever is plain PHP. The optional generator is 
 
 ---
 
+## Use Saqr from Claude Desktop / Cursor (MCP)
+
+Saqr ships an MCP server so any MCP-compatible AI client can query the corpus as tools.
+
+### Option A — via npm (requires PHP 8.2+ on the host)
+
+Add to your `claude_desktop_config.json`:
+
+```jsonc
+{
+  "mcpServers": {
+    "saqr": {
+      "command": "npx",
+      "args": ["-y", "@cybersafe-lab/saqr-mcp"],
+      "env": { "ANTHROPIC_API_KEY": "sk-ant-..." }
+    }
+  }
+}
+```
+
+### Option B — via Docker (no PHP required)
+
+```jsonc
+{
+  "mcpServers": {
+    "saqr": {
+      "command": "docker",
+      "args": [
+        "run", "-i", "--rm",
+        "-e", "ANTHROPIC_API_KEY",
+        "ghcr.io/cybersafe-lab/saqr-mcp:latest"
+      ]
+    }
+  }
+}
+```
+
+Verify the Docker image's signature (optional):
+
+```bash
+cosign verify ghcr.io/cybersafe-lab/saqr-mcp:latest \
+  --certificate-identity-regexp 'https://github.com/cybersafe-lab/saqr/.*' \
+  --certificate-oidc-issuer 'https://token.actions.githubusercontent.com'
+```
+
+Tools: `saqr_search`, `saqr_compare_frameworks`, `saqr_explain_control`, `saqr_show_corpus`.
+See `docs/mcp.md` for the full integration guide.
+
+---
+
 ## Quickstart
 
 ```bash
@@ -89,7 +139,7 @@ The corpus is **curated practitioner notes**, not regulator-issued text. It enco
 
 ## Requirements
 
-- PHP **7.4** or newer (tested on 7.4, 8.0, 8.1, 8.2, 8.3)
+- PHP **8.2** or newer (tested on 8.2, 8.3)
 - ext-json (always available)
 - ext-mbstring (for Arabic text handling)
 - ext-curl (for the optional Anthropic call)

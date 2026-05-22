@@ -11,6 +11,18 @@ namespace Saqr;
  * win over shorter ones. Simple, deterministic, no embeddings, no
  * external services — good enough for a curated practitioner corpus.
  */
+
+/**
+ * Saqr Retriever — keyword scoring with UTF-8 byte-length weighting.
+ *
+ * The score-per-match uses strlen() which returns BYTE count in PHP,
+ * not codepoint count. This is intentional: an Arabic keyword like
+ * "ايزو" (4 codepoints / 8 UTF-8 bytes) scores 8, while "iso" scores 3.
+ * A reimplementation using JS String.length (UTF-16 code units) would
+ * silently re-rank Arabic-heavy queries. See:
+ *   tests/Characterization/RetrieverCharacterizationTest.php
+ *     "Arabic keyword strlen counts UTF-8 bytes, not codepoints"
+ */
 final class Retriever
 {
     private Corpus $corpus;

@@ -1,0 +1,39 @@
+{
+  "name": "@cybersafe-lab/saqr-mcp",
+  "version": "0.1.0",
+  "description": "MCP server wrapping the Saqr Saudi-cybersecurity RAG library",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "dist/server.js",
+  "bin": {
+    "saqr-mcp": "dist/server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist/",
+    "vendor-bundled/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prepack": "node scripts/bundle.mjs",
+    "build": "tsc -p .",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cybersafe-lab/saqr.git",
+    "directory": "mcp"
+  }
+}

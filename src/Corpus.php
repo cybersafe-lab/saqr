@@ -13,18 +13,25 @@ use Saqr\Exception\InvalidCorpusException;
  *   "schema_version": "0.1",
  *   "language": "en",
  *   "entries": [
- *     { "category": "...", "keywords": ["..."], "answer": "..." },
+ *     { "id": "...", "title": "...", "framework": "...",
+ *       "category": "...", "keywords": ["..."], "answer": "..." },
  *     ...
  *   ]
  * }
+ *
+ * Required per-entry fields: keywords + answer.
+ * Optional (preserved when present): id, title, framework, category.
+ * Consumers that surface entries to downstream clients (e.g. the MCP
+ * tool result mapper in bin/dispatcher.php) rely on these fields being
+ * preserved verbatim when supplied.
  */
 final class Corpus
 {
-    /** @var array<int, array{category: ?string, keywords: array<int, string>, answer: string}> */
+    /** @var array<int, array{id: ?string, title: ?string, framework: ?string, category: ?string, keywords: array<int, string>, answer: string}> */
     private array $entries;
 
     /**
-     * @param array<int, array{category?: ?string, keywords: array<int, string>, answer: string}> $entries
+     * @param array<int, array{id?: ?string, title?: ?string, framework?: ?string, category?: ?string, keywords: array<int, string>, answer: string}> $entries
      */
     public function __construct(array $entries)
     {
@@ -60,9 +67,12 @@ final class Corpus
                 throw new InvalidCorpusException("Entry #{$i} missing 'answer' string");
             }
             $clean[] = [
-                'category' => isset($entry['category']) && is_string($entry['category']) ? $entry['category'] : null,
-                'keywords' => array_values(array_filter($entry['keywords'], 'is_string')),
-                'answer'   => $entry['answer'],
+                'id'        => isset($entry['id']) && is_string($entry['id']) ? $entry['id'] : null,
+                'title'     => isset($entry['title']) && is_string($entry['title']) ? $entry['title'] : null,
+                'framework' => isset($entry['framework']) && is_string($entry['framework']) ? $entry['framework'] : null,
+                'category'  => isset($entry['category']) && is_string($entry['category']) ? $entry['category'] : null,
+                'keywords'  => array_values(array_filter($entry['keywords'], 'is_string')),
+                'answer'    => $entry['answer'],
             ];
         }
 
@@ -70,7 +80,7 @@ final class Corpus
     }
 
     /**
-     * @return array<int, array{category: ?string, keywords: array<int, string>, answer: string}>
+     * @return array<int, array{id: ?string, title: ?string, framework: ?string, category: ?string, keywords: array<int, string>, answer: string}>
      */
     public function all(): array
     {

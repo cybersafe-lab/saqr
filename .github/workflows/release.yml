@@ -1,0 +1,57 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish npm + Docker
+    runs-on: ubuntu-latest
+    environment: release   # requires manual approval per repo settings
+    permissions:
+      contents: write   # for GH Release
+      id-token: write   # for npm --provenance + cosign keyless
+      packages: write   # for GHCR push
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+      - uses: shivammathur/setup-php@8358ee0e2e8afe63c2fb8253d1d52085811ab1e5
+        with:
+          php-version: "8.3"
+      - working-directory: mcp
+        run: npm ci && npm run build
+
+      - name: Publish to npm with provenance
+        working-directory: mcp
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public
+
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker build -t ghcr.io/${{ github.repository_owner }}/saqr-mcp:${{ github.ref_name }} -t ghcr.io/${{ github.repository_owner }}/saqr-mcp:latest .
+      - run: docker push ghcr.io/${{ github.repository_owner }}/saqr-mcp:${{ github.ref_name }}
+      - run: docker push ghcr.io/${{ github.repository_owner }}/saqr-mcp:latest
+
+      - uses: sigstore/cosign-installer@d58896d6a1865668819e1d91763c7751a165e159
+      - name: Sign Docker image with cosign keyless
+        env:
+          COSIGN_EXPERIMENTAL: "1"
+        run: |
+          cosign sign --yes ghcr.io/${{ github.repository_owner }}/saqr-mcp:${{ github.ref_name }}
+          cosign sign --yes ghcr.io/${{ github.repository_owner }}/saqr-mcp:latest
+
+      - name: Create GH Release
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65
+        with:
+          generate_release_notes: true

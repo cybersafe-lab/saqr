@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+// Reject corpus entries whose content contains instruction-shaped strings
+// that could be prompt-injection vectors when the corpus is fed back as
+// context to the LLM. CI runs this on every push to corpus/.
+
+$path = $argv[1] ?? __DIR__ . '/../corpus/frameworks.json';
+$data = json_decode(file_get_contents($path), true);
+$entries = $data['entries'] ?? [];
+
+$blocklist = [
+    'ignore previous instructions',
+    'ignore the above',
+    'system:',
+    '<source>',  // reserved XML-like delimiter used in some LLM prompting schemes
+    '</source>',
+    '[SOURCE',   // reserved delimiter used by Generator context blocks
+    'disregard',
+];
+
+$violations = 0;
+foreach ($entries as $entry) {
+    $haystack = strtolower($entry['answer'] ?? '');
+    foreach ($blocklist as $needle) {
+        if (strpos($haystack, $needle) !== false) {
+            fwrite(STDERR, "Corpus entry '{$entry['id']}' contains forbidden token: {$needle}\n");
+            $violations++;
+        }
+    }
+}
+exit($violations > 0 ? 1 : 0);

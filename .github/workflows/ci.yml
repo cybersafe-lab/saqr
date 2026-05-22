@@ -6,34 +6,65 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
-  lint:
-    name: PHP ${{ matrix.php }} — lint + composer validate
+  php:
+    name: PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        php: ['7.4', '8.0', '8.1', '8.2', '8.3']
-
+        php: ["8.2", "8.3"]   # 8.1 dropped — Pest 3 requires PHP 8.2+
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+      - uses: shivammathur/setup-php@8358ee0e2e8afe63c2fb8253d1d52085811ab1e5  # v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: mbstring, json, curl
           coverage: none
-          tools: composer:v2
+      - run: composer install --prefer-dist --no-progress
+      - run: vendor/bin/pest --testsuite=Unit,Characterization,Snapshot,Smoke
 
-      - name: Validate composer.json
-        run: composer validate --strict
+  node:
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["18", "20", "22"]
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: shivammathur/setup-php@8358ee0e2e8afe63c2fb8253d1d52085811ab1e5  # v2
+        with:
+          php-version: "8.3"
+          coverage: none
+      - working-directory: mcp
+        run: npm ci && npm run build && npm test
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-interaction
+  integration:
+    name: Integration (CLI contract + MCP tools/call)
+    runs-on: ubuntu-latest
+    needs: [php, node]
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+      - uses: shivammathur/setup-php@8358ee0e2e8afe63c2fb8253d1d52085811ab1e5  # v2
+        with: { php-version: "8.3" }
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
+        with: { node-version: "20" }
+      - run: composer install --prefer-dist --no-progress
+      - run: vendor/bin/pest --testsuite=Integration
+      - working-directory: mcp
+        run: npm ci && npm run build && npm test
 
-      - name: Lint all PHP files
-        run: find src examples -name '*.php' -print0 | xargs -0 -n1 php -l
-
-      - name: Validate corpus JSON
-        run: php -r 'json_decode(file_get_contents("corpus/frameworks.json"), true, 512, JSON_THROW_ON_ERROR);'
+  corpus-lint:
+    name: Corpus lint (SEC-007)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+      - uses: shivammathur/setup-php@8358ee0e2e8afe63c2fb8253d1d52085811ab1e5  # v2
+        with: { php-version: "8.3" }
+      - run: php bin/corpus-lint

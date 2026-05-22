@@ -1,0 +1,9 @@
+.git
+.github
+docs
+tests
+node_modules
+mcp/node_modules
+mcp/dist
+*.log
+.DS_Store

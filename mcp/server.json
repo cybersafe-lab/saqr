@@ -1,0 +1,42 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "name": "io.github.cybersafe-lab/saqr-mcp",
+  "description": "Query Saudi cybersecurity frameworks (NCA ECC, SAMA CSF, PDPL, NCA CCC) as MCP tools",
+  "repository": {
+    "url": "https://github.com/cybersafe-lab/saqr",
+    "source": "github",
+    "subfolder": "mcp"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@cybersafe-lab/saqr-mcp",
+      "version": "0.1.0",
+      "transport": { "type": "stdio" },
+      "runtimeHint": "node",
+      "environmentVariables": [
+        {
+          "name": "ANTHROPIC_API_KEY",
+          "description": "Optional. If set, enables LLM-generated answers via Claude Haiku. Without it, tools return curated corpus entries.",
+          "isSecret": true,
+          "isRequired": false
+        }
+      ]
+    },
+    {
+      "registryType": "oci",
+      "identifier": "ghcr.io/cybersafe-lab/saqr-mcp",
+      "version": "0.1.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "ANTHROPIC_API_KEY",
+          "description": "Optional. If set, enables LLM-generated answers via Claude Haiku.",
+          "isSecret": true,
+          "isRequired": false
+        }
+      ]
+    }
+  ]
+}
