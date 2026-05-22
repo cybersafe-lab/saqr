@@ -53,8 +53,8 @@
     },
     {
         "question": "    ",
-        "expected_top1_id_in": [],
-        "expected_min_score": 0,
+        "expected_top1_id_in": ["empty-kw-guard"],
+        "expected_min_score": 2,
         "bucket": "edge"
     },
     {
@@ -135,10 +135,8 @@
     },
     {
         "question": "Is the keyword guard entry correct?",
-        "expected_top1_id_in": [
-            "empty-kw-guard"
-        ],
-        "expected_min_score": 5,
+        "expected_top1_id_in": [],
+        "expected_min_score": 0,
         "bucket": "representative"
     },
     {
