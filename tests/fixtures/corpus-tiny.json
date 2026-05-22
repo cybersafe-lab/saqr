@@ -1,0 +1,47 @@
+{
+  "version": "tiny-1",
+  "entries": [
+    {
+      "id": "ar-iso",
+      "title": "ISO 27001 (Arabic alias)",
+      "framework": "ISO",
+      "keywords": ["ايزو", "أيزو"],
+      "answer": "ISO 27001 معيار دولي لإدارة أمن المعلومات."
+    },
+    {
+      "id": "en-iso",
+      "title": "ISO 27001",
+      "framework": "ISO",
+      "keywords": ["iso"],
+      "answer": "ISO 27001 is an international standard for information security management."
+    },
+    {
+      "id": "nca-short",
+      "title": "NCA short keyword",
+      "framework": "NCA",
+      "keywords": ["nca"],
+      "answer": "NCA is the National Cybersecurity Authority of Saudi Arabia."
+    },
+    {
+      "id": "nca-long",
+      "title": "NCA long keyword",
+      "framework": "NCA",
+      "keywords": ["national cybersecurity authority"],
+      "answer": "Same regulator, longer keyword on purpose."
+    },
+    {
+      "id": "audit-substring",
+      "title": "Substring match",
+      "framework": "Generic",
+      "keywords": ["audit"],
+      "answer": "Matches 'audit' inside 'auditor'."
+    },
+    {
+      "id": "empty-kw-guard",
+      "title": "Empty keyword guard",
+      "framework": "Generic",
+      "keywords": ["", "  ", "valid"],
+      "answer": "Empty/whitespace keywords must be skipped."
+    }
+  ]
+}

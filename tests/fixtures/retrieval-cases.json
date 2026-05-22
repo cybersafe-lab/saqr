@@ -1,0 +1,398 @@
+[
+    {
+        "question": "How does NCA ECC compare to ISO 27001?",
+        "expected_top1_id_in": [
+            "ar-iso",
+            "en-iso",
+            "nca-short",
+            "nca-long"
+        ],
+        "expected_min_score": 3,
+        "bucket": "representative"
+    },
+    {
+        "question": "What is the NCA?",
+        "expected_top1_id_in": [
+            "nca-short",
+            "nca-long"
+        ],
+        "expected_min_score": 3,
+        "bucket": "representative"
+    },
+    {
+        "question": "Tell me about ايزو 27001",
+        "expected_top1_id_in": [
+            "ar-iso"
+        ],
+        "expected_min_score": 8,
+        "bucket": "representative"
+    },
+    {
+        "question": "Should I run an audit?",
+        "expected_top1_id_in": [
+            "audit-substring"
+        ],
+        "expected_min_score": 5,
+        "bucket": "representative"
+    },
+    {
+        "question": "Who is the auditor?",
+        "expected_top1_id_in": [
+            "audit-substring"
+        ],
+        "expected_min_score": 5,
+        "bucket": "adversarial"
+    },
+    {
+        "question": "iso",
+        "expected_top1_id_in": [
+            "en-iso"
+        ],
+        "expected_min_score": 3,
+        "bucket": "edge"
+    },
+    {
+        "question": "    ",
+        "expected_top1_id_in": [],
+        "expected_min_score": 0,
+        "bucket": "edge"
+    },
+    {
+        "question": "What does the National Cybersecurity Authority do?",
+        "expected_top1_id_in": [
+            "nca-long"
+        ],
+        "expected_min_score": 32,
+        "bucket": "representative"
+    },
+    {
+        "question": "What is ISO 27001?",
+        "expected_top1_id_in": [
+            "en-iso",
+            "ar-iso"
+        ],
+        "expected_min_score": 3,
+        "bucket": "representative"
+    },
+    {
+        "question": "Explain ISO 27001 requirements",
+        "expected_top1_id_in": [
+            "en-iso",
+            "ar-iso"
+        ],
+        "expected_min_score": 3,
+        "bucket": "representative"
+    },
+    {
+        "question": "ما هو ايزو 27001؟",
+        "expected_top1_id_in": [
+            "ar-iso"
+        ],
+        "expected_min_score": 8,
+        "bucket": "representative"
+    },
+    {
+        "question": "هل أيزو 27001 إلزامي في السعودية؟",
+        "expected_top1_id_in": [
+            "ar-iso"
+        ],
+        "expected_min_score": 8,
+        "bucket": "representative"
+    },
+    {
+        "question": "What is the role of the National Cybersecurity Authority in Saudi Arabia?",
+        "expected_top1_id_in": [
+            "nca-long"
+        ],
+        "expected_min_score": 32,
+        "bucket": "representative"
+    },
+    {
+        "question": "Describe NCA regulations",
+        "expected_top1_id_in": [
+            "nca-short",
+            "nca-long"
+        ],
+        "expected_min_score": 3,
+        "bucket": "representative"
+    },
+    {
+        "question": "How do I conduct an audit of my ISMS?",
+        "expected_top1_id_in": [
+            "audit-substring"
+        ],
+        "expected_min_score": 5,
+        "bucket": "representative"
+    },
+    {
+        "question": "What are audit requirements for ISO compliance?",
+        "expected_top1_id_in": [
+            "audit-substring",
+            "en-iso"
+        ],
+        "expected_min_score": 5,
+        "bucket": "representative"
+    },
+    {
+        "question": "Is the keyword guard entry correct?",
+        "expected_top1_id_in": [
+            "empty-kw-guard"
+        ],
+        "expected_min_score": 5,
+        "bucket": "representative"
+    },
+    {
+        "question": "What keywords are valid in corpus entries?",
+        "expected_top1_id_in": [
+            "empty-kw-guard"
+        ],
+        "expected_min_score": 5,
+        "bucket": "representative"
+    },
+    {
+        "question": "What is ISO 27001 and how does the National Cybersecurity Authority relate to it?",
+        "expected_top1_id_in": [
+            "nca-long"
+        ],
+        "expected_min_score": 32,
+        "bucket": "representative"
+    },
+    {
+        "question": "How do I get ISO certified?",
+        "expected_top1_id_in": [
+            "en-iso",
+            "ar-iso"
+        ],
+        "expected_min_score": 3,
+        "bucket": "representative"
+    },
+    {
+        "question": "كيف أحصل على شهادة أيزو؟",
+        "expected_top1_id_in": [
+            "ar-iso"
+        ],
+        "expected_min_score": 8,
+        "bucket": "representative"
+    },
+    {
+        "question": "Tell me about أيزو 27001",
+        "expected_top1_id_in": [
+            "ar-iso"
+        ],
+        "expected_min_score": 8,
+        "bucket": "representative"
+    },
+    {
+        "question": "national cybersecurity authority framework",
+        "expected_top1_id_in": [
+            "nca-long"
+        ],
+        "expected_min_score": 32,
+        "bucket": "representative"
+    },
+    {
+        "question": "What are the NCA's essential cybersecurity controls?",
+        "expected_top1_id_in": [
+            "nca-short",
+            "nca-long"
+        ],
+        "expected_min_score": 3,
+        "bucket": "representative"
+    },
+    {
+        "question": "audit trail requirements",
+        "expected_top1_id_in": [
+            "audit-substring"
+        ],
+        "expected_min_score": 5,
+        "bucket": "representative"
+    },
+    {
+        "question": "How often should internal audits be performed?",
+        "expected_top1_id_in": [
+            "audit-substring"
+        ],
+        "expected_min_score": 5,
+        "bucket": "representative"
+    },
+    {
+        "question": "What is an information security management system?",
+        "expected_top1_id_in": [],
+        "expected_min_score": 0,
+        "bucket": "representative"
+    },
+    {
+        "question": "ايزو ISO 27001",
+        "expected_top1_id_in": [
+            "ar-iso",
+            "en-iso"
+        ],
+        "expected_min_score": 8,
+        "bucket": "adversarial"
+    },
+    {
+        "question": "iso ",
+        "expected_top1_id_in": [
+            "en-iso"
+        ],
+        "expected_min_score": 3,
+        "bucket": "adversarial"
+    },
+    {
+        "question": "  iso  ",
+        "expected_top1_id_in": [
+            "en-iso"
+        ],
+        "expected_min_score": 3,
+        "bucket": "adversarial"
+    },
+    {
+        "question": "ISO",
+        "expected_top1_id_in": [
+            "en-iso"
+        ],
+        "expected_min_score": 3,
+        "bucket": "adversarial"
+    },
+    {
+        "question": "NCA",
+        "expected_top1_id_in": [
+            "nca-short",
+            "nca-long"
+        ],
+        "expected_min_score": 3,
+        "bucket": "adversarial"
+    },
+    {
+        "question": "iSo 27001",
+        "expected_top1_id_in": [
+            "en-iso"
+        ],
+        "expected_min_score": 3,
+        "bucket": "adversarial"
+    },
+    {
+        "question": "Who performs auditing in an ISMS?",
+        "expected_top1_id_in": [
+            "audit-substring"
+        ],
+        "expected_min_score": 5,
+        "bucket": "adversarial"
+    },
+    {
+        "question": "AUDIT",
+        "expected_top1_id_in": [
+            "audit-substring"
+        ],
+        "expected_min_score": 5,
+        "bucket": "adversarial"
+    },
+    {
+        "question": "nсa",
+        "expected_top1_id_in": [],
+        "expected_min_score": 0,
+        "bucket": "adversarial"
+    },
+    {
+        "question": "‏iso‏",
+        "expected_top1_id_in": [
+            "en-iso"
+        ],
+        "expected_min_score": 1,
+        "bucket": "adversarial"
+    },
+    {
+        "question": "ايزو‏ISO 27001",
+        "expected_top1_id_in": [
+            "ar-iso",
+            "en-iso"
+        ],
+        "expected_min_score": 8,
+        "bucket": "adversarial"
+    },
+    {
+        "question": "",
+        "expected_top1_id_in": [],
+        "expected_min_score": 0,
+        "bucket": "edge"
+    },
+    {
+        "question": "the and is",
+        "expected_top1_id_in": [],
+        "expected_min_score": 0,
+        "bucket": "edge"
+    },
+    {
+        "question": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "expected_top1_id_in": [],
+        "expected_min_score": 0,
+        "bucket": "edge"
+    },
+    {
+        "question": "12345",
+        "expected_top1_id_in": [],
+        "expected_min_score": 0,
+        "bucket": "edge"
+    },
+    {
+        "question": "27001",
+        "expected_top1_id_in": [],
+        "expected_min_score": 0,
+        "bucket": "edge"
+    },
+    {
+        "question": " ",
+        "expected_top1_id_in": [],
+        "expected_min_score": 0,
+        "bucket": "edge"
+    },
+    {
+        "question": "\n\t\r",
+        "expected_top1_id_in": [],
+        "expected_min_score": 0,
+        "bucket": "edge"
+    },
+    {
+        "question": "nca iso audit",
+        "expected_top1_id_in": [
+            "nca-long",
+            "nca-short",
+            "en-iso",
+            "audit-substring"
+        ],
+        "expected_min_score": 3,
+        "bucket": "edge"
+    },
+    {
+        "question": "ايزو",
+        "expected_top1_id_in": [
+            "ar-iso"
+        ],
+        "expected_min_score": 8,
+        "bucket": "edge"
+    },
+    {
+        "question": "أيزو",
+        "expected_top1_id_in": [
+            "ar-iso"
+        ],
+        "expected_min_score": 8,
+        "bucket": "edge"
+    },
+    {
+        "question": "nca national cybersecurity authority",
+        "expected_top1_id_in": [
+            "nca-long"
+        ],
+        "expected_min_score": 32,
+        "bucket": "edge"
+    },
+    {
+        "question": "valid",
+        "expected_top1_id_in": [
+            "empty-kw-guard"
+        ],
+        "expected_min_score": 5,
+        "bucket": "edge"
+    }
+]
