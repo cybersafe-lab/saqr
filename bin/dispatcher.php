@@ -52,9 +52,9 @@ function saqr_dispatch(string $cmd, array $args, Pipeline $pipeline, Corpus $cor
             }
             return [
                 'results' => array_map(static fn($t) => [
-                    'id' => $t['id'],
-                    'title' => $t['title'] ?? $t['id'],
-                    'score' => $t['score'],
+                    'id' => $t['id'] ?? null,
+                    'title' => $t['title'] ?? $t['category'] ?? null,
+                    'score' => $t['score'] ?? null,
                     'framework' => $t['framework'] ?? null,
                     'content' => $t['answer'] ?? '',
                 ], $r['top']),
@@ -68,7 +68,7 @@ function saqr_dispatch(string $cmd, array $args, Pipeline $pipeline, Corpus $cor
             return [
                 'comparison' => $r['answer'] ?? '',
                 'used_llm' => (bool)($r['used_llm'] ?? false),
-                'sources' => array_map(static fn($t) => $t['id'], $r['top'] ?? []),
+                'sources' => array_map(static fn($t) => $t['id'] ?? $t['category'] ?? 'unknown', $r['top'] ?? []),
             ];
 
         case 'explain_control':
@@ -79,7 +79,7 @@ function saqr_dispatch(string $cmd, array $args, Pipeline $pipeline, Corpus $cor
                 'control_id' => $ref,
                 'framework' => $first['framework'] ?? null,
                 'summary' => $first['answer'] ?? '',
-                'sources' => array_map(static fn($t) => $t['id'], $r['top'] ?? []),
+                'sources' => array_map(static fn($t) => $t['id'] ?? $t['category'] ?? 'unknown', $r['top'] ?? []),
             ];
 
         case 'show_corpus':
