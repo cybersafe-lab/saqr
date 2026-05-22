@@ -7,6 +7,16 @@
 - [ ] Configure workflow permissions: Settings → Actions → General → Workflow permissions → "Read and write" + "Allow GitHub Actions to create and approve pull requests"
 - [ ] Add required reviewers to the `release` environment (yourself)
 
+## Pre-release security steps
+
+- [ ] **Pin Docker base image digests (SEC-003).** Run the following and update `Dockerfile` `FROM` lines with `@sha256:<digest>` before tagging:
+  ```bash
+  docker pull node:20-alpine
+  docker inspect node:20-alpine --format '{{index .RepoDigests 0}}'
+  docker pull php:8.3-cli-alpine
+  docker inspect php:8.3-cli-alpine --format '{{index .RepoDigests 0}}'
+  ```
+
 ## Cut the release
 
 1. Verify `feat/mcp-v0.1` is green in CI

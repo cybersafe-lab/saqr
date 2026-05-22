@@ -87,13 +87,14 @@ export class PhpBridge {
   }
 
   async call(cmd: string, args: Record<string, unknown>): Promise<unknown> {
-    // SEC-006: input bounds on question-style fields
-    if (typeof args.question === "string") {
-      if (args.question.length > MAX_QUESTION_LEN) {
-        throw new Error(`BAD_REQUEST: question exceeds ${MAX_QUESTION_LEN} chars`);
+    // SEC-006: input bounds on all string args (not just `question`)
+    for (const [key, val] of Object.entries(args ?? {})) {
+      if (typeof val !== "string") continue;
+      if (val.length > MAX_QUESTION_LEN) {
+        throw new Error(`BAD_REQUEST: arg ${key} exceeds ${MAX_QUESTION_LEN} chars`);
       }
-      if (CONTROL_CHARS.test(args.question)) {
-        throw new Error("BAD_REQUEST: question contains control characters");
+      if (CONTROL_CHARS.test(val)) {
+        throw new Error(`BAD_REQUEST: arg ${key} contains control characters`);
       }
     }
     await this.ensureChild();
