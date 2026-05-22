@@ -1,10 +1,7 @@
-# TODO(release): pin base image by digest before tagging.
-# See RELEASE_CHECKLIST.md — run:
-#   docker pull node:20-alpine && docker inspect node:20-alpine --format '{{index .RepoDigests 0}}'
-#   docker pull php:8.3-cli-alpine && docker inspect php:8.3-cli-alpine --format '{{index .RepoDigests 0}}'
-# then replace the tags below with node:20-alpine@sha256:<digest> etc.
 # Stage 1: build TS
-FROM node:20-alpine AS ts-builder
+# node:20-alpine digest pinned 2026-05-22 (SEC-003). Re-resolve on bump:
+#   curl-based resolver in RELEASE_CHECKLIST.md
+FROM node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 AS ts-builder
 WORKDIR /build
 COPY mcp/package.json mcp/package-lock.json* ./mcp/
 RUN cd mcp && npm ci --omit=dev
@@ -15,8 +12,8 @@ COPY src/ ./src/
 RUN cd mcp && npm install typescript && npm run build
 
 # Stage 2: runtime — PHP-CLI alpine + node binary
-# TODO(release): pin with @sha256:<digest> per RELEASE_CHECKLIST.md
-FROM php:8.3-cli-alpine AS runtime
+# php:8.3-cli-alpine digest pinned 2026-05-22 (SEC-003).
+FROM php:8.3-cli-alpine@sha256:2e6b46e0c087cc1c17cfd91172112d8d9db5cbf9503b20e3418c10bd198748b5 AS runtime
 
 # Copy node binary from the build stage (avoids the full node:alpine image).
 COPY --from=ts-builder /usr/local/bin/node /usr/local/bin/node

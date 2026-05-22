@@ -9,13 +9,22 @@
 
 ## Pre-release security steps
 
-- [ ] **Pin Docker base image digests (SEC-003).** Run the following and update `Dockerfile` `FROM` lines with `@sha256:<digest>` before tagging:
+- [ ] **Re-resolve Docker base image digests (SEC-003)** before each release. Current pins were captured 2026-05-22. With Docker installed:
   ```bash
   docker pull node:20-alpine
   docker inspect node:20-alpine --format '{{index .RepoDigests 0}}'
   docker pull php:8.3-cli-alpine
   docker inspect php:8.3-cli-alpine --format '{{index .RepoDigests 0}}'
   ```
+  Or without Docker (Docker Hub registry v2 API):
+  ```bash
+  for img in node:20-alpine php:8.3-cli-alpine; do
+    repo="${img%:*}"; tag="${img#*:}"
+    token=$(curl -s "https://auth.docker.io/token?service=registry.docker.io&scope=repository:library/${repo}:pull" | python3 -c 'import sys,json;print(json.load(sys.stdin)["token"])')
+    curl -sI -H "Authorization: Bearer $token" -H "Accept: application/vnd.docker.distribution.manifest.list.v2+json,application/vnd.oci.image.index.v1+json,application/vnd.docker.distribution.manifest.v2+json" "https://registry-1.docker.io/v2/library/${repo}/manifests/${tag}" | grep -i "^docker-content-digest:"
+  done
+  ```
+  Update `Dockerfile` `FROM` lines with `@sha256:<digest>`.
 
 ## Cut the release
 
