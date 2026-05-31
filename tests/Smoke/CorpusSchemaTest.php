@@ -43,3 +43,21 @@ test('lint fails on duplicate ids', function () {
     expect($r['code'])->toBe(1)->and($r['output'])->toContain('duplicate id');
     unlink($path);
 });
+
+test('lint fails on em-dash in answer', function () {
+    $path = writeTempCorpus([
+        ['id' => 'emdash', 'category' => 'META', 'keywords' => ['x'], 'answer' => 'A robust thing — and more.'],
+    ]);
+    $r = runCorpusLint($path);
+    expect($r['code'])->toBe(1)->and($r['output'])->toContain('em-dash');
+    unlink($path);
+});
+
+test('lint fails on a banned puff word', function () {
+    $path = writeTempCorpus([
+        ['id' => 'puff', 'category' => 'META', 'keywords' => ['x'], 'answer' => 'A comprehensive overview.'],
+    ]);
+    $r = runCorpusLint($path);
+    expect($r['code'])->toBe(1)->and($r['output'])->toContain('comprehensive');
+    unlink($path);
+});

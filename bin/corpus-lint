@@ -70,6 +70,23 @@ foreach ($entries as $i => $entry) {
             $fail("Entry '{$id}': forbidden token: {$needle}");
         }
     }
+
+    // Brand-voice style lint.
+    if (preg_match('/\x{2014}|&mdash;/u', (string) $answer)) {
+        $fail("Entry '{$id}': em-dash in answer (use commas, periods, or parentheses)");
+    }
+    static $bans = null;
+    if ($bans === null) {
+        $banPath = __DIR__ . '/../corpus/style-bans.txt';
+        $bans = is_file($banPath)
+            ? array_filter(array_map('trim', explode("\n", (string) file_get_contents($banPath))))
+            : [];
+    }
+    foreach ($bans as $word) {
+        if (preg_match('/\b' . preg_quote($word, '/') . '\b/i', (string) $answer)) {
+            $fail("Entry '{$id}': banned puff word: {$word}");
+        }
+    }
 }
 
 // Frozen-ID lock: every id in ids.lock must still be present (when the lock exists).
