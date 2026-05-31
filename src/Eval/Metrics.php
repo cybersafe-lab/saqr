@@ -10,7 +10,7 @@ namespace Saqr\Eval;
  */
 final class Metrics
 {
-    public function precisionAtK(array $ranked, array $expected, int $k): float
+    public function hitAtK(array $ranked, array $expected, int $k): float
     {
         $top = array_slice($ranked, 0, $k);
         foreach ($top as $id) {

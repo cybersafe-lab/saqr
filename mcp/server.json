@@ -7,12 +7,12 @@
     "source": "github",
     "subfolder": "mcp"
   },
-  "version": "0.2.0",
+  "version": "0.2.1",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@cybersafe-lab/saqr-mcp",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "transport": { "type": "stdio" },
       "runtimeHint": "node",
       "environmentVariables": [
@@ -27,7 +27,7 @@
     {
       "registryType": "oci",
       "identifier": "ghcr.io/cybersafe-lab/saqr-mcp",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "transport": { "type": "stdio" },
       "environmentVariables": [
         {

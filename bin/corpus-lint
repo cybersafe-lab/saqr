@@ -14,7 +14,18 @@ declare(strict_types=1);
 $path = $argv[1] ?? __DIR__ . '/../corpus/frameworks.json';
 $lockPath = __DIR__ . '/../corpus/ids.lock';
 
+if (!is_file($path) || !is_readable($path)) {
+    fwrite(STDERR, "corpus file not found or unreadable: {$path}\n");
+    exit(1);
+}
+
 $data = json_decode((string) file_get_contents($path), true);
+
+if ($data === null) {
+    fwrite(STDERR, "corpus file is empty or not valid JSON: {$path}\n");
+    exit(1);
+}
+
 $entries = $data['entries'] ?? [];
 
 const ALLOWED_CATEGORIES = [
@@ -32,6 +43,11 @@ $fail = static function (string $msg) use (&$violations): void {
     fwrite(STDERR, $msg . "\n");
     $violations++;
 };
+
+$banPath = __DIR__ . '/../corpus/style-bans.txt';
+$bans = is_file($banPath)
+    ? array_filter(array_map('trim', explode("\n", (string) file_get_contents($banPath))))
+    : [];
 
 $ids = [];
 foreach ($entries as $i => $entry) {
@@ -75,13 +91,6 @@ foreach ($entries as $i => $entry) {
     if (preg_match('/\x{2014}|&mdash;/u', (string) $answer)) {
         $fail("Entry '{$id}': em-dash in answer (use commas, periods, or parentheses)");
     }
-    static $bans = null;
-    if ($bans === null) {
-        $banPath = __DIR__ . '/../corpus/style-bans.txt';
-        $bans = is_file($banPath)
-            ? array_filter(array_map('trim', explode("\n", (string) file_get_contents($banPath))))
-            : [];
-    }
     foreach ($bans as $word) {
         if (preg_match('/\b' . preg_quote($word, '/') . '\b/i', (string) $answer)) {
             $fail("Entry '{$id}': banned puff word: {$word}");
@@ -92,6 +101,7 @@ foreach ($entries as $i => $entry) {
 // Frozen-ID lock: every id in ids.lock must still be present (when the lock exists).
 // Only apply the lock check when linting the real production corpus — temp corpora
 // used in tests do not contain production IDs and must not be tripped by this rule.
+// The missing-file guard above ensures realpath() can never be false here for $path.
 if (is_file($lockPath) && realpath($path) === realpath(__DIR__ . '/../corpus/frameworks.json')) {
     $locked = array_filter(array_map('trim', explode("\n", (string) file_get_contents($lockPath))));
     $current = array_keys($ids);
