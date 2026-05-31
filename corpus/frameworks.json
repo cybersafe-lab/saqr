@@ -94,8 +94,7 @@
                 "ecc cloud",
                 "5 main domains",
                 "five domains ecc",
-                "network security",
-                "ecc cover"
+                "network security"
             ],
             "answer": "<strong>NCA ECC is structured around 5 main domains, 29 subdomains, and 114 controls.</strong> The five main domains are: <strong>(1) Cybersecurity Governance</strong>: strategy, policies, roles, risk management, compliance, audit. <strong>(2) Cybersecurity Defense</strong>: this is where network security, asset management, identity and access, data protection, cryptography, vulnerability management, endpoint and email security, secure configuration, and event logging all live. <strong>(3) Cybersecurity Resilience</strong>: business continuity and disaster recovery from a cyber angle. <strong>(4) Third-Party and Cloud Computing Cybersecurity</strong>: supplier risk and cloud adoption controls. <strong>(5) Industrial Control Systems Cybersecurity</strong>: for OT/ICS environments. <em>Practitioner note:</em> most of what people ask about (network security, IAM, data protection, logging) sits inside Domain 2 (Cybersecurity Defense). I do not have the individual control IDs in my corpus; pull the official NCA ECC document for that level of detail."
         },
@@ -280,8 +279,7 @@
                 "compare to nca ecc",
                 "iso compare nca",
                 "iso 27001 nca ecc",
-                "iso overlap ecc",
-                "iso satisfy nca"
+                "iso overlap ecc"
             ],
             "answer": "<strong>NCA ECC vs ISO 27001, short version:</strong> ~80% control overlap. NCA is more prescriptive about <em>who owns what</em> and Saudi-specific obligations (data localization, national CIP). ISO is more flexible on the \"how\" but more rigorous on <em>show me the evidence</em>. <strong>Build to ISO's evidence standard, scope to NCA's mandatory controls.</strong> Order matters: building NCA-first usually produces documentation too thin for ISO and forces rework. Exception: if a regulator inspection is imminent, scope-and-close NCA first; ISO can wait."
         },
@@ -295,8 +293,7 @@
                 "ecc and ccc",
                 "subject to ccc",
                 "comply with ecc",
-                "ccc ecc relationship",
-                "ccc require ecc"
+                "ccc ecc relationship"
             ],
             "answer": "<strong>NCA ECC vs NCA CCC:</strong> ECC is the <em>baseline</em> every in-scope entity must meet. CCC is a <em>layered, stricter set</em> for critical systems and critical national infrastructure. If you are in scope of CCC, you are automatically in scope of ECC. Treat CCC as the ceiling and ECC as the floor. <strong>Build one unified control catalog that satisfies both at once</strong>, tagged per control which regime requires it. Running them as two separate projects is how programs waste six months."
         },
@@ -322,7 +319,6 @@
                 "pdpl vs dcc",
                 "dcc vs pdpl",
                 "pdpl and dcc",
-                "pdpl relate",
                 "nca dcc data classification",
                 "pdpl dcc overlap",
                 "pdpl nca dcc"
