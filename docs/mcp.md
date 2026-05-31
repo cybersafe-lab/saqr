@@ -36,7 +36,7 @@ The MCP server runs locally. It spawns one PHP child process per MCP session and
 
 It does not open network sockets except for the Anthropic API call when explicitly enabled by setting the key.
 
-The corpus is a trust boundary: changes ship via PRs reviewed by maintainers, and a CI corpus-lint job rejects entries containing instruction-shaped strings.
+The corpus is a trust boundary: changes ship via PRs reviewed by maintainers, and a CI corpus-lint job rejects entries that fail schema, frozen-ID, brand-voice, or instruction-injection checks. Retrieval quality is regression-gated on every PR against a labeled eval set (see [eval.md](eval.md)).
 
 ## Troubleshooting
 
