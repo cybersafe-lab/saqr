@@ -7,18 +7,17 @@ implementation to drift.
 
 ## Metrics
 
-- **precision@1** — an expected id is the top result.
-- **precision@3** — an expected id is within the top 3.
-- **recall@3** — fraction of expected ids retrieved within the top 3.
+- **hit@1** — a gold id is the top result.
+- **hit@3** — a gold id is within the top 3.
 - **MRR** — mean reciprocal rank of the first matching id.
 
 ## Current results
 
-| Scope | p@1 | p@3 | recall@3 | MRR | n |
-|-------|-----|-----|----------|-----|---|
-| Overall | 0.917 | 0.944 | 0.944 | 0.931 | 72 |
-| en | 0.953 | 0.984 | 0.984 | 0.969 | 64 |
-| ar | 0.625 | 0.625 | 0.625 | 0.625 | 8 |
+| Scope | hit@1 | hit@3 | MRR | n |
+|-------|-------|-------|-----|---|
+| Overall | 0.917 | 0.944 | 0.931 | 72 |
+| en | 0.953 | 0.984 | 0.969 | 64 |
+| ar | 0.625 | 0.625 | 0.625 | 8 |
 
 Regenerate with `php bin/saqr-eval`.
 

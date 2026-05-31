@@ -61,3 +61,16 @@ test('lint fails on a banned puff word', function () {
     expect($r['code'])->toBe(1)->and($r['output'])->toContain('comprehensive');
     unlink($path);
 });
+
+test('lint fails on a missing corpus file', function () {
+    $r = runCorpusLint(sys_get_temp_dir() . '/saqr-does-not-exist-' . uniqid() . '.json');
+    expect($r['code'])->toBe(1)->and($r['output'])->toContain('corpus');
+});
+
+test('lint fails on unparseable corpus json', function () {
+    $path = sys_get_temp_dir() . '/saqr-bad-' . uniqid() . '.json';
+    file_put_contents($path, '{ this is not json ');
+    $r = runCorpusLint($path);
+    expect($r['code'])->toBe(1)->and($r['output'])->toContain('corpus');
+    unlink($path);
+});

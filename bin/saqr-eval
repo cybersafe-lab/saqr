@@ -14,16 +14,15 @@ $m = new Metrics();
 
 $rows = array_filter(array_map('trim', file(__DIR__ . '/../eval/questions.jsonl', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES)));
 
-$agg = ['p1' => 0.0, 'p3' => 0.0, 'r3' => 0.0, 'mrr' => 0.0, 'n' => 0];
+$agg = ['hit1' => 0.0, 'hit3' => 0.0, 'mrr' => 0.0, 'n' => 0];
 $byLang = [];
 foreach ($rows as $line) {
     $row = json_decode($line, true, 512, JSON_THROW_ON_ERROR);
     $ranked = array_values(array_filter(array_map(static fn ($e) => $e['id'] ?? null, $retriever->retrieveTopK($row['q'], 3))));
     $lang = $row['lang'] ?? 'en';
-    $byLang[$lang] ??= ['p1' => 0.0, 'p3' => 0.0, 'r3' => 0.0, 'mrr' => 0.0, 'n' => 0];
-    foreach (['p1' => fn() => $m->precisionAtK($ranked, $row['expected_ids'], 1),
-              'p3' => fn() => $m->precisionAtK($ranked, $row['expected_ids'], 3),
-              'r3' => fn() => $m->recallAtK($ranked, $row['expected_ids'], 3),
+    $byLang[$lang] ??= ['hit1' => 0.0, 'hit3' => 0.0, 'mrr' => 0.0, 'n' => 0];
+    foreach (['hit1' => fn() => $m->hitAtK($ranked, $row['expected_ids'], 1),
+              'hit3' => fn() => $m->hitAtK($ranked, $row['expected_ids'], 3),
               'mrr' => fn() => $m->reciprocalRank($ranked, $row['expected_ids'])] as $key => $fn) {
         $v = $fn();
         $agg[$key] += $v;
@@ -35,8 +34,8 @@ foreach ($rows as $line) {
 
 $fmt = static function (array $a): string {
     $n = max(1, $a['n']);
-    return sprintf("p@1=%.3f  p@3=%.3f  recall@3=%.3f  MRR=%.3f  (n=%d)",
-        $a['p1'] / $n, $a['p3'] / $n, $a['r3'] / $n, $a['mrr'] / $n, $a['n']);
+    return sprintf("hit@1=%.3f  hit@3=%.3f  MRR=%.3f  (n=%d)",
+        $a['hit1'] / $n, $a['hit3'] / $n, $a['mrr'] / $n, $a['n']);
 };
 
 echo "Saqr retrieval eval\n===================\n";
