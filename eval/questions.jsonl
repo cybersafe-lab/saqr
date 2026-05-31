@@ -1,0 +1,72 @@
+{"q": "What is the National Cybersecurity Authority?", "lang": "en", "expected_ids": ["nca-overview"], "note": "direct keyword match on 'national cybersecurity authority'"}
+{"q": "Who is the NCA and what does it regulate?", "lang": "en", "expected_ids": ["nca-overview"], "note": "matches 'who is nca' and 'nca authority'"}
+{"q": "ما هي الهيئة الوطنية للأمن السيبراني؟", "lang": "ar", "expected_ids": ["nca-overview"], "note": "Arabic for 'what is the national cybersecurity authority'"}
+{"q": "What is SDAIA and what does it do?", "lang": "en", "expected_ids": ["sdaia"], "note": "matches 'sdaia' keyword directly"}
+{"q": "Which authority enforces PDPL in Saudi Arabia?", "lang": "en", "expected_ids": ["sdaia"], "note": "answer mentions SDAIA as PDPL enforcement body; 'sdaia' in keywords"}
+{"q": "What is the Saudi Data and AI Authority?", "lang": "en", "expected_ids": ["sdaia"], "note": "matches 'saudi data ai authority' and 'data and ai authority'"}
+{"q": "Who is SAMA and what do they regulate?", "lang": "en", "expected_ids": ["sama-overview"], "note": "matches 'who is sama'"}
+{"q": "What is the Saudi Central Bank responsible for in cybersecurity?", "lang": "en", "expected_ids": ["sama-overview"], "note": "matches 'saudi central bank'"}
+{"q": "Tell me about SAMA the financial regulator", "lang": "en", "expected_ids": ["sama-overview"], "note": "matches 'about sama' and 'what is sama'"}
+{"q": "What is CST and what sector does it cover?", "lang": "en", "expected_ids": ["cst"], "note": "matches 'cst' keyword"}
+{"q": "What is CITC and how does it relate to telecom regulation?", "lang": "en", "expected_ids": ["cst"], "note": "matches 'citc' and 'communications and information technology commission'"}
+{"q": "Which Saudi regulator oversees ICT and telecommunications cybersecurity?", "lang": "en", "expected_ids": ["cst"], "note": "matches 'communications space technology'"}
+{"q": "What are the NCA Essential Cybersecurity Controls?", "lang": "en", "expected_ids": ["nca-ecc"], "note": "matches 'essential cybersecurity controls' and 'nca ecc'"}
+{"q": "Give me an overview of ECC — how many controls does it have?", "lang": "en", "expected_ids": ["nca-ecc"], "note": "matches 'ecc' and 'essential controls'"}
+{"q": "ما هي الضوابط الأساسية للأمن السيبراني؟", "lang": "ar", "expected_ids": ["nca-ecc"], "note": "Arabic for 'what are the essential cybersecurity controls'"}
+{"q": "What are the 5 main domains of NCA ECC?", "lang": "en", "expected_ids": ["ecc-domains"], "note": "matches 'ecc domains' and 'ecc main domains'"}
+{"q": "What does ECC cover in terms of network security and governance?", "lang": "en", "expected_ids": ["ecc-domains"], "note": "matches 'ecc network security', 'ecc governance', 'ecc coverage'"}
+{"q": "How is ECC structured — domains, subdomains, controls?", "lang": "en", "expected_ids": ["ecc-domains"], "note": "matches 'ecc structure' and 'what is in ecc'"}
+{"q": "What is NCA CCC and who does it apply to?", "lang": "en", "expected_ids": ["nca-ccc"], "note": "matches 'nca ccc' and 'critical systems cybersecurity'"}
+{"q": "What controls apply to critical national infrastructure in Saudi Arabia?", "lang": "en", "expected_ids": ["nca-ccc"], "note": "matches 'critical national infrastructure' and 'cni controls'"}
+{"q": "What are the NCA cloud cybersecurity controls?", "lang": "en", "expected_ids": ["nca-cscc"], "note": "matches 'cloud cybersecurity controls' and 'nca cloud'"}
+{"q": "What does CSCC require for cloud service providers in Saudi Arabia?", "lang": "en", "expected_ids": ["nca-cscc"], "note": "matches 'cscc' and 'csp controls'"}
+{"q": "What are the NCA data cybersecurity controls?", "lang": "en", "expected_ids": ["nca-dcc"], "note": "matches 'data cybersecurity controls' and 'nca dcc'"}
+{"q": "How does Saudi Arabia classify data — what tiers does DCC use?", "lang": "en", "expected_ids": ["nca-dcc"], "note": "matches 'data classification saudi' and 'data controls nca'"}
+{"q": "What are the NCA telework cybersecurity controls?", "lang": "en", "expected_ids": ["nca-tcc"], "note": "matches 'telework cybersecurity controls' and 'nca tcc'"}
+{"q": "What controls apply to remote work in Saudi Arabia?", "lang": "en", "expected_ids": ["nca-tcc"], "note": "matches 'remote work controls saudi' and 'telework controls'"}
+{"q": "What is OSMACC and what does it cover?", "lang": "en", "expected_ids": ["nca-osmacc"], "note": "matches 'osmacc' and 'social media cybersecurity'"}
+{"q": "What NCA controls apply to official social media accounts?", "lang": "en", "expected_ids": ["nca-osmacc"], "note": "matches 'social media controls' and 'organizations social media'"}
+{"q": "What is SCyWF and when should I use it?", "lang": "en", "expected_ids": ["nca-scywf"], "note": "matches 'scywf' and 'cybersecurity workforce framework'"}
+{"q": "How does the Saudi cybersecurity workforce framework help with org design?", "lang": "en", "expected_ids": ["nca-scywf"], "note": "matches 'saudi cybersecurity workforce' and 'nca workforce'"}
+{"q": "What is the SAMA Cyber Security Framework?", "lang": "en", "expected_ids": ["sama-csf"], "note": "matches 'sama cyber security framework' and 'sama csf'"}
+{"q": "How is SAMA CSF structured and what maturity levels does it use?", "lang": "en", "expected_ids": ["sama-csf"], "note": "matches 'csf sama' and 'sama csf'"}
+{"q": "ما هو إطار الأمن السيبراني لمؤسسة النقد السعودية؟", "lang": "ar", "expected_ids": ["sama-csf"], "note": "Arabic for 'what is SAMA cyber security framework'"}
+{"q": "What is the SAMA IT Governance Framework?", "lang": "en", "expected_ids": ["sama-itgf"], "note": "matches 'it governance framework sama' and 'sama itgf'"}
+{"q": "How does SAMA ITGF apply to Saudi banks?", "lang": "en", "expected_ids": ["sama-itgf"], "note": "matches 'itgf' and 'it governance framework saudi'"}
+{"q": "What is SAMA's business continuity framework?", "lang": "en", "expected_ids": ["sama-bcm"], "note": "matches 'sama business continuity' and 'sama bcm'"}
+{"q": "How does SAMA BCM relate to cyber resilience for banks?", "lang": "en", "expected_ids": ["sama-bcm"], "note": "matches 'business continuity sama' and 'sama bcm'"}
+{"q": "What is the CST Cybersecurity Regulatory Framework?", "lang": "en", "expected_ids": ["cst-crf"], "note": "matches 'cybersecurity regulatory framework' and 'cst crf'"}
+{"q": "What is CRF and which ICT companies must comply with it?", "lang": "en", "expected_ids": ["cst-crf"], "note": "matches 'crf' and 'ict cybersecurity saudi'"}
+{"q": "What is Aramco SACS-002 and who needs to comply?", "lang": "en", "expected_ids": ["aramco-sacs-002"], "note": "matches 'sacs-002' and 'aramco cybersecurity'"}
+{"q": "How do I get the Aramco cybersecurity compliance certificate?", "lang": "en", "expected_ids": ["aramco-sacs-002"], "note": "matches 'aramco certification' and 'sacs'"}
+{"q": "What is PDPL and what are my obligations under it?", "lang": "en", "expected_ids": ["pdpl"], "note": "matches 'pdpl' and 'personal data protection'"}
+{"q": "How does Saudi Arabia's privacy law apply to foreign companies?", "lang": "en", "expected_ids": ["pdpl"], "note": "matches 'privacy law' and 'personal data saudi'"}
+{"q": "ما هو نظام حماية البيانات الشخصية في السعودية؟", "lang": "ar", "expected_ids": ["pdpl"], "note": "Arabic for 'what is the personal data protection law in Saudi Arabia'"}
+{"q": "What is ISO 27001 and is it mandatory in Saudi Arabia?", "lang": "en", "expected_ids": ["iso-27001"], "note": "matches 'iso 27001' and 'isms'"}
+{"q": "هل أيزو 27001 إلزامي في السعودية؟", "lang": "ar", "expected_ids": ["iso-27001"], "note": "Arabic for 'is ISO 27001 mandatory in Saudi Arabia'"}
+{"q": "What is an ISMS and how does ISO 27001 structure it?", "lang": "en", "expected_ids": ["iso-27001"], "note": "matches 'isms' and 'iso27001'"}
+{"q": "How does ISO 27001 compare to NCA ECC — can I use one to satisfy the other?", "lang": "en", "expected_ids": ["iso-vs-nca"], "note": "matches 'iso vs nca' and 'iso vs ecc'"}
+{"q": "What is the overlap between ISO and ECC controls?", "lang": "en", "expected_ids": ["iso-vs-nca"], "note": "matches 'ecc vs iso' and 'iso and ecc'"}
+{"q": "هل يمكنني استخدام أيزو 27001 لتلبية متطلبات هيئة الأمن السيبراني؟", "lang": "ar", "expected_ids": ["iso-vs-nca"], "note": "Arabic for 'can I use ISO 27001 to meet NCA requirements'"}
+{"q": "What is the difference between ECC and CCC?", "lang": "en", "expected_ids": ["ecc-vs-ccc"], "note": "matches 'ecc vs ccc' and 'difference ecc ccc'"}
+{"q": "If I'm subject to CCC do I also need to comply with ECC?", "lang": "en", "expected_ids": ["ecc-vs-ccc"], "note": "matches 'ecc and ccc' and 'ccc vs ecc'"}
+{"q": "How do SAMA frameworks compare to NCA ECC for a Saudi bank?", "lang": "en", "expected_ids": ["sama-vs-nca"], "note": "matches 'sama vs nca' and 'banking vs government framework'"}
+{"q": "If I'm a bank, do I follow SAMA or NCA?", "lang": "en", "expected_ids": ["sama-vs-nca"], "note": "matches 'nca vs sama' and 'sama or nca'"}
+{"q": "How does PDPL relate to NCA DCC — are they the same?", "lang": "en", "expected_ids": ["pdpl-vs-dcc"], "note": "matches 'pdpl vs dcc' and 'pdpl and dcc'"}
+{"q": "What is the difference between PDPL personal data and NCA DCC data classification?", "lang": "en", "expected_ids": ["pdpl-vs-dcc"], "note": "matches 'dcc vs pdpl' and 'pdpl and dcc'"}
+{"q": "How does Aramco SACS-002 differ from NCA ECC compliance?", "lang": "en", "expected_ids": ["aramco-vs-nca"], "note": "matches 'aramco vs nca' and 'aramco and nca'"}
+{"q": "Does getting an Aramco CCC certificate mean I'm also NCA compliant?", "lang": "en", "expected_ids": ["aramco-vs-nca"], "note": "matches 'nca vs aramco' and 'aramco and nca'"}
+{"q": "Where do I start building a cybersecurity program in Saudi Arabia?", "lang": "en", "expected_ids": ["program-starting-point"], "note": "matches 'where do i start' and 'starting point'"}
+{"q": "What is the first step when setting up a compliance program?", "lang": "en", "expected_ids": ["program-starting-point"], "note": "matches 'first step' and 'how to begin'"}
+{"q": "How do I interpret maturity levels in NCA or SAMA assessments?", "lang": "en", "expected_ids": ["maturity"], "note": "matches 'maturity level' and 'maturity model'"}
+{"q": "What maturity level should I target for my cybersecurity program?", "lang": "en", "expected_ids": ["maturity"], "note": "matches 'maturity' and 'maturity level'"}
+{"q": "How should I prepare for a regulatory audit or inspection?", "lang": "en", "expected_ids": ["audit"], "note": "matches 'audit' and 'inspection'"}
+{"q": "What causes repeat audit findings and how do I fix them?", "lang": "en", "expected_ids": ["audit"], "note": "matches 'audit finding' and 'examination'"}
+{"q": "How do I manage third-party vendor cybersecurity risk across Saudi frameworks?", "lang": "en", "expected_ids": ["third-party"], "note": "matches 'third party' and 'vendor risk'"}
+{"q": "What do NCA ECC and SAMA CSF say about supplier cybersecurity?", "lang": "en", "expected_ids": ["third-party"], "note": "matches 'supplier cybersecurity' and 'third party'"}
+{"q": "Who are you and what can you help me with?", "lang": "en", "expected_ids": ["about-assistant"], "note": "matches 'who are you' and 'about you'"}
+{"q": "Who built this assistant?", "lang": "en", "expected_ids": ["about-assistant"], "note": "matches 'who built you' and 'creator'"}
+{"q": "What frameworks do you cover?", "lang": "en", "expected_ids": ["frameworks-index"], "note": "matches 'what frameworks' and 'list frameworks'"}
+{"q": "What topics can you help me with?", "lang": "en", "expected_ids": ["frameworks-index"], "note": "matches 'topics' and 'what can you answer'"}
+{"q": "ما الفرق بين أيزو 27001 وضوابط الأمن السيبراني للهيئة الوطنية؟", "lang": "ar", "expected_ids": ["iso-vs-nca"], "note": "Arabic for 'what is the difference between ISO 27001 and NCA cybersecurity controls'; matches 'iso vs nca' and 'ecc vs iso' via normalization"}
+{"q": "ما هو إطار حوكمة تقنية المعلومات لمؤسسة النقد السعودية؟", "lang": "ar", "expected_ids": ["sama-itgf"], "note": "Arabic for 'what is SAMA IT governance framework'; matches 'itgf' and 'it governance framework sama'"}
