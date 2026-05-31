@@ -183,6 +183,20 @@ If you need RAG-over-PDFs, build that. Saqr is a different design point.
 
 ---
 
+## Evaluation
+
+Retrieval quality is measured on every PR against a labeled question set
+(`eval/questions.jsonl`), using the same `Retriever` production serves. The
+runner reports precision@1/@3, recall@3, and MRR (overall and per language),
+and CI fails if any metric regresses below `eval/baseline.json`. Regenerate the
+report locally with `php bin/saqr-eval`. See [docs/eval.md](docs/eval.md).
+
+The corpus is guarded by `php bin/corpus-lint`: schema and frozen-ID integrity
+(`corpus/ids.lock`), plus brand-voice style checks (no em-dashes, no banned puff
+words). Entry IDs are immutable once locked.
+
+---
+
 ## Contributing
 
 PRs welcome, especially:
@@ -197,6 +211,7 @@ Please:
 - Keep corpus entries **practitioner-voiced**, not vendor-marketing-voiced.
 - Cite the regulator publication for any factual claim about control counts, dates, or versions.
 - Run `composer lint` (PHP `-l` on all `src/*.php`) before submitting.
+- Run `php bin/corpus-lint` before submitting corpus changes (schema, frozen IDs, style). New entries need a `sources` citation; see `CONTRIBUTING.md`.
 
 ---
 
