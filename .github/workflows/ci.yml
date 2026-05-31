@@ -24,7 +24,7 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: none
       - run: composer install --prefer-dist --no-progress
-      - run: vendor/bin/pest --testsuite=Unit,Characterization,Snapshot,Smoke
+      - run: vendor/bin/pest --testsuite=Unit,Characterization,Snapshot,Smoke,Eval
 
   node:
     name: Node ${{ matrix.node }}
@@ -68,3 +68,10 @@ jobs:
       - uses: shivammathur/setup-php@8358ee0e2e8afe63c2fb8253d1d52085811ab1e5  # v2
         with: { php-version: "8.3" }
       - run: php bin/corpus-lint
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4
+        with: { node-version: "20" }
+      - name: Bundle and assert corpus copy matches source
+        working-directory: mcp
+        run: |
+          node scripts/bundle.mjs
+          diff -q ../corpus/frameworks.json vendor-bundled/corpus/frameworks.json
