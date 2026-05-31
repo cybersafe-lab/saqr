@@ -2,32 +2,88 @@
 <?php
 declare(strict_types=1);
 
-// Reject corpus entries whose content contains instruction-shaped strings
-// that could be prompt-injection vectors when the corpus is fed back as
-// context to the LLM. CI runs this on every push to corpus/.
+/**
+ * Corpus drift guard. Validates corpus/frameworks.json:
+ *  - schema: every entry has id, category (allowlisted), non-empty keywords, non-empty answer
+ *  - id integrity: unique ids; no duplicate keywords within an entry; ids match corpus/ids.lock
+ *  - prompt-injection blocklist on answer (SEC-007)
+ * Style lint (em-dash / puff words) is appended in a later task.
+ * Exit 0 clean, 1 on any violation.
+ */
 
 $path = $argv[1] ?? __DIR__ . '/../corpus/frameworks.json';
-$data = json_decode(file_get_contents($path), true);
+$lockPath = __DIR__ . '/../corpus/ids.lock';
+
+$data = json_decode((string) file_get_contents($path), true);
 $entries = $data['entries'] ?? [];
 
-$blocklist = [
-    'ignore previous instructions',
-    'ignore the above',
-    'system:',
-    '<source>',  // reserved XML-like delimiter used in some LLM prompting schemes
-    '</source>',
-    '[SOURCE',   // reserved delimiter used by Generator context blocks
-    'disregard',
+const ALLOWED_CATEGORIES = [
+    'AUTHORITIES', 'NCA FRAMEWORKS', 'SAMA FRAMEWORKS',
+    'CST / ARAMCO / PDPL', 'COMPARISONS', 'META',
+];
+
+$injectionBlocklist = [
+    'ignore previous instructions', 'ignore the above', 'system:',
+    '<source>', '</source>', '[SOURCE', 'disregard',
 ];
 
 $violations = 0;
-foreach ($entries as $entry) {
-    $haystack = strtolower($entry['answer'] ?? '');
-    foreach ($blocklist as $needle) {
-        if (strpos($haystack, $needle) !== false) {
-            fwrite(STDERR, "Corpus entry '{$entry['id']}' contains forbidden token: {$needle}\n");
-            $violations++;
+$fail = static function (string $msg) use (&$violations): void {
+    fwrite(STDERR, $msg . "\n");
+    $violations++;
+};
+
+$ids = [];
+foreach ($entries as $i => $entry) {
+    $id = $entry['id'] ?? null;
+    if (!is_string($id) || $id === '') {
+        $fail("Entry #{$i}: missing id");
+        continue;
+    }
+    if (!preg_match('/^[a-z0-9-]+$/', $id)) {
+        $fail("Entry '{$id}': id must match [a-z0-9-]+");
+    }
+    if (isset($ids[$id])) {
+        $fail("Entry '{$id}': duplicate id");
+    }
+    $ids[$id] = true;
+
+    $cat = $entry['category'] ?? null;
+    if (!in_array($cat, ALLOWED_CATEGORIES, true)) {
+        $fail("Entry '{$id}': category '" . (is_string($cat) ? $cat : 'null') . "' not in allowlist");
+    }
+
+    $kw = $entry['keywords'] ?? [];
+    if (!is_array($kw) || $kw === []) {
+        $fail("Entry '{$id}': empty keywords");
+    } elseif (count($kw) !== count(array_unique($kw))) {
+        $fail("Entry '{$id}': duplicate keywords");
+    }
+
+    $answer = $entry['answer'] ?? '';
+    if (!is_string($answer) || trim($answer) === '') {
+        $fail("Entry '{$id}': empty answer");
+    }
+    $hay = strtolower((string) $answer);
+    foreach ($injectionBlocklist as $needle) {
+        if (strpos($hay, strtolower($needle)) !== false) {
+            $fail("Entry '{$id}': forbidden token: {$needle}");
         }
     }
 }
+
+// Frozen-ID lock: every id in ids.lock must still be present (when the lock exists).
+// Only apply the lock check when linting the real production corpus — temp corpora
+// used in tests do not contain production IDs and must not be tripped by this rule.
+if (is_file($lockPath) && realpath($path) === realpath(__DIR__ . '/../corpus/frameworks.json')) {
+    $locked = array_filter(array_map('trim', explode("\n", (string) file_get_contents($lockPath))));
+    $current = array_keys($ids);
+    sort($locked);
+    sort($current);
+    $missing = array_diff($locked, $current);
+    foreach ($missing as $m) {
+        $fail("Frozen id '{$m}' from ids.lock is missing — IDs are immutable; add new ids to the lock, never rename");
+    }
+}
+
 exit($violations > 0 ? 1 : 0);
