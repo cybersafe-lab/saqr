@@ -128,11 +128,43 @@ final class Generator
 
     /**
      * Allow only <strong>, <em>, <br> in the model's output — the model is
-     * instructed to use only these three. Anything else gets stripped.
+     * instructed to use only these three. The output is rebuilt from a real
+     * parse: attributes never survive, script/style are dropped with their
+     * content, other elements are unwrapped, and text nodes are re-escaped.
      */
-    private static function sanitizeHtml(string $html): string
+    public static function sanitizeHtml(string $html): string
     {
-        return strip_tags($html, '<strong><em><br>');
+        $doc = new \DOMDocument();
+        $prev = libxml_use_internal_errors(true);
+        $doc->loadHTML('<?xml encoding="utf-8"?><body>' . $html . '</body>', LIBXML_NONET);
+        libxml_clear_errors();
+        libxml_use_internal_errors($prev);
+
+        $body = $doc->getElementsByTagName('body')->item(0);
+        return $body === null ? '' : trim(self::rebuildAllowed($body));
+    }
+
+    private static function rebuildAllowed(\DOMNode $node): string
+    {
+        $out = '';
+        foreach ($node->childNodes as $child) {
+            if ($child instanceof \DOMText) {
+                $out .= htmlspecialchars($child->nodeValue, ENT_QUOTES, 'UTF-8');
+            } elseif ($child instanceof \DOMElement) {
+                $tag = strtolower($child->tagName);
+                if ($tag === 'script' || $tag === 'style') {
+                    continue;
+                }
+                if ($tag === 'br') {
+                    $out .= '<br>';
+                } elseif ($tag === 'strong' || $tag === 'em') {
+                    $out .= "<{$tag}>" . self::rebuildAllowed($child) . "</{$tag}>";
+                } else {
+                    $out .= self::rebuildAllowed($child);
+                }
+            }
+        }
+        return $out;
     }
 
     /**
