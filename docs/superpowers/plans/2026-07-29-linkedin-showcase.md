@@ -349,6 +349,25 @@ git commit -m "feat(corpus): official-source refs + framework labels on all entr
 
 ---
 
+### Task 3.5: Corpus content accuracy sweep (added 2026-07-30 after Task 3 findings)
+
+Task 3's curation exposed stale regulatory facts that the new refs now visibly contradict (a reader clicking a source chip lands on a page disproving the sentence above it). Fix the content; every changed claim must be verified against the official page it cites before writing it.
+
+**Files:**
+- Modify: `corpus/frameworks.json` (entries `nca-ecc`, `ecc-domains`, `sama-csf`, `aramco-vs-nca`, `about-assistant`, `frameworks-index`)
+- Modify: `eval/questions.jsonl` (cases pinned to stale content, e.g. line 16 "What are the 5 main domains of NCA ECC?")
+- Modify if needed: `eval/baseline.json` (deliberate only), affected notes
+
+**Interfaces:**
+- Consumes: Task 3's refs (each rewritten entry's own ref URL is the verification source).
+- Produces: content that matches its citations. Task 4 (Arabic evals) and Task 6 (README Coverage) build on these corrected facts. Keyword changes are allowed only where a keyword itself asserts a stale fact (e.g. "5 main domains"); broader keyword tuning stays in Task 4.
+
+- [ ] **Step 1: Verify current facts from the official sources** — fetch each entry's cited page (nca.gov.sa ECC page, rulebook.sama.gov.sa CSF page, aramco.com SACS-210 PDF) and record in the report the exact figures found (ECC-2:2024 domain/subdomain/control counts; SAMA CSF maturity levels; SACS-210 status). If a number cannot be confirmed from the official page, omit the number from the answer rather than guessing.
+- [ ] **Step 2: Rewrite the six answers** to match verified facts (ECC-2:2024 structure and the ICS→OTCC note only if verified; SAMA CSF 6 maturity levels 0-5 with target level per rulebook; SACS-210 as current in `aramco-vs-nca` prose and both META listings). Style rules apply (no em-dash, no banned words, only strong/em/br).
+- [ ] **Step 3: Update pinned eval cases** — rephrase eval questions/notes that assert stale facts (line 16 → "What are the main domains of NCA ECC?"); update any keyword that asserts a stale fact and adjust affected notes.
+- [ ] **Step 4: Verify** — `php bin/corpus-lint && php bin/refs-check && vendor/bin/pest` green; `php bin/saqr-eval` metrics not below baseline; root-cause any regression (never lower the baseline).
+- [ ] **Step 5: Commit** — `fix(corpus): align entry facts with cited official sources (ECC-2:2024, SAMA CSF maturity, SACS-210)`
+
 ### Task 4: Arabic eval expansion to ≥40 cases + rebaseline
 
 **Files:**
