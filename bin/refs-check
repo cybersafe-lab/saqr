@@ -1,0 +1,56 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+// Verifies every refs URL in the corpus answers HTTP < 400 after redirects.
+// Network-dependent: run manually at curation time, NOT wired into CI.
+//
+// Two attempts per URL, because publisher sites reject requests for reasons
+// that have nothing to do with the URL being valid:
+//   1. HEAD with a plain user agent (cheap, works for most gov.sa sites).
+//   2. GET with a browser-shaped header set. Some sites reject HEAD outright,
+//      and bot management (aramco.com) drops requests that carry no Accept /
+//      Sec-Fetch headers. A dead URL still fails both attempts.
+$data = json_decode((string) file_get_contents($argv[1] ?? __DIR__ . '/../corpus/frameworks.json'), true);
+
+const BROWSER_HEADERS = [
+    'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Accept-Language: en-US,en;q=0.9',
+    'Sec-Fetch-Dest: document',
+    'Sec-Fetch-Mode: navigate',
+    'Sec-Fetch-Site: none',
+    'Sec-Fetch-User: ?1',
+    'Upgrade-Insecure-Requests: 1',
+];
+const BROWSER_UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
+    . 'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
+
+$probe = static function (string $url, bool $browser): int {
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_NOBODY => !$browser,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_TIMEOUT => $browser ? 25 : 15,
+        CURLOPT_USERAGENT => $browser ? BROWSER_UA : 'saqr-refs-check/1.0',
+        CURLOPT_HTTPHEADER => $browser ? BROWSER_HEADERS : [],
+    ]);
+    curl_exec($ch);
+
+    return (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+};
+
+$fail = 0;
+foreach (($data['entries'] ?? []) as $entry) {
+    foreach (($entry['refs'] ?? []) as $ref) {
+        $code = $probe($ref['url'], false);
+        if ($code >= 400 || $code === 0) {
+            $code = $probe($ref['url'], true);
+        }
+        $ok = $code > 0 && $code < 400;
+        printf("%s %-22s %s (%d)\n", $ok ? 'OK  ' : 'FAIL', $entry['id'], $ref['url'], $code);
+        if (!$ok) { $fail++; }
+    }
+}
+exit($fail > 0 ? 1 : 0);
