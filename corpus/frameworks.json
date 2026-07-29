@@ -135,7 +135,7 @@
                 "dcc tiers",
                 "data protection tiers"
             ],
-            "answer": "<strong>NCA DCC</strong> (Data Cybersecurity Controls). Focused on data classification and protection across the data lifecycle. Uses a <em>four-tier classification scheme</em> (roughly: Top Secret, Secret, Confidential, Public), and maps protection requirements to each tier. <strong>Practical order I recommend:</strong> do the DCC classification exercise <em>before</em> touching CSCC or PDPL, because both of those are downstream of knowing which data you actually hold at which sensitivity. DCC is where most programs should start if they have never done a data inventory."
+            "answer": "<strong>NCA DCC</strong> (Data Cybersecurity Controls). Focused on data classification and protection across the data lifecycle. Uses a <em>four-tier classification scheme</em> (roughly: Top Secret, Secret, Confidential, Public), and maps protection requirements to each tier. <strong>Practical order I recommend:</strong> do the DCC classification exercise <em>before</em> touching CCC or PDPL, because both of those are downstream of knowing which data you actually hold at which sensitivity. DCC is where most programs should start if they have never done a data inventory."
         },
         {
             "id": "nca-tcc",
@@ -241,7 +241,7 @@
                 "aramco certification",
                 "third party cybersecurity aramco"
             ],
-            "answer": "<strong>Saudi Aramco SACS-002</strong> is Aramco's Third Party Cybersecurity Standard. Any contractor or supplier connecting to Aramco systems or handling Aramco data must obtain a <strong>Cybersecurity Compliance Certificate (CCC)</strong> (not to be confused with NCA's CCC, which covers Critical Systems Controls). Aramco CCC is tiered by contractor type and connectivity profile: different tiers (commonly described as Gold/Silver/Bronze-style levels) apply depending on whether you are on-site, remotely connected, or handling sensitive data. <strong>Practical reality:</strong> for most contractors this is a 3–6 month engagement with an accredited auditor, and it is the single most common \"we cannot start the contract until…\" blocker I see in the energy sector."
+            "answer": "<strong>Saudi Aramco SACS-002</strong> is Aramco's Third Party Cybersecurity Standard. Any contractor or supplier connecting to Aramco systems or handling Aramco data must obtain a <strong>Cybersecurity Compliance Certificate (CCC)</strong> (not to be confused with NCA's CSCC, which covers Critical Systems Controls). Aramco CCC is tiered by contractor type and connectivity profile: different tiers (commonly described as Gold/Silver/Bronze-style levels) apply depending on whether you are on-site, remotely connected, or handling sensitive data. <strong>Practical reality:</strong> for most contractors this is a 3–6 month engagement with an accredited auditor, and it is the single most common \"we cannot start the contract until…\" blocker I see in the energy sector."
         },
         {
             "id": "pdpl",
@@ -292,7 +292,6 @@
                 "difference ecc ccc",
                 "ecc and ccc",
                 "subject to ccc",
-                "comply with ecc",
                 "ccc ecc relationship"
             ],
             "answer": "<strong>NCA ECC vs NCA CCC:</strong> ECC is the <em>baseline</em> every in-scope entity must meet. CCC is a <em>layered set for cloud computing</em>: it applies to cloud service providers operating in Saudi Arabia and to cloud tenants, tiered by data classification. If you consume or provide cloud services in scope, CCC applies on top of ECC, it does not replace it. Map both into one control catalog so cloud controls extend the baseline instead of forking it."
@@ -306,8 +305,7 @@
                 "difference ecc cscc",
                 "baseline vs critical systems",
                 "ecc and cscc",
-                "subject to cscc",
-                "need to comply with ecc"
+                "subject to cscc"
             ],
             "answer": "<strong>NCA ECC vs NCA CSCC:</strong> ECC is the <em>baseline</em> every in-scope entity must meet. CSCC is a <em>layered, stricter set</em> for critical systems and critical national infrastructure. If you are in scope of CSCC, you are automatically in scope of ECC. Treat CSCC as the ceiling and ECC as the floor, and build one unified control catalog that satisfies both at once, tagged per source framework."
         },

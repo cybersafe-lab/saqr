@@ -37,3 +37,17 @@ test('cloud cybersecurity controls question retrieves nca-ccc (official acronym)
     $ids = array_column($r->retrieveTopK('What are the NCA cloud cybersecurity controls?', 3), 'id');
     expect($ids[0])->toBe('nca-ccc');
 });
+
+test('generic ECC-compliance question is not misrouted to a comparison entry', function () {
+    // Regression pin: ecc-vs-ccc/ecc-vs-cscc previously carried a generic
+    // "comply with ecc" style keyword that fired on any ECC question,
+    // displacing nca-ecc and program-starting-point as top-1.
+    $corpus = Corpus::loadFromFile(__DIR__ . '/../../corpus/frameworks.json');
+    $r = new Retriever($corpus);
+
+    $ids = array_column($r->retrieveTopK('Do I need to comply with ECC?', 3), 'id');
+    expect($ids[0])->toBe('nca-ecc');
+
+    $ids = array_column($r->retrieveTopK("I need to comply with ECC, where do I start?", 3), 'id');
+    expect($ids[0])->toBe('program-starting-point');
+});
