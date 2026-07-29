@@ -89,8 +89,11 @@ final class Retriever
             'الهيئة الوطنية'                  => 'national cybersecurity authority',
             'الضوابط الأساسية للأمن السيبراني' => 'nca ecc essential cybersecurity controls',
             'الضوابط الأساسية'                => 'nca ecc essential cybersecurity controls',
+            'المجالات الرئيسية'               => 'ecc main domains',
             'ضوابط الأنظمة الحساسة'           => 'cscc critical systems controls',
             'ضوابط الحوسبة السحابية'          => 'nca ccc cloud cybersecurity controls',
+            // stem: the definite article assimilates in "للحوسبة السحابية"
+            'حوسبة السحابية'                  => 'nca ccc cloud cybersecurity controls',
             'ضوابط البيانات'                  => 'nca dcc data',
             'ضوابط العمل عن بعد'              => 'nca tcc telework',
             'ضوابط حسابات التواصل'            => 'nca osmacc social media',
@@ -100,10 +103,13 @@ final class Retriever
             'مؤسسة النقد'                     => 'who is sama',
             'ساما'                            => 'who is sama',
             'إطار الأمن السيبراني ساما'       => 'sama csf cyber security framework',
+            'إطار الأمن السيبراني لمؤسسة النقد' => 'sama csf sama cyber security framework',
+            'إطار الأمن السيبراني للبنك المركزي' => 'sama csf sama cyber security framework',
             'إطار حوكمة تقنية المعلومات'      => 'sama itgf it governance',
             'استمرارية الأعمال'               => 'sama bcm business continuity',
             // CST / Aramco / PDPL / SDAIA / ISO
             'هيئة الاتصالات'                  => 'cst communications',
+            'قطاع الاتصالات'                  => 'cst telecom regulator',
             'الإطار التنظيمي للأمن السيبراني' => 'cst crf',
             'أرامكو'                          => 'aramco sacs',
             'ارامكو'                          => 'aramco sacs',
@@ -122,12 +128,21 @@ final class Retriever
             'كيف أبدأ'                        => 'where do i start',
             'النضج'                           => 'maturity',
             'مستوى النضج'                     => 'maturity',
-            'التدقيق'                         => 'audit',
+            // stem, not 'التدقيق': the definite article assimilates in "للتدقيق"
+            'تدقيق'                           => 'audit',
             'الفحص'                           => 'audit inspection',
             'الطرف الثالث'                    => 'third party',
             'الموردين'                        => 'third party vendor',
             'قائمة الأطر'                     => 'list frameworks',
             'الأطر'                           => 'list frameworks',
+            // Comparison intents. A comparison entry is only reachable when the
+            // Arabic phrasing names both sides, so these keys carry both; the
+            // value emits the entry's own acronym-pair keywords.
+            'استخدام أيزو'                    => 'iso vs nca iso and ecc',
+            'أيزو 27001 وضوابط'               => 'iso vs nca iso and ecc',
+            'مؤسسة النقد أم'                  => 'sama vs nca sama or nca',
+            'حماية البيانات الشخصية وضوابط البيانات' => 'pdpl vs dcc pdpl and dcc',
+            'الفرق بين متطلبات أرامكو'        => 'aramco vs nca aramco and nca',
         ];
 
         $aliases = '';

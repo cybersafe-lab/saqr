@@ -72,3 +72,35 @@
 {"q": "ما هو إطار حوكمة تقنية المعلومات لمؤسسة النقد السعودية؟", "lang": "ar", "expected_ids": ["sama-itgf"], "note": "Arabic for 'what is SAMA IT governance framework'; matches 'itgf' and 'it governance framework sama'"}
 {"q": "What is the difference between ECC and CSCC?", "lang": "en", "expected_ids": ["ecc-vs-cscc"], "note": "matches 'ecc vs cscc' / 'difference ecc cscc'"}
 {"q": "If I'm subject to CSCC do I also need to comply with ECC?", "lang": "en", "expected_ids": ["ecc-vs-cscc"], "note": "matches 'subject to cscc'"}
+{"q": "ما هي هيئة البيانات والذكاء الاصطناعي (سدايا) وما دورها التنظيمي؟", "lang": "ar", "expected_ids": ["sdaia"], "note": "aliases 'هيئة البيانات والذكاء الاصطناعي' and 'سدايا' → 'sdaia'"}
+{"q": "ما دور البنك المركزي السعودي في الأمن السيبراني؟", "lang": "ar", "expected_ids": ["sama-overview"], "note": "alias 'البنك المركزي السعودي' → 'who is sama saudi central bank'"}
+{"q": "ما هي هيئة الاتصالات والفضاء والتقنية وما القطاع الذي تنظمه؟", "lang": "ar", "expected_ids": ["cst"], "note": "alias 'هيئة الاتصالات' → 'cst communications'"}
+{"q": "ما هي المجالات الرئيسية في ECC وماذا يغطي كل مجال؟", "lang": "ar", "expected_ids": ["ecc-domains"], "note": "Latin acronym inside Arabic; alias 'المجالات الرئيسية' → 'ecc main domains'"}
+{"q": "ما هي ضوابط الأمن السيبراني للحوسبة السحابية في السعودية؟", "lang": "ar", "expected_ids": ["nca-ccc"], "note": "Arabic 'cloud computing cybersecurity controls'; alias 'ضوابط الحوسبة السحابية' → 'nca ccc cloud cybersecurity controls', reached here via the stem alias 'حوسبة السحابية' because 'للحوسبة' assimilates the definite article"}
+{"q": "اشرح ضوابط الأنظمة الحساسة", "lang": "ar", "expected_ids": ["nca-cscc"], "note": "bare-topic phrasing; alias 'ضوابط الأنظمة الحساسة' → 'cscc critical systems controls'"}
+{"q": "ما هي ضوابط البيانات وكيف تصنف البيانات في الجهات الحكومية؟", "lang": "ar", "expected_ids": ["nca-dcc"], "note": "alias 'ضوابط البيانات' → 'nca dcc data'"}
+{"q": "ضوابط العمل عن بعد", "lang": "ar", "expected_ids": ["nca-tcc"], "note": "bare-topic phrasing; alias 'ضوابط العمل عن بعد' → 'nca tcc telework'"}
+{"q": "ضوابط حسابات التواصل الاجتماعي للجهات الحكومية", "lang": "ar", "expected_ids": ["nca-osmacc"], "note": "bare-topic phrasing; alias 'ضوابط حسابات التواصل' → 'nca osmacc social media'"}
+{"q": "ما هو إطار القوى العاملة في الأمن السيبراني ومتى أستخدمه؟", "lang": "ar", "expected_ids": ["nca-scywf"], "note": "alias 'إطار القوى العاملة' → 'nca scywf workforce'"}
+{"q": "إطار استمرارية الأعمال للبنوك السعودية", "lang": "ar", "expected_ids": ["sama-bcm"], "note": "bare-topic phrasing; alias 'استمرارية الأعمال' → 'sama bcm business continuity'"}
+{"q": "ما هو الإطار التنظيمي للأمن السيبراني الصادر عن هيئة الاتصالات؟", "lang": "ar", "expected_ids": ["cst-crf"], "note": "alias 'الإطار التنظيمي للأمن السيبراني' → 'cst crf'"}
+{"q": "ما هو إطار SACS الخاص بأرامكو للموردين؟", "lang": "ar", "expected_ids": ["aramco-sacs-002"], "note": "alias 'أرامكو' → 'aramco sacs'"}
+{"q": "ما الفرق بين الضوابط الأساسية وضوابط الحوسبة السحابية؟", "lang": "ar", "expected_ids": ["ecc-vs-ccc"], "note": "comparison naming both frameworks in Arabic; known miss, the 'الضوابط الأساسية' alias outweighs any comparison alias (see docs/eval.md, Known limitations)"}
+{"q": "هل الالتزام بضوابط الأنظمة الحساسة يعني الالتزام بالضوابط الأساسية أيضا؟", "lang": "ar", "expected_ids": ["ecc-vs-cscc"], "note": "comparison naming both frameworks in Arabic; known miss, same cause as the ecc-vs-ccc case (see docs/eval.md, Known limitations)"}
+{"q": "هل تتبع البنوك السعودية إطار مؤسسة النقد أم ضوابط NCA؟", "lang": "ar", "expected_ids": ["sama-vs-nca"], "note": "alias 'مؤسسة النقد أم' → 'sama vs nca sama or nca'"}
+{"q": "ما العلاقة بين نظام حماية البيانات الشخصية وضوابط البيانات؟", "lang": "ar", "expected_ids": ["pdpl-vs-dcc"], "note": "alias 'حماية البيانات الشخصية وضوابط البيانات' → 'pdpl vs dcc pdpl and dcc'"}
+{"q": "ما الفرق بين متطلبات أرامكو للموردين ومتطلبات NCA؟", "lang": "ar", "expected_ids": ["aramco-vs-nca"], "note": "alias 'الفرق بين متطلبات أرامكو' → 'aramco vs nca aramco and nca'"}
+{"q": "من أين أبدأ برنامج الأمن السيبراني في منشأتي؟", "lang": "ar", "expected_ids": ["program-starting-point"], "note": "alias 'من أين أبدأ' → 'where do i start'"}
+{"q": "ما مستوى النضج الذي يجب أن أستهدفه في برنامج الأمن السيبراني؟", "lang": "ar", "expected_ids": ["maturity"], "note": "alias 'مستوى النضج' → 'maturity'"}
+{"q": "كيف أستعد للتدقيق التنظيمي؟", "lang": "ar", "expected_ids": ["audit"], "note": "stem alias 'تدقيق' → 'audit'; the old 'التدقيق' key could not match 'للتدقيق'"}
+{"q": "كيف أدير مخاطر الموردين في سلسلة التوريد؟", "lang": "ar", "expected_ids": ["third-party"], "note": "alias 'الموردين' → 'third party vendor'"}
+{"q": "من أنت وكيف يمكنك مساعدتي؟", "lang": "ar", "expected_ids": ["about-assistant"], "note": "alias 'من أنت' → 'who are you'"}
+{"q": "ما هي الأطر التي تغطيها هذه الأداة؟", "lang": "ar", "expected_ids": ["frameworks-index"], "note": "alias 'الأطر' → 'list frameworks'"}
+{"q": "الضوابط الأساسية للأمن السيبراني", "lang": "ar", "expected_ids": ["nca-ecc"], "note": "bare-topic phrasing; alias 'الضوابط الأساسية للأمن السيبراني' → 'nca ecc essential cybersecurity controls'"}
+{"q": "هل ينطبق نظام حماية البيانات الشخصية على الشركات الأجنبية؟", "lang": "ar", "expected_ids": ["pdpl"], "note": "aliases 'نظام حماية البيانات' and 'حماية البيانات الشخصية' → 'pdpl personal data'"}
+{"q": "هل شهادة ايزو 27001 كافية للامتثال في السعودية؟", "lang": "ar", "expected_ids": ["iso-27001"], "note": "hamza-less spelling; alias 'ايزو 27001' → 'iso 27001'"}
+{"q": "ما الجهة المنظمة لقطاع الاتصالات في السعودية؟", "lang": "ar", "expected_ids": ["cst"], "note": "alias 'قطاع الاتصالات' → 'cst telecom regulator'"}
+{"q": "ما هو إطار الأمن السيبراني للبنك المركزي السعودي؟", "lang": "ar", "expected_ids": ["sama-csf"], "note": "alias 'إطار الأمن السيبراني للبنك المركزي' → 'sama csf sama cyber security framework'"}
+{"q": "لماذا تتكرر ملاحظات التدقيق وكيف أعالجها؟", "lang": "ar", "expected_ids": ["audit"], "note": "stem alias 'تدقيق' → 'audit'"}
+{"q": "كيف أبدأ الالتزام بضوابط الأمن السيبراني في شركة صغيرة؟", "lang": "ar", "expected_ids": ["program-starting-point"], "note": "alias 'كيف أبدأ' → 'where do i start'"}
+{"q": "هل شهادة SACS-210 مطلوبة لموردي ارامكو؟", "lang": "ar", "expected_ids": ["aramco-sacs-002"], "note": "alias 'ارامكو' → 'aramco sacs' plus keyword 'sacs-210'"}
