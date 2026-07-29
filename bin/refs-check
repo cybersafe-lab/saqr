@@ -13,6 +13,24 @@ declare(strict_types=1);
 //      Sec-Fetch headers. A dead URL still fails both attempts.
 $data = json_decode((string) file_get_contents($argv[1] ?? __DIR__ . '/../corpus/frameworks.json'), true);
 
+// Soft-404 guard. Two of the cited hosts answer HTTP 200 for paths that do not
+// exist, so a status code alone cannot tell a good deep link from a typo:
+//   nca.gov.sa      bogus top-level path renders the homepage body under the title
+//                   "National Cybersecurity Authority"; bogus document slug renders
+//                   "Content Not Found". (The real homepage title is
+//                   "National Cybersecurity Authority | NCA", so citing
+//                   nca.gov.sa/en/ itself still passes.)
+//   www.cst.gov.sa  bogus document id renders a bare "CST". (The real homepage is
+//                   "Communications, Space & Technology Commission (CST)".)
+// For these hosts the page <title> is compared, lowercased, against the titles
+// that mean "not found". sdaia.gov.sa, sama.gov.sa, rulebook.sama.gov.sa, and
+// webstore.iec.ch return honest 404s and need no entry. Deliberately a short
+// per-host list, not a general heuristic: add a host only after checking by hand.
+const SOFT_404_TITLES = [
+    'nca.gov.sa' => ['national cybersecurity authority', 'content not found'],
+    'www.cst.gov.sa' => ['cst'],
+];
+
 const BROWSER_HEADERS = [
     'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     'Accept-Language: en-US,en;q=0.9',
@@ -41,6 +59,32 @@ $probe = static function (string $url, bool $browser): int {
     return (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 };
 
+// Reads just enough of the body to find <title>, aborting the transfer at 64 KiB
+// so a soft-404 check never downloads a whole page.
+$titleOf = static function (string $url): ?string {
+    $body = '';
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_TIMEOUT => 25,
+        CURLOPT_USERAGENT => BROWSER_UA,
+        CURLOPT_HTTPHEADER => BROWSER_HEADERS,
+        CURLOPT_WRITEFUNCTION => static function ($ch, string $chunk) use (&$body): int {
+            $body .= $chunk;
+            // Returning less than the chunk length aborts the transfer.
+            return (stripos($body, '</title>') !== false || strlen($body) >= 65536)
+                ? 0
+                : strlen($chunk);
+        },
+    ]);
+    curl_exec($ch);
+
+    return preg_match('~<title[^>]*>(.*?)</title>~is', $body, $m) === 1
+        ? trim(html_entity_decode($m[1], ENT_QUOTES | ENT_HTML5, 'UTF-8'))
+        : null;
+};
+
 $fail = 0;
 foreach (($data['entries'] ?? []) as $entry) {
     foreach (($entry['refs'] ?? []) as $ref) {
@@ -49,7 +93,18 @@ foreach (($data['entries'] ?? []) as $entry) {
             $code = $probe($ref['url'], true);
         }
         $ok = $code > 0 && $code < 400;
-        printf("%s %-22s %s (%d)\n", $ok ? 'OK  ' : 'FAIL', $entry['id'], $ref['url'], $code);
+        $detail = (string) $code;
+
+        $host = strtolower((string) parse_url($ref['url'], PHP_URL_HOST));
+        if ($ok && isset(SOFT_404_TITLES[$host])) {
+            $title = $titleOf($ref['url']);
+            if ($title !== null && in_array(strtolower($title), SOFT_404_TITLES[$host], true)) {
+                $ok = false;
+                $detail = "{$code}, soft 404: \"{$title}\"";
+            }
+        }
+
+        printf("%s %-22s %s (%s)\n", $ok ? 'OK  ' : 'FAIL', $entry['id'], $ref['url'], $detail);
         if (!$ok) { $fail++; }
     }
 }

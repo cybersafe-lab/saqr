@@ -10,6 +10,8 @@ declare(strict_types=1);
  *  - style: no em-dash, no banned puff words (corpus/style-bans.txt)
  *  - provenance: every entry carries a non-empty framework label
  *  - provenance: every non-META entry carries >=1 refs item, each {title: non-empty, url: https://...}
+ *  - refs content: titles and urls are client-facing, so they get the same
+ *    injection-blocklist, em-dash, and puff-word checks as the answer
  * Exit 0 clean, 1 on any violation.
  */
 
@@ -106,16 +108,37 @@ foreach ($entries as $i => $entry) {
     }
 
     $refs = $entry['refs'] ?? null;
-    if (($entry['category'] ?? '') !== 'META') {
-        if (!is_array($refs) || $refs === []) {
-            $fail("Entry '{$id}': missing refs (official source citations)");
-        }
+    if (array_key_exists('refs', $entry) && !is_array($refs)) {
+        // META is exempt from *needing* refs, not from the shape of the key.
+        $fail("Entry '{$id}': refs must be an array");
+    } elseif (($entry['category'] ?? '') !== 'META' && (!is_array($refs) || $refs === [])) {
+        $fail("Entry '{$id}': missing refs (official source citations)");
     }
     foreach (is_array($refs) ? $refs : [] as $j => $ref) {
         if (!is_array($ref) || !isset($ref['title'], $ref['url'])
             || !is_string($ref['title']) || trim($ref['title']) === ''
             || !is_string($ref['url']) || !str_starts_with($ref['url'], 'https://')) {
             $fail("Entry '{$id}': refs[{$j}] must be {title: non-empty, url: https://...}");
+            continue;
+        }
+
+        // Ref titles and urls are served to clients (MCP results, chatbot sources
+        // row), so they carry the same content guards the answer does.
+        foreach ($injectionBlocklist as $needle) {
+            if (strpos(strtolower($ref['title']), strtolower($needle)) !== false) {
+                $fail("Entry '{$id}': refs[{$j}] title: forbidden token: {$needle}");
+            }
+            if (strpos(strtolower($ref['url']), strtolower($needle)) !== false) {
+                $fail("Entry '{$id}': refs[{$j}] url: forbidden token: {$needle}");
+            }
+        }
+        if (preg_match('/\x{2014}|&mdash;/u', $ref['title'])) {
+            $fail("Entry '{$id}': refs[{$j}] title: em-dash (use commas, periods, or parentheses)");
+        }
+        foreach ($bans as $word) {
+            if (preg_match('/\b' . preg_quote($word, '/') . '\b/i', $ref['title'])) {
+                $fail("Entry '{$id}': refs[{$j}] title: banned puff word: {$word}");
+            }
         }
     }
 }
