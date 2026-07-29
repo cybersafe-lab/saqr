@@ -13,6 +13,10 @@
 - Evals: 72 retrieval-only cases (64 en / 8 ar), ID-overlap metrics (hit@1/hit@3/MRR), CI regression gate vs `eval/baseline.json`. Arabic hit@1 = 0.625.
 - README: stale ASCII diagram, stale SACS-002 claim (live KB moved to SACS-210), no images anywhere in repo. Not on Packagist (VCS install).
 
+## 0. Factual correction found during planning (2026-07-30)
+
+The corpus swaps two NCA acronyms: entry `nca-ccc` describes Critical Systems controls and `nca-cscc` describes Cloud controls, but officially CSCC = Critical Systems (2019) and CCC = Cloud (2020); `ecc-vs-ccc` inherits the error and `src/Retriever.php`'s Arabic alias map is consistent with the swap. Fix first (content swap — IDs stay frozen), including affected eval cases; add a corrected `ecc-vs-cscc` entry (corpus becomes 31 entries).
+
 ## 1. Source display (centerpiece)
 
 **Corpus schema:** add optional `refs` array per entry:
