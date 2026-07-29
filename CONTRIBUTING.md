@@ -28,9 +28,15 @@ Each entry in `corpus/frameworks.json` has this shape:
 {
   "id": "stable-kebab-slug",
   "category": "ONE OF THE ALLOWED CATEGORIES",
+  "framework": "NCA",
   "keywords": ["lowercase phrase", "..."],
   "answer": "<strong>HTML</strong> practitioner answer.",
-  "sources": ["NCA ECC-1:2018, control 2-3-1", "https://nca.gov.sa/..."]
+  "refs": [
+    {
+      "title": "NCA Essential Cybersecurity Controls (ECC)",
+      "url": "https://nca.gov.sa/en/regulatory-documents/controls-list/ecc/"
+    }
+  ]
 }
 ```
 
@@ -40,8 +46,16 @@ Each entry in `corpus/frameworks.json` has this shape:
 - `category` must be one of the allowed categories enforced by
   `corpus-lint` (AUTHORITIES, NCA FRAMEWORKS, SAMA FRAMEWORKS,
   CST / ARAMCO / PDPL, COMPARISONS, META).
-- `sources` is optional for the legacy entries but REQUIRED for every new
-  entry. It is provenance for review and is not served to clients.
+- `framework` is required on every entry: the issuing authority (`NCA`,
+  `SAMA`, `CST`, `SDAIA`, `Aramco`, `ISO`), the joined pair for a
+  cross-authority comparison (`SAMA / NCA`), `Cross-framework` for
+  practitioner advice that spans regimes, or `META`.
+- `refs` is required on every entry outside `META`, at least one item shaped
+  `{title, url}`. Unlike the old `sources` notes, refs ARE served to clients,
+  so each URL must be an `https://` page on the regulator's or publisher's own
+  domain: deep-link to the document page where one exists, otherwise the
+  official document library. Verify every URL before opening a PR with
+  `php bin/refs-check` (hits the network, so it is not part of CI).
 - **Never invent** control numbers, dates, CVSS scores, or scope. If a
   fact is not in a cited source, omit it.
 - `answer` must pass the brand-voice style lint: no em-dashes, no banned
