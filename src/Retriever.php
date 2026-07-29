@@ -33,7 +33,7 @@ final class Retriever
     }
 
     /**
-     * @return array<int, array{category: ?string, keywords: array<int, string>, answer: string}>
+     * @return array<int, array{id: ?string, title: ?string, framework: ?string, category: ?string, keywords: array<int, string>, answer: string, refs: array<int, array{title: string, url: string}>}>
      */
     public function retrieveTopK(string $question, int $k = 3): array
     {
