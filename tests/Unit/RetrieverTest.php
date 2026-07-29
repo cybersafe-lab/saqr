@@ -23,3 +23,17 @@ test('top-1 ranked correctly for fixture question', function (string $q, array $
     // Corpus preserves 'id' on all entries (may be null if not supplied).
     expect($expected)->toContain($results[0]['id']);
 })->with('retrieval_cases');
+
+test('Arabic critical-systems phrase retrieves nca-cscc (official acronym)', function () {
+    $corpus = Corpus::loadFromFile(__DIR__ . '/../../corpus/frameworks.json');
+    $r = new Retriever($corpus);
+    $ids = array_column($r->retrieveTopK('ما هي ضوابط الأنظمة الحساسة؟', 3), 'id');
+    expect($ids[0])->toBe('nca-cscc');
+});
+
+test('cloud cybersecurity controls question retrieves nca-ccc (official acronym)', function () {
+    $corpus = Corpus::loadFromFile(__DIR__ . '/../../corpus/frameworks.json');
+    $r = new Retriever($corpus);
+    $ids = array_column($r->retrieveTopK('What are the NCA cloud cybersecurity controls?', 3), 'id');
+    expect($ids[0])->toBe('nca-ccc');
+});

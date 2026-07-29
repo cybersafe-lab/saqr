@@ -17,7 +17,7 @@
                 "nca overview",
                 "nca regulator"
             ],
-            "answer": "The <strong>National Cybersecurity Authority (NCA)</strong> is Saudi Arabia's central cybersecurity regulator, established in 2017. It publishes the national baseline controls every public-sector and critical-infrastructure entity must implement, and it has inspection authority. Its main control sets are <strong>ECC</strong> (baseline), <strong>CCC</strong> (critical systems), <strong>CSCC</strong> (cloud), <strong>DCC</strong> (data), <strong>TCC</strong> (telework), and <strong>OSMACC</strong> (organizational social media). Ask me about any of them by name."
+            "answer": "The <strong>National Cybersecurity Authority (NCA)</strong> is Saudi Arabia's central cybersecurity regulator, established in 2017. It publishes the national baseline controls every public-sector and critical-infrastructure entity must implement, and it has inspection authority. Its main control sets are <strong>ECC</strong> (baseline), <strong>CCC</strong> (cloud), <strong>CSCC</strong> (critical systems), <strong>DCC</strong> (data), <strong>TCC</strong> (telework), and <strong>OSMACC</strong> (organizational social media). Ask me about any of them by name."
         },
         {
             "id": "sdaia",
@@ -103,24 +103,24 @@
             "category": "NCA FRAMEWORKS",
             "keywords": [
                 "nca ccc",
-                "critical systems cybersecurity",
-                "critical systems controls",
-                "critical national infrastructure",
-                "cni controls"
+                "cloud cybersecurity controls",
+                "nca cloud",
+                "cloud controls saudi",
+                "csp controls"
             ],
-            "answer": "<strong>NCA CCC</strong> (Critical Systems Cybersecurity Controls, issued 2019). Layered <em>on top of</em> ECC for critical systems and critical national infrastructure (energy, water, finance, health, telecom, transport, government services). Stricter than ECC: expects segmentation, stronger monitoring, and zero-trust-style assumptions for critical-system boundaries. Rule of thumb: <strong>if you are in scope of CCC, you are also in scope of ECC</strong>. Treat CCC as the ceiling and ECC as the floor, and build one unified control set that satisfies both."
+            "answer": "<strong>NCA CCC</strong> (Cloud Cybersecurity Controls, issued 2020). Applies to both <em>Cloud Service Providers</em> (CSPs) operating in Saudi Arabia and to <em>cloud tenants</em>. Tiered by data classification and service sensitivity: the higher the classification of data you put in the cloud, the tighter the control set. Two practical implications: (1) data localization constraints for sensitive classes, (2) a formal cloud risk assessment before adoption, not after. I usually scope CCC against the data classification from NCA DCC, as they are designed to be read together."
         },
         {
             "id": "nca-cscc",
             "category": "NCA FRAMEWORKS",
             "keywords": [
                 "cscc",
-                "cloud cybersecurity controls",
-                "nca cloud",
-                "cloud controls saudi",
-                "csp controls"
+                "critical systems cybersecurity",
+                "critical systems controls",
+                "critical national infrastructure",
+                "cni controls"
             ],
-            "answer": "<strong>NCA CSCC</strong> (Cloud Cybersecurity Controls, issued 2020). Applies to both <em>Cloud Service Providers</em> (CSPs) operating in Saudi Arabia and to <em>cloud tenants</em>. Tiered by data classification and service sensitivity: the higher the classification of data you put in the cloud, the tighter the control set. Two practical implications: (1) data localization constraints for sensitive classes, (2) a formal cloud risk assessment before adoption, not after. I usually scope CSCC against the data classification from NCA DCC, as they are designed to be read together."
+            "answer": "<strong>NCA CSCC</strong> (Critical Systems Cybersecurity Controls, issued 2019). Layered <em>on top of</em> ECC for critical systems and critical national infrastructure (energy, water, finance, health, telecom, transport, government services). Stricter than ECC: expects segmentation, stronger monitoring, and zero-trust-style assumptions for critical-system boundaries. Rule of thumb: <strong>if you are in scope of CSCC, you are also in scope of ECC</strong>. Treat CSCC as the ceiling and ECC as the floor, and build one unified control set that satisfies both."
         },
         {
             "id": "nca-dcc",
@@ -295,7 +295,21 @@
                 "comply with ecc",
                 "ccc ecc relationship"
             ],
-            "answer": "<strong>NCA ECC vs NCA CCC:</strong> ECC is the <em>baseline</em> every in-scope entity must meet. CCC is a <em>layered, stricter set</em> for critical systems and critical national infrastructure. If you are in scope of CCC, you are automatically in scope of ECC. Treat CCC as the ceiling and ECC as the floor. <strong>Build one unified control catalog that satisfies both at once</strong>, tagged per control which regime requires it. Running them as two separate projects is how programs waste six months."
+            "answer": "<strong>NCA ECC vs NCA CCC:</strong> ECC is the <em>baseline</em> every in-scope entity must meet. CCC is a <em>layered set for cloud computing</em>: it applies to cloud service providers operating in Saudi Arabia and to cloud tenants, tiered by data classification. If you consume or provide cloud services in scope, CCC applies on top of ECC, it does not replace it. Map both into one control catalog so cloud controls extend the baseline instead of forking it."
+        },
+        {
+            "id": "ecc-vs-cscc",
+            "category": "COMPARISONS",
+            "keywords": [
+                "ecc vs cscc",
+                "cscc vs ecc",
+                "difference ecc cscc",
+                "baseline vs critical systems",
+                "ecc and cscc",
+                "subject to cscc",
+                "need to comply with ecc"
+            ],
+            "answer": "<strong>NCA ECC vs NCA CSCC:</strong> ECC is the <em>baseline</em> every in-scope entity must meet. CSCC is a <em>layered, stricter set</em> for critical systems and critical national infrastructure. If you are in scope of CSCC, you are automatically in scope of ECC. Treat CSCC as the ceiling and ECC as the floor, and build one unified control catalog that satisfies both at once, tagged per source framework."
         },
         {
             "id": "sama-vs-nca",
