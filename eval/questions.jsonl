@@ -13,7 +13,7 @@
 {"q": "What are the NCA Essential Cybersecurity Controls?", "lang": "en", "expected_ids": ["nca-ecc"], "note": "matches 'essential cybersecurity controls' and 'nca ecc'"}
 {"q": "Give me an overview of ECC — how many controls does it have?", "lang": "en", "expected_ids": ["nca-ecc"], "note": "matches 'ecc' and 'essential controls'"}
 {"q": "ما هي الضوابط الأساسية للأمن السيبراني؟", "lang": "ar", "expected_ids": ["nca-ecc"], "note": "Arabic for 'what are the essential cybersecurity controls'"}
-{"q": "What are the 5 main domains of NCA ECC?", "lang": "en", "expected_ids": ["ecc-domains"], "note": "matches 'ecc domains' and 'ecc main domains'"}
+{"q": "What are the ECC main domains and what does each one cover?", "lang": "en", "expected_ids": ["ecc-domains"], "note": "matches 'ecc main domains'; deliberately carries no domain count so the case does not re-pin a version-specific figure"}
 {"q": "What does ECC cover in terms of network security and governance?", "lang": "en", "expected_ids": ["ecc-domains"], "note": "matches 'ecc network security', 'ecc governance', 'ecc coverage'"}
 {"q": "How is ECC structured — domains, subdomains, controls?", "lang": "en", "expected_ids": ["ecc-domains"], "note": "matches 'ecc structure' and 'what is in ecc'"}
 {"q": "What is NCA CCC and who does it apply to?", "lang": "en", "expected_ids": ["nca-ccc"], "note": "matches 'nca ccc' and 'critical systems cybersecurity'"}
