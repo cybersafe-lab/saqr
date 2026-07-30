@@ -39,9 +39,7 @@
     },
     {
         "question": "    ",
-        "top3_ids": [
-            "empty-kw-guard"
-        ]
+        "top3_ids": []
     },
     {
         "question": "What does the National Cybersecurity Authority do?",
@@ -181,8 +179,7 @@
     {
         "question": "  iso  ",
         "top3_ids": [
-            "en-iso",
-            "empty-kw-guard"
+            "en-iso"
         ]
     },
     {
