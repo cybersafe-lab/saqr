@@ -2,11 +2,28 @@
 declare(strict_types=1);
 
 use Saqr\Corpus;
+use Saqr\GeneratorInterface;
 use Saqr\Pipeline;
 use Saqr\RateLimiter\InMemoryRateLimiter;
 
 if (!function_exists('saqr_dispatch')) {
     require_once __DIR__ . '/../../bin/dispatcher.php';
+}
+
+/**
+ * Stands in for a configured Generator: returns a fixed string that is already
+ * valid sanitized HTML, so Pipeline takes the used_llm branch with no API key
+ * and no network. What it returns does not matter to the tests below; that it
+ * returns non-null does.
+ */
+final class FixedComparisonGenerator implements GeneratorInterface
+{
+    public const ANSWER = 'ECC is the floor for every Saudi entity. <strong>ISO 27001</strong> is the management system you build on top of it.';
+
+    public function generate(string $question, array $contextEntries): ?string
+    {
+        return self::ANSWER;
+    }
 }
 
 /**
@@ -98,9 +115,8 @@ test('explain_control surfaces the refs of the entry it summarized', function ()
  * other retrieved entries contributed nothing to the text a client reads, so
  * merging their refs would credit documents the answer never used.
  *
- * The union branch is asserted against saqr_merge_refs directly: Generator is
- * final and Pipeline types it concretely, so there is no seam for a canned
- * generator, and a live-key test is not something CI can run.
+ * Both branches are covered: this test with no generator, the next one with a
+ * canned GeneratorInterface. A live-key test is not something CI can run.
  */
 test('compare serves only the echoed entry refs when no generator answered', function () {
     [$pipeline, $corpus] = dispatcherTestPipeline();
@@ -121,6 +137,25 @@ test('compare serves only the echoed entry refs when no generator answered', fun
     // would pass on a corpus where the branch does not matter.
     expect(count($top))->toBeGreaterThan(1)
         ->and(count($out['refs']))->toBeLessThan(count(saqr_merge_refs($top)));
+});
+
+test('compare unions the refs of every retrieved entry when a generator answered', function () {
+    $corpus = Corpus::loadFromFile(__DIR__ . '/../../corpus/frameworks.json');
+    $pipeline = new Pipeline($corpus, new FixedComparisonGenerator(), new InMemoryRateLimiter());
+    $out = saqr_dispatch('compare', ['framework_a' => 'NCA ECC', 'framework_b' => 'ISO 27001'], $pipeline, $corpus);
+
+    expect($out)->toHaveKeys(['comparison', 'used_llm', 'sources', 'refs'])
+        ->and($out['used_llm'])->toBeTrue()
+        ->and($out['comparison'])->toBe(FixedComparisonGenerator::ANSWER);
+
+    // Same question, same retrieval: the synthesized answer drew on all of `top`.
+    $top = $pipeline->ask("Compare NCA ECC and ISO 27001")['top'];
+    expect($out['refs'])->toBe(saqr_merge_refs($top));
+
+    // The union is strictly wider than what the fallback branch would have
+    // served, so this cannot pass on a corpus where the branch does not matter.
+    expect(count($top))->toBeGreaterThan(1)
+        ->and(count($out['refs']))->toBeGreaterThan(count($top[0]['refs']));
 });
 
 test('saqr_merge_refs unions entry refs, dedupes by url, and keeps input order', function () {

@@ -15,7 +15,7 @@ namespace Saqr;
  * If no key is configured, generate() returns null and callers should fall
  * back to displaying the top retrieved entry verbatim.
  */
-final class Generator
+final class Generator implements GeneratorInterface
 {
     private const ENDPOINT = 'https://api.anthropic.com/v1/messages';
     private const API_VERSION = '2023-06-01';

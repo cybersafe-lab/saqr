@@ -250,6 +250,7 @@ saqr/
 ├── src/
 │   ├── Corpus.php
 │   ├── Retriever.php
+│   ├── GeneratorInterface.php
 │   ├── Generator.php
 │   ├── Pipeline.php
 │   ├── Eval/Metrics.php

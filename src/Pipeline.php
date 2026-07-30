@@ -8,7 +8,7 @@ use Saqr\RateLimiter\RateLimiterInterface;
 
 /**
  * Public-facing orchestrator. Composes Corpus + Retriever + (optional)
- * Generator + RateLimiter into a single ask() call that mirrors the
+ * GeneratorInterface + RateLimiter into a single ask() call that mirrors the
  * production handler.
  *
  * Typical usage:
@@ -23,19 +23,23 @@ use Saqr\RateLimiter\RateLimiterInterface;
  * a global daily cap of 2000 — matches the production deployment. Pass a
  * different RateLimiterInterface (Redis, Memcached, ...) for multi-process
  * deployments.
+ *
+ * The generator defaults to a new Generator, which declines unless an API key
+ * is configured; pass any GeneratorInterface to synthesize answers with another
+ * provider.
  */
 final class Pipeline
 {
     private Corpus $corpus;
     private Retriever $retriever;
-    private Generator $generator;
+    private GeneratorInterface $generator;
     private RateLimiterInterface $rateLimiter;
     private int $perClientHourlyCap;
     private int $globalDailyCap;
 
     public function __construct(
         Corpus $corpus,
-        ?Generator $generator = null,
+        ?GeneratorInterface $generator = null,
         ?RateLimiterInterface $rateLimiter = null,
         int $perClientHourlyCap = 20,
         int $globalDailyCap = 2000
