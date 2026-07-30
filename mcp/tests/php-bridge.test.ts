@@ -56,6 +56,10 @@ describe("PhpBridge", () => {
     expect(r.results.length).toBeGreaterThan(0);
     const first = r.results[0];
     expect(Object.keys(first).sort()).toEqual(["content", "framework", "id", "refs", "title"]);
+    // title has no category fallback any more, so a null here means the corpus
+    // entry lost its title and the client would show an unlabeled result.
+    expect(first.title).toBeTypeOf("string");
+    expect((first.title as string).length).toBeGreaterThan(0);
     const refs = first.refs as Array<{ title: string; url: string }>;
     expect(refs.length).toBeGreaterThan(0);
     expect(typeof refs[0].title).toBe("string");

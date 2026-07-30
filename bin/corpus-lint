@@ -8,6 +8,7 @@ declare(strict_types=1);
  *  - id integrity: unique ids; no duplicate keywords within an entry; ids match corpus/ids.lock
  *  - prompt-injection blocklist on answer (SEC-007)
  *  - style: no em-dash, no banned puff words (corpus/style-bans.txt)
+ *  - display: every entry carries a non-empty title (the label clients show)
  *  - provenance: every entry carries a non-empty framework label
  *  - provenance: every non-META entry carries >=1 refs item, each {title: non-empty, url: https://...}
  *  - refs content: titles and urls are client-facing, so they get the same
@@ -101,7 +102,14 @@ foreach ($entries as $i => $entry) {
         }
     }
 
-    // Showcase sprint: framework label + official source refs.
+    // Showcase sprint: title + framework label + official source refs.
+    // The title is what an MCP client prints above the answer, so an entry
+    // without one has no label a reader can recognize.
+    $title = $entry['title'] ?? null;
+    if (!is_string($title) || trim($title) === '') {
+        $fail("Entry '{$id}': missing title");
+    }
+
     $fw = $entry['framework'] ?? null;
     if (!is_string($fw) || trim($fw) === '') {
         $fail("Entry '{$id}': missing framework label");

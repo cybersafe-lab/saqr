@@ -46,9 +46,10 @@ website chatbot in the diagram is a separate WordPress deployment that
 reimplements this retrieval design; it does not consume the library.)
 
 1. **Corpus**: a JSON file of 31 practitioner-written entries. Each has an `id`
-   (frozen in `corpus/ids.lock`), a `category`, a `framework` label, a list of
-   `keywords` (English and transliterated terms), an `answer`, and `refs`: the
-   official document title and URL behind it.
+   (frozen in `corpus/ids.lock`), a `title` (the label clients print above the
+   answer), a `category`, a `framework` label, a list of `keywords` (English and
+   transliterated terms), an `answer`, and `refs`: the official document title
+   and URL behind it.
 2. **Retriever**: lowercase the question, expand any Arabic phrases to their
    English keyword equivalents, then score each corpus entry by summing the byte
    lengths of its keywords that appear in the question. Return the top 3 by

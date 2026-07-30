@@ -27,6 +27,7 @@ Each entry in `corpus/frameworks.json` has this shape:
 ```json
 {
   "id": "stable-kebab-slug",
+  "title": "NCA Essential Cybersecurity Controls (ECC)",
   "category": "ONE OF THE ALLOWED CATEGORIES",
   "framework": "NCA",
   "keywords": ["lowercase phrase", "..."],
@@ -43,6 +44,11 @@ Each entry in `corpus/frameworks.json` has this shape:
 - `id` is required, unique, and immutable. It is the join key the eval
   suite points at, frozen in `corpus/ids.lock`. Add new ids to the lock;
   never rename an existing one.
+- `title` is required on every entry: the short human name of the document or
+  topic, which is the label an MCP client prints above the answer. Use the
+  canonical name of the publication (`NCA Cloud Cybersecurity Controls (CCC)`),
+  or `X vs Y` for a comparison entry. There is no fallback, so an entry without
+  a title reaches clients unlabeled.
 - `category` must be one of the allowed categories enforced by
   `corpus-lint` (AUTHORITIES, NCA FRAMEWORKS, SAMA FRAMEWORKS,
   CST / ARAMCO / PDPL, COMPARISONS, META).

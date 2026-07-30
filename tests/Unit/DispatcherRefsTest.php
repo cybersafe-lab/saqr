@@ -33,6 +33,28 @@ test('search results include refs and omit the always-null score', function () {
         ->and($first['refs'][0])->toHaveKeys(['title', 'url']);
 });
 
+/**
+ * `title` used to fall back to `category` when an entry had none, and no entry
+ * had one, so every MCP result was labeled with its bucket ("CST / ARAMCO /
+ * PDPL"). Titles are populated now and corpus-lint requires them, so the
+ * fallback is gone: a category name reaching a client would mean the corpus
+ * lost a title.
+ */
+test('search labels each hit with the entry title, never its category', function () {
+    [$pipeline, $corpus] = dispatcherTestPipeline();
+    $out = saqr_dispatch('search', ['question' => 'What is the NCA ECC?'], $pipeline, $corpus);
+
+    $categories = [
+        'AUTHORITIES', 'NCA FRAMEWORKS', 'SAMA FRAMEWORKS',
+        'CST / ARAMCO / PDPL', 'COMPARISONS', 'META',
+    ];
+    expect($out['results'])->not->toBeEmpty();
+    foreach ($out['results'] as $hit) {
+        expect($hit['title'])->toBeString()->not->toBeEmpty();
+        expect(in_array($hit['title'], $categories, true))->toBeFalse($hit['title']);
+    }
+});
+
 test('non-META hits for a regulatory query carry a framework and at least one ref', function () {
     [$pipeline, $corpus] = dispatcherTestPipeline();
     $out = saqr_dispatch('search', ['question' => 'PDPL data subject rights'], $pipeline, $corpus);

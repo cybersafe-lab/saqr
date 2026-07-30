@@ -6,6 +6,7 @@
     "entries": [
         {
             "id": "nca-overview",
+            "title": "National Cybersecurity Authority (NCA)",
             "category": "AUTHORITIES",
             "framework": "NCA",
             "keywords": [
@@ -32,6 +33,7 @@
         },
         {
             "id": "sdaia",
+            "title": "Saudi Data and AI Authority (SDAIA)",
             "category": "AUTHORITIES",
             "framework": "SDAIA",
             "keywords": [
@@ -58,6 +60,7 @@
         },
         {
             "id": "sama-overview",
+            "title": "Saudi Central Bank (SAMA)",
             "category": "AUTHORITIES",
             "framework": "SAMA",
             "keywords": [
@@ -80,6 +83,7 @@
         },
         {
             "id": "cst",
+            "title": "Communications, Space and Technology Commission (CST)",
             "category": "AUTHORITIES",
             "framework": "CST",
             "keywords": [
@@ -107,6 +111,7 @@
         },
         {
             "id": "nca-ecc",
+            "title": "NCA Essential Cybersecurity Controls (ECC)",
             "category": "NCA FRAMEWORKS",
             "framework": "NCA",
             "keywords": [
@@ -125,6 +130,7 @@
         },
         {
             "id": "ecc-domains",
+            "title": "NCA ECC domains and structure",
             "category": "NCA FRAMEWORKS",
             "framework": "NCA",
             "keywords": [
@@ -158,6 +164,7 @@
         },
         {
             "id": "nca-ccc",
+            "title": "NCA Cloud Cybersecurity Controls (CCC)",
             "category": "NCA FRAMEWORKS",
             "framework": "NCA",
             "keywords": [
@@ -181,6 +188,7 @@
         },
         {
             "id": "nca-cscc",
+            "title": "NCA Critical Systems Cybersecurity Controls (CSCC)",
             "category": "NCA FRAMEWORKS",
             "framework": "NCA",
             "keywords": [
@@ -204,6 +212,7 @@
         },
         {
             "id": "nca-dcc",
+            "title": "NCA Data Cybersecurity Controls (DCC)",
             "category": "NCA FRAMEWORKS",
             "framework": "NCA",
             "keywords": [
@@ -226,6 +235,7 @@
         },
         {
             "id": "nca-tcc",
+            "title": "NCA Telework Cybersecurity Controls (TCC)",
             "category": "NCA FRAMEWORKS",
             "framework": "NCA",
             "keywords": [
@@ -248,6 +258,7 @@
         },
         {
             "id": "nca-osmacc",
+            "title": "NCA Organizations' Social Media Accounts Cybersecurity Controls (OSMACC)",
             "category": "NCA FRAMEWORKS",
             "framework": "NCA",
             "keywords": [
@@ -270,6 +281,7 @@
         },
         {
             "id": "nca-scywf",
+            "title": "NCA Saudi Cybersecurity Workforce Framework (SCyWF)",
             "category": "NCA FRAMEWORKS",
             "framework": "NCA",
             "keywords": [
@@ -288,6 +300,7 @@
         },
         {
             "id": "sama-csf",
+            "title": "SAMA Cyber Security Framework (CSF)",
             "category": "SAMA FRAMEWORKS",
             "framework": "SAMA",
             "keywords": [
@@ -306,6 +319,7 @@
         },
         {
             "id": "sama-itgf",
+            "title": "SAMA IT Governance Framework (ITGF)",
             "category": "SAMA FRAMEWORKS",
             "framework": "SAMA",
             "keywords": [
@@ -328,6 +342,7 @@
         },
         {
             "id": "sama-bcm",
+            "title": "SAMA Business Continuity Management Framework (BCM)",
             "category": "SAMA FRAMEWORKS",
             "framework": "SAMA",
             "keywords": [
@@ -348,6 +363,7 @@
         },
         {
             "id": "cst-crf",
+            "title": "CST Cybersecurity Regulatory Framework (CRF)",
             "category": "CST / ARAMCO / PDPL",
             "framework": "CST",
             "keywords": [
@@ -371,6 +387,7 @@
         },
         {
             "id": "aramco-sacs-002",
+            "title": "Saudi Aramco Third Party Cybersecurity Standard (SACS-210)",
             "category": "CST / ARAMCO / PDPL",
             "framework": "Aramco",
             "keywords": [
@@ -397,6 +414,7 @@
         },
         {
             "id": "pdpl",
+            "title": "Personal Data Protection Law (PDPL)",
             "category": "CST / ARAMCO / PDPL",
             "framework": "SDAIA",
             "keywords": [
@@ -419,6 +437,7 @@
         },
         {
             "id": "iso-27001",
+            "title": "ISO/IEC 27001 (ISMS)",
             "category": "CST / ARAMCO / PDPL",
             "framework": "ISO",
             "keywords": [
@@ -437,6 +456,7 @@
         },
         {
             "id": "iso-vs-nca",
+            "title": "NCA ECC vs ISO 27001",
             "category": "COMPARISONS",
             "framework": "NCA / ISO",
             "keywords": [
@@ -466,6 +486,7 @@
         },
         {
             "id": "ecc-vs-ccc",
+            "title": "NCA ECC vs NCA CCC",
             "category": "COMPARISONS",
             "framework": "NCA",
             "keywords": [
@@ -490,6 +511,7 @@
         },
         {
             "id": "ecc-vs-cscc",
+            "title": "NCA ECC vs NCA CSCC",
             "category": "COMPARISONS",
             "framework": "NCA",
             "keywords": [
@@ -514,6 +536,7 @@
         },
         {
             "id": "sama-vs-nca",
+            "title": "SAMA frameworks vs NCA ECC",
             "category": "COMPARISONS",
             "framework": "SAMA / NCA",
             "keywords": [
@@ -540,6 +563,7 @@
         },
         {
             "id": "pdpl-vs-dcc",
+            "title": "PDPL vs NCA DCC",
             "category": "COMPARISONS",
             "framework": "SDAIA / NCA",
             "keywords": [
@@ -564,6 +588,7 @@
         },
         {
             "id": "aramco-vs-nca",
+            "title": "Aramco SACS-210 vs NCA ECC",
             "category": "COMPARISONS",
             "framework": "Aramco / NCA",
             "keywords": [
@@ -590,6 +615,7 @@
         },
         {
             "id": "program-starting-point",
+            "title": "Where to start a compliance program",
             "category": "COMPARISONS",
             "framework": "Cross-framework",
             "keywords": [
@@ -614,6 +640,7 @@
         },
         {
             "id": "maturity",
+            "title": "Maturity levels across frameworks",
             "category": "COMPARISONS",
             "framework": "Cross-framework",
             "keywords": [
@@ -631,6 +658,7 @@
         },
         {
             "id": "audit",
+            "title": "Audit findings and how to close them",
             "category": "COMPARISONS",
             "framework": "Cross-framework",
             "keywords": [
@@ -653,6 +681,7 @@
         },
         {
             "id": "third-party",
+            "title": "Third-party and vendor cybersecurity",
             "category": "COMPARISONS",
             "framework": "Cross-framework",
             "keywords": [
@@ -679,6 +708,7 @@
         },
         {
             "id": "about-assistant",
+            "title": "About this assistant",
             "category": "META",
             "framework": "META",
             "keywords": [
@@ -698,6 +728,7 @@
         },
         {
             "id": "frameworks-index",
+            "title": "Frameworks covered",
             "category": "META",
             "framework": "META",
             "keywords": [

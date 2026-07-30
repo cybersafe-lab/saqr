@@ -75,7 +75,7 @@ function saqr_dispatch(string $cmd, array $args, Pipeline $pipeline, Corpus $cor
             return [
                 'results' => array_map(static fn($t) => [
                     'id' => $t['id'] ?? null,
-                    'title' => $t['title'] ?? $t['category'] ?? null,
+                    'title' => $t['title'] ?? null,
                     'framework' => $t['framework'] ?? null,
                     'content' => $t['answer'] ?? '',
                     'refs' => $t['refs'] ?? [],

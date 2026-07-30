@@ -44,6 +44,24 @@ test('lint fails on duplicate ids', function () {
     unlink($path);
 });
 
+test('lint fails when an entry is missing a title', function () {
+    $path = writeTempCorpus([
+        ['id' => 'no-title', 'category' => 'META', 'framework' => 'META', 'keywords' => ['x'], 'answer' => 'ok'],
+    ]);
+    $r = runCorpusLint($path);
+    expect($r['code'])->toBe(1)->and($r['output'])->toContain("Entry 'no-title': missing title");
+    unlink($path);
+});
+
+test('lint fails on a blank title', function () {
+    $path = writeTempCorpus([
+        ['id' => 'blank-title', 'title' => '   ', 'category' => 'META', 'framework' => 'META', 'keywords' => ['x'], 'answer' => 'ok'],
+    ]);
+    $r = runCorpusLint($path);
+    expect($r['code'])->toBe(1)->and($r['output'])->toContain("Entry 'blank-title': missing title");
+    unlink($path);
+});
+
 test('lint fails on em-dash in answer', function () {
     $path = writeTempCorpus([
         ['id' => 'emdash', 'category' => 'META', 'keywords' => ['x'], 'answer' => 'A robust thing — and more.'],
