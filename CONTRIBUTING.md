@@ -64,6 +64,8 @@ Each entry in `corpus/frameworks.json` has this shape:
   `php bin/refs-check` (hits the network, so it is not part of CI).
 - **Never invent** control numbers, dates, CVSS scores, or scope. If a
   fact is not in a cited source, omit it.
-- `answer` must pass the brand-voice style lint: no em-dashes, no banned
-  puff words (`corpus/style-bans.txt`). Run `php bin/corpus-lint` before
-  opening a PR.
+- `answer`, `title`, and every `refs` title must pass the brand-voice style
+  lint: no em-dashes or en-dashes, no banned puff words
+  (`corpus/style-bans.txt`). Those three plus every `refs` URL are also checked
+  against the prompt-injection blocklist, since all of them reach clients. Run
+  `php bin/corpus-lint` before opening a PR.

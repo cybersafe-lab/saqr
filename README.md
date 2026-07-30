@@ -85,11 +85,11 @@ reimplements this retrieval design; it does not consume the library.)
   schema, frozen IDs, a title and framework label on every entry, at least one
   official-source ref on every non-META entry, the `{title, url}` shape of each
   ref, brand-voice style rules (no em-dashes or en-dashes, no puff words), and a
-  prompt-injection blocklist. The injection blocklist covers ref titles and URLs
-  as well as answers, since all three reach clients; the style rules cover
-  answers and ref titles, since a URL is the publisher's string and not ours to
-  reword. A separate `php bin/refs-check` confirms every ref URL
-  still resolves, including a per-host soft-404 guard for `nca.gov.sa` and
+  prompt-injection blocklist. Both run on every string an entry sends to a
+  client: the answer, the entry title, and each ref title. Ref URLs carry the
+  injection blocklist as well, but not the style rules, since a URL is the
+  publisher's string and not ours to reword. A separate `php bin/refs-check`
+  confirms every ref URL still resolves, including a per-host soft-404 guard for `nca.gov.sa` and
   `cst.gov.sa`, which answer HTTP 200 for paths that do not exist. It hits the
   network, so it runs at curation time rather than in CI.
 - **No infra:** plain JSON and plain PHP; no embeddings service, no vector DB,

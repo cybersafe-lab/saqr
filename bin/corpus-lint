@@ -8,7 +8,9 @@ declare(strict_types=1);
  *  - id integrity: unique ids; no duplicate keywords within an entry; ids match corpus/ids.lock
  *  - prompt-injection blocklist on answer (SEC-007)
  *  - style: no em-dash or en-dash, no banned puff words (corpus/style-bans.txt)
- *  - display: every entry carries a non-empty title (the label clients show)
+ *  - display: every entry carries a non-empty title (the label clients show),
+ *    and that title gets the same injection blocklist and style rules as the
+ *    answer, since it reaches clients too
  *  - provenance: every entry carries a non-empty framework label
  *  - provenance: every non-META entry carries >=1 refs item, each {title: non-empty, url: https://...}
  *  - refs content: titles and urls are client-facing, so both get the answer's
@@ -114,6 +116,22 @@ foreach ($entries as $i => $entry) {
     $title = $entry['title'] ?? null;
     if (!is_string($title) || trim($title) === '') {
         $fail("Entry '{$id}': missing title");
+    } else {
+        // A title ships to clients next to the answer, so it carries the same
+        // injection blocklist and the same style rules.
+        foreach ($injectionBlocklist as $needle) {
+            if (strpos(strtolower($title), strtolower($needle)) !== false) {
+                $fail("Entry '{$id}': forbidden token in title: {$needle}");
+            }
+        }
+        if (preg_match(DASH_PATTERN, $title)) {
+            $fail("Entry '{$id}': em-dash or en-dash in title (" . DASH_ADVICE . ")");
+        }
+        foreach ($bans as $word) {
+            if (preg_match('/\b' . preg_quote($word, '/') . '\b/i', $title)) {
+                $fail("Entry '{$id}': banned puff word in title: {$word}");
+            }
+        }
     }
 
     $fw = $entry['framework'] ?? null;
