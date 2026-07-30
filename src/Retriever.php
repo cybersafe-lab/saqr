@@ -273,6 +273,11 @@ final class Retriever
      * digit families, and half a dozen dash characters. Every one of them
      * breaks a literal substring match against a key written one way.
      *
+     * Public because a corpus keyword that this pipeline would rewrite can never
+     * be matched again: the question reaching the scorer is always normalized,
+     * so a keyword must already be in normalized form. bin/corpus-lint enforces
+     * that, and a port of the retriever can check itself against this method.
+     *
      * The folds are deliberately narrow. ؤ→و and ئ→ي are NOT applied: they
      * merge distinct spellings without repairing the deletion typos that
      * motivate them, and observed cases are better served by their own alias.
@@ -280,7 +285,7 @@ final class Retriever
      * common letters in the language, and removing it turns short stems into
      * broad false positives. Clitics are handled by curated stems instead.
      */
-    private static function normalize(string $s): string
+    public static function normalize(string $s): string
     {
         // Presentation forms (ﺍﻟﻬﻴﺌﺔ), full-width Latin, and compatibility
         // digits collapse onto their canonical codepoints. ext-intl is a

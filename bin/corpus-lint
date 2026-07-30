@@ -6,6 +6,9 @@ declare(strict_types=1);
  * Corpus drift guard. Validates corpus/frameworks.json:
  *  - schema: every entry has id, category (allowlisted), non-empty keywords, non-empty answer
  *  - id integrity: unique ids; no duplicate keywords within an entry; ids match corpus/ids.lock
+ *  - keyword matchability: every keyword survives Retriever::normalize()
+ *    unchanged. The scorer only ever sees a normalized question, so a keyword
+ *    the pipeline would rewrite is dead weight that can never match again
  *  - prompt-injection blocklist on answer (SEC-007)
  *  - style: no em-dash or en-dash, no banned puff words (corpus/style-bans.txt)
  *  - display: every entry carries a non-empty title (the label clients show),
@@ -18,6 +21,8 @@ declare(strict_types=1);
  *    not ours to reword
  * Exit 0 clean, 1 on any violation.
  */
+
+require __DIR__ . '/autoload.php';
 
 $path = $argv[1] ?? __DIR__ . '/../corpus/frameworks.json';
 $lockPath = __DIR__ . '/../corpus/ids.lock';
@@ -87,6 +92,19 @@ foreach ($entries as $i => $entry) {
         $fail("Entry '{$id}': empty keywords");
     } elseif (count($kw) !== count(array_unique($kw))) {
         $fail("Entry '{$id}': duplicate keywords");
+    }
+    // A question is normalized before it is scored, so a keyword the same
+    // pipeline would rewrite can never be matched. Catches uppercase, Arabic
+    // digits, dash variants, diacritics, and punctuation in a new keyword.
+    foreach (is_array($kw) ? $kw : [] as $k) {
+        if (!is_string($k)) {
+            $fail("Entry '{$id}': keyword must be a string");
+            continue;
+        }
+        $normalized = \Saqr\Retriever::normalize($k);
+        if ($normalized !== $k) {
+            $fail("Entry '{$id}': keyword '{$k}' is not in normalized form and can never match; write it as '{$normalized}'");
+        }
     }
 
     $answer = $entry['answer'] ?? '';

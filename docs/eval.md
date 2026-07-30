@@ -108,6 +108,12 @@ aliases, since substring matching has no notion of word boundaries:
   of الأطراف ("parties"), so "الأطراف الثالثة" routes a third-party question to
   `frameworks-index` and outscores `third party` (11). The third-party case uses
   الموردين instead.
+- **A bare topic stem belongs to whichever entry claimed it first.** حماية البيانات
+  is PDPL's stem, so "وش ضوابط حماية البيانات عند NCA" returns `pdpl` even though
+  the question names NCA and means `nca-dcc`. Left as is on purpose: a compound
+  key for that one word order does not generalize, and PDPL is the closer answer
+  to the question read without its trailing عند NCA. The general case needs
+  intent detection, the same gap behind the comparison misses above.
 - **Folds widen keys as well as questions.** أم ("or") folds to ام, which is also
   how أمس and أمانة start, so a comparison key ending in the bare disjunction
   ("مؤسسة النقد أم") fires inside ordinary sentences. Comparison keys name the
