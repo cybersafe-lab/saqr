@@ -12,7 +12,7 @@ export const TOOLS: Tool[] = [
   },
   {
     name: "saqr_compare_frameworks",
-    description: "Compare two Saudi cybersecurity frameworks (NCA ECC, SAMA CSF, CST CRF, Aramco SACS-210, PDPL, ISO 27001) using a curated crosswalk.",
+    description: "Compare two Saudi cybersecurity frameworks (NCA ECC, SAMA CSF, CST CRF, Aramco SACS-210, PDPL, ISO 27001) using a curated crosswalk. Returns official-source references for every entry the comparison drew on.",
     inputSchema: {
       type: "object",
       properties: {

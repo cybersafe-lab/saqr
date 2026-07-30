@@ -10,10 +10,12 @@ if (!function_exists('saqr_dispatch')) {
 }
 
 /**
- * The MCP result shape is a client-facing contract: every search hit and every
- * explain_control answer must carry the official-source refs a GRC reader needs
- * to verify the claim. `score` used to be declared here and was always null —
- * Retriever never puts a score on the returned entry — so it is gone.
+ * The MCP result shape is a client-facing contract: an answer drawn from a
+ * regulatory entry must carry the official-source refs a GRC reader needs to
+ * verify it. The `refs` key is always present; it is empty only for the META
+ * entries, which bin/corpus-lint exempts because they describe the assistant
+ * rather than a framework. `score` used to be declared here and was always
+ * null — Retriever never puts a score on the returned entry — so it is gone.
  */
 function dispatcherTestPipeline(): array {
     $corpus = Corpus::loadFromFile(__DIR__ . '/../../corpus/frameworks.json');
@@ -31,15 +33,31 @@ test('search results include refs and omit the always-null score', function () {
         ->and($first['refs'][0])->toHaveKeys(['title', 'url']);
 });
 
-test('every search hit carries a non-empty framework and refs list', function () {
+test('non-META hits for a regulatory query carry a framework and at least one ref', function () {
     [$pipeline, $corpus] = dispatcherTestPipeline();
     $out = saqr_dispatch('search', ['question' => 'PDPL data subject rights'], $pipeline, $corpus);
 
     expect($out['results'])->not->toBeEmpty();
+    $checked = 0;
     foreach ($out['results'] as $hit) {
         expect($hit['framework'])->toBeString()->not->toBeEmpty();
+        if ($hit['framework'] === 'META') {
+            continue; // exempt from refs by bin/corpus-lint
+        }
         expect($hit['refs'])->toBeArray()->not->toBeEmpty();
+        $checked++;
     }
+    expect($checked)->toBeGreaterThan(0);
+});
+
+test('a META hit serves refs as an empty array, not a missing key', function () {
+    [$pipeline, $corpus] = dispatcherTestPipeline();
+    $out = saqr_dispatch('search', ['question' => 'help what frameworks do you know'], $pipeline, $corpus);
+
+    $meta = array_values(array_filter($out['results'], static fn($h) => $h['framework'] === 'META'));
+    expect($meta)->not->toBeEmpty();
+    expect($meta[0])->toHaveKey('refs')
+        ->and($meta[0]['refs'])->toBe([]);
 });
 
 test('explain_control surfaces the refs of the entry it summarized', function () {
