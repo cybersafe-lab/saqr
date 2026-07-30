@@ -11,7 +11,23 @@ declare(strict_types=1);
 //   2. GET with a browser-shaped header set. Some sites reject HEAD outright,
 //      and bot management (aramco.com) drops requests that carry no Accept /
 //      Sec-Fetch headers. A dead URL still fails both attempts.
-$data = json_decode((string) file_get_contents($argv[1] ?? __DIR__ . '/../corpus/frameworks.json'), true);
+//
+// A corpus that cannot be read, cannot be parsed, or carries no entries used to
+// leave the loop with nothing to iterate and exit 0, which reads as "every URL
+// checks out" when in fact nothing was checked. Those cases now exit 1 up front.
+$corpusPath = $argv[1] ?? __DIR__ . '/../corpus/frameworks.json';
+
+if (!is_file($corpusPath) || !is_readable($corpusPath)) {
+    fwrite(STDERR, "corpus file not found or unreadable: {$corpusPath}\n");
+    exit(1);
+}
+
+$data = json_decode((string) file_get_contents($corpusPath), true);
+
+if (!is_array($data) || !isset($data['entries']) || !is_array($data['entries']) || $data['entries'] === []) {
+    fwrite(STDERR, "corpus has no entries to check (not valid JSON, or no 'entries' array): {$corpusPath}\n");
+    exit(1);
+}
 
 // Soft-404 guard. Two of the cited hosts answer HTTP 200 for paths that do not
 // exist, so a status code alone cannot tell a good deep link from a typo:
@@ -86,8 +102,18 @@ $titleOf = static function (string $url): ?string {
 };
 
 $fail = 0;
-foreach (($data['entries'] ?? []) as $entry) {
+$checked = 0;
+foreach ($data['entries'] as $entry) {
+    if (!is_array($entry)) {
+        continue;
+    }
     foreach (($entry['refs'] ?? []) as $ref) {
+        if (!is_array($ref) || !isset($ref['url']) || !is_string($ref['url'])) {
+            printf("FAIL %-22s (ref has no url string)\n", (string) ($entry['id'] ?? '?'));
+            $fail++;
+            continue;
+        }
+        $checked++;
         $code = $probe($ref['url'], false);
         if ($code >= 400 || $code === 0) {
             $code = $probe($ref['url'], true);
@@ -98,14 +124,25 @@ foreach (($data['entries'] ?? []) as $entry) {
         $host = strtolower((string) parse_url($ref['url'], PHP_URL_HOST));
         if ($ok && isset(SOFT_404_TITLES[$host])) {
             $title = $titleOf($ref['url']);
-            if ($title !== null && in_array(strtolower($title), SOFT_404_TITLES[$host], true)) {
+            if ($title === null) {
+                // The guard compares titles, so no title read means it did not
+                // run. That is not the same as passing: say so on the line
+                // rather than let the bare OK imply a check that never happened.
+                $detail = "{$code}, soft-404 guard skipped: no title read";
+            } elseif (in_array(strtolower($title), SOFT_404_TITLES[$host], true)) {
                 $ok = false;
                 $detail = "{$code}, soft 404: \"{$title}\"";
             }
         }
 
-        printf("%s %-22s %s (%s)\n", $ok ? 'OK  ' : 'FAIL', $entry['id'], $ref['url'], $detail);
+        printf("%s %-22s %s (%s)\n", $ok ? 'OK  ' : 'FAIL', (string) ($entry['id'] ?? '?'), $ref['url'], $detail);
         if (!$ok) { $fail++; }
     }
 }
+
+if ($checked === 0) {
+    fwrite(STDERR, "no ref urls were checked in {$corpusPath}: nothing to verify is not the same as everything verified\n");
+    exit(1);
+}
+
 exit($fail > 0 ? 1 : 0);
