@@ -82,11 +82,13 @@ reimplements this retrieval design; it does not consume the library.)
   with per-language hit@1 / hit@3 / MRR and a committed overall baseline that CI
   refuses to regress.
 - **Corpus as code:** `php bin/corpus-lint` runs in CI and enforces the entry
-  schema, frozen IDs, a framework label and at least one official-source ref on
-  every non-META entry, the `{title, url}` shape of each ref, brand-voice style
-  rules (no em-dashes, no puff words), and a prompt-injection blocklist. The
-  style and injection checks cover ref titles and URLs as well as answers, since
-  those reach clients too. A separate `php bin/refs-check` confirms every ref URL
+  schema, frozen IDs, a title and framework label on every entry, at least one
+  official-source ref on every non-META entry, the `{title, url}` shape of each
+  ref, brand-voice style rules (no em-dashes or en-dashes, no puff words), and a
+  prompt-injection blocklist. The injection blocklist covers ref titles and URLs
+  as well as answers, since all three reach clients; the style rules cover
+  answers and ref titles, since a URL is the publisher's string and not ours to
+  reword. A separate `php bin/refs-check` confirms every ref URL
   still resolves, including a per-host soft-404 guard for `nca.gov.sa` and
   `cst.gov.sa`, which answer HTTP 200 for paths that do not exist. It hits the
   network, so it runs at curation time rather than in CI.
@@ -262,8 +264,11 @@ saqr/
 │   └── style-bans.txt
 ├── bin/
 │   ├── saqr-cli          # JSON-over-stdio contract the MCP server speaks
+│   ├── serve.php         # long-lived mode: one corpus load, many requests
+│   ├── once.php          # one-shot mode: positional args to one result
 │   ├── dispatcher.php    # cmd -> result shapes
-│   ├── corpus-lint       # schema, frozen IDs, refs, style, injection guard
+│   ├── autoload.php      # PSR-4 fallback for the npm channel (no Composer)
+│   ├── corpus-lint       # schema, frozen IDs, title, refs, style, injection
 │   ├── refs-check        # ref URL reachability (network, run manually)
 │   └── saqr-eval         # regenerates the retrieval eval report
 ├── mcp/                  # TypeScript MCP server (npm + Docker)
