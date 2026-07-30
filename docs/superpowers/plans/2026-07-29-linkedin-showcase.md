@@ -368,6 +368,17 @@ Task 3's curation exposed stale regulatory facts that the new refs now visibly c
 - [ ] **Step 4: Verify** — `php bin/corpus-lint && php bin/refs-check && vendor/bin/pest` green; `php bin/saqr-eval` metrics not below baseline; root-cause any regression (never lower the baseline).
 - [ ] **Step 5: Commit** — `fix(corpus): align entry facts with cited official sources (ECC-2:2024, SAMA CSF maturity, SACS-210)`
 
+### Task 3.6: Library CCC edition correction (added 2026-07-30 after Task 7 evidence)
+
+Task 7's verification proved the library corpus stale on one fact: the official NCA CCC page shows the current edition as "(CCC – 2: 2024)" with PDF `CCC-2-2024-EN-.pdf`, while `corpus/frameworks.json` `nca-ccc` says "issued 2020" (the first issuance). The WP KB already states CCC-2:2024 correctly.
+
+**Files:** `corpus/frameworks.json` (`nca-ccc`; sweep for any other corpus text asserting a CCC edition/date — `ecc-vs-ccc`, `nca-overview`), affected eval notes if any.
+
+- [ ] **Step 1:** Fetch `https://nca.gov.sa/en/regulatory-documents/controls-list/ccc/` (browser headers) and record the exact edition evidence; check whether the page also supports "first issued 2020" before keeping any 2020 mention.
+- [ ] **Step 2:** Update `nca-ccc` to the verified edition (e.g. "current edition CCC-2:2024"); sweep and fix any other corpus CCC edition/date assertions; style rules apply.
+- [ ] **Step 3:** Gates: `php bin/corpus-lint && php bin/refs-check && vendor/bin/pest && php bin/saqr-eval` (metrics not below baseline; keywords untouched so no movement expected).
+- [ ] **Step 4:** Commit — `fix(corpus): nca-ccc current edition is CCC-2:2024 per NCA page`
+
 ### Task 4: Arabic eval expansion to ≥40 cases + rebaseline
 
 **Files:**
