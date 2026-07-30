@@ -110,7 +110,7 @@ Add to your `claude_desktop_config.json`:
   "mcpServers": {
     "saqr": {
       "command": "npx",
-      "args": ["-y", "@cybersafe-lab/saqr-mcp"],
+      "args": ["-y", "saqr-mcp"],
       "env": { "ANTHROPIC_API_KEY": "sk-ant-..." }
     }
   }

@@ -2,7 +2,7 @@
 
 ## What this is
 
-`@cybersafe-lab/saqr-mcp` is a Model Context Protocol server that exposes
+`saqr-mcp` is a Model Context Protocol server that exposes
 Saqr's Saudi cybersecurity corpus as tools for any MCP-compatible client.
 
 ## Install

@@ -37,7 +37,7 @@
 
 ## Post-release verification
 
-- [ ] `npm view @cybersafe-lab/saqr-mcp` shows v0.1.0 with provenance
+- [ ] `npm view saqr-mcp` shows v0.1.0 with provenance
 - [ ] `docker pull ghcr.io/cybersafe-lab/saqr-mcp:0.1.0` succeeds
 - [ ] `cosign verify ghcr.io/cybersafe-lab/saqr-mcp:0.1.0 --certificate-identity-regexp 'https://github.com/cybersafe-lab/saqr/.*' --certificate-oidc-issuer 'https://token.actions.githubusercontent.com'` passes
 - [ ] Test install in a clean Claude Desktop profile (both npm and Docker channels)

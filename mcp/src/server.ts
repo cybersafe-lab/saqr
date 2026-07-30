@@ -34,12 +34,12 @@ function resolveAsset(npmVendorPath: string, distRelative: string, devRelative: 
 // Published package: vendor-bundled/{bin,corpus} live inside the npm package.
 // Dev tree (mcp/dist/server.js → mcp/vendor-bundled/ → repo/{bin,corpus}).
 const CLI_PATH = resolveAsset(
-  "@cybersafe-lab/saqr-mcp/vendor-bundled/bin/saqr-cli",
+  "saqr-mcp/vendor-bundled/bin/saqr-cli",
   "../vendor-bundled/bin/saqr-cli",
   "../../bin/saqr-cli",
 );
 const CORPUS_DEFAULT_PATH = resolveAsset(
-  "@cybersafe-lab/saqr-mcp/vendor-bundled/corpus/frameworks.json",
+  "saqr-mcp/vendor-bundled/corpus/frameworks.json",
   "../vendor-bundled/corpus/frameworks.json",
   "../../corpus/frameworks.json",
 );
