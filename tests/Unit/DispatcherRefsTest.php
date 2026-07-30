@@ -51,6 +51,18 @@ test('explain_control surfaces the refs of the entry it summarized', function ()
     expect($out['refs'][0])->toHaveKeys(['title', 'url']);
 });
 
+test('compare unions the refs of every entry it drew on, deduped by url', function () {
+    [$pipeline, $corpus] = dispatcherTestPipeline();
+    $out = saqr_dispatch('compare', ['framework_a' => 'NCA ECC', 'framework_b' => 'ISO 27001'], $pipeline, $corpus);
+
+    expect($out)->toHaveKeys(['comparison', 'used_llm', 'sources', 'refs']);
+    expect($out['refs'])->toBeArray()->not->toBeEmpty();
+    expect($out['refs'][0])->toHaveKeys(['title', 'url']);
+
+    $urls = array_column($out['refs'], 'url');
+    expect($urls)->toBe(array_values(array_unique($urls)));
+});
+
 test('explain_control refs default to an empty array when nothing matches', function () {
     [$pipeline, $corpus] = dispatcherTestPipeline();
     $out = saqr_dispatch('explain_control', ['control_ref' => 'zzzzz-no-such-control'], $pipeline, $corpus);

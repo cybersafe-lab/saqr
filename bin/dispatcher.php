@@ -39,8 +39,30 @@ function saqr_validate_corpus_path(string $path): void {
 }
 
 /**
+ * Union of the refs across several entries, deduped by URL, input order kept.
+ * A comparison answer is synthesized from every entry in `top`, so no single
+ * entry's refs would cover it.
+ *
+ * @param array<int, array<string, mixed>> $entries
+ * @return array<int, array{title: string, url: string}>
+ */
+function saqr_merge_refs(array $entries): array {
+    $byUrl = [];
+    foreach ($entries as $entry) {
+        foreach ($entry['refs'] ?? [] as $ref) {
+            if (isset($ref['url']) && !isset($byUrl[$ref['url']])) {
+                $byUrl[$ref['url']] = $ref;
+            }
+        }
+    }
+    return array_values($byUrl);
+}
+
+/**
  * Translate a Pipeline result into the documented CLI result shape.
  * The spec §3.3 contract: `result` is one of four shapes, keyed on cmd.
+ * Every answer-bearing shape carries `refs` — the official sources a GRC
+ * reader needs to verify it.
  */
 function saqr_dispatch(string $cmd, array $args, Pipeline $pipeline, Corpus $corpus): array {
     switch ($cmd) {
@@ -69,6 +91,7 @@ function saqr_dispatch(string $cmd, array $args, Pipeline $pipeline, Corpus $cor
                 'comparison' => $r['answer'] ?? '',
                 'used_llm' => (bool)($r['used_llm'] ?? false),
                 'sources' => array_map(static fn($t) => $t['id'] ?? $t['category'] ?? 'unknown', $r['top'] ?? []),
+                'refs' => saqr_merge_refs($r['top'] ?? []),
             ];
 
         case 'explain_control':
