@@ -15,6 +15,85 @@ The corpus is plain JSON. The retriever is plain PHP. The optional generator is 
 
 ---
 
+## How it works
+
+```mermaid
+flowchart LR
+    subgraph clients [Surfaces]
+        CLI[saqr-cli]
+        MCP[MCP server - Claude Desktop and Cursor]
+        WP[Website chatbot - same retrieval design]
+    end
+    CLI --> P
+    MCP --> P
+    subgraph library [Saqr library - PHP 8.2]
+        P[Pipeline] --> RL[RateLimiter]
+        P --> R[Retriever - deterministic keyword scoring plus Arabic normalization]
+        R --> C[(Curated JSON corpus - 31 entries, frozen IDs, official-source refs)]
+        P --> G[Generator - optional Anthropic API, strict sanitizer]
+    end
+    P --> OUT[answer plus cited sources]
+```
+
+Retrieval is deterministic: keywords are scored by byte length, which weights
+Arabic terms above their Latin equivalents, and the same input always produces
+the same ranking. Every answer carries the ids of the entries it was built from
+and their official-source refs (empty only for the two self-description entries,
+which cite nothing), so any factual claim can be traced to a regulator
+publication. The LLM layer is optional. With no API key configured, Saqr returns
+the top-ranked curated entry verbatim rather than degrading to a guess. (The
+website chatbot in the diagram is a separate WordPress deployment that
+reimplements this retrieval design; it does not consume the library.)
+
+1. **Corpus**: a JSON file of 31 practitioner-written entries. Each has an `id`
+   (frozen in `corpus/ids.lock`), a `category`, a `framework` label, a list of
+   `keywords` (English and transliterated terms), an `answer`, and `refs`: the
+   official document title and URL behind it.
+2. **Retriever**: lowercase the question, expand any Arabic phrases to their
+   English keyword equivalents, then score each corpus entry by summing the byte
+   lengths of its keywords that appear in the question. Return the top 3 by
+   score. No embeddings; deterministic and explainable.
+3. **Generator** (optional): if `SAQR_ANTHROPIC_KEY` (or `ANTHROPIC_API_KEY`) is
+   set, the top entries are passed to Claude Haiku as `[SOURCE 1]…[SOURCE N]`
+   context with a strict grounding system prompt. The model returns sanitized
+   HTML using only `<strong>`, `<em>`, `<br>`; anything else is unwrapped and
+   re-escaped. If no key is set, the retriever returns the top entry verbatim.
+4. **Rate limiter**: a `RateLimiterInterface` is composed into `Pipeline`. The
+   bundled `InMemoryRateLimiter` is fine for CLI and single-process use; plug in
+   Redis or any other backend for production.
+
+---
+
+## Engineering highlights
+
+- **Test rigor:** 109 Pest tests, 352 assertions, across Unit, Characterization
+  (pins the byte-level Arabic ranking semantics that a reimplementation in
+  another language would silently drift on), Snapshot (ranking regression),
+  Integration (CLI JSON contract), Smoke, and Eval suites, plus 29 vitest tests
+  for the MCP server. CI runs every suite: the unit through eval suites on PHP
+  8.2 and 8.3, the Integration suite on 8.3, the MCP suite on Node 20 and 22. One
+  test, a WordPress handler smoke, skips unless `SAQR_WP_PATH` points at a local
+  install.
+- **Grounded by construction:** answers are assembled from a curated,
+  frozen-ID corpus; every answer-bearing response carries the entries it was
+  retrieved from and their official regulator references.
+- **Bilingual evaluation:** 106 retrieval eval cases (66 English, 40 Arabic)
+  with per-language hit@1 / hit@3 / MRR and a committed overall baseline that CI
+  refuses to regress.
+- **Corpus as code:** `php bin/corpus-lint` runs in CI and enforces the entry
+  schema, frozen IDs, a framework label and at least one official-source ref on
+  every non-META entry, the `{title, url}` shape of each ref, brand-voice style
+  rules (no em-dashes, no puff words), and a prompt-injection blocklist. The
+  style and injection checks cover ref titles and URLs as well as answers, since
+  those reach clients too. A separate `php bin/refs-check` confirms every ref URL
+  still resolves, including a per-host soft-404 guard for `nca.gov.sa` and
+  `cst.gov.sa`, which answer HTTP 200 for paths that do not exist. It hits the
+  network, so it runs at curation time rather than in CI.
+- **No infra:** plain JSON and plain PHP; no embeddings service, no vector DB,
+  no framework.
+
+---
+
 ## Use Saqr from Claude Desktop / Cursor (MCP)
 
 Saqr ships an MCP server so any MCP-compatible AI client can query the corpus as tools.
@@ -74,9 +153,8 @@ All three answer-bearing tools return official sources next to the answer, as a
 `refs` is always present. It is empty for exactly two entries: the META
 self-descriptions (`about-assistant`, `frameworks-index`), which describe the
 assistant rather than a framework and so have nothing to cite. Those two are
-also the entries that answer what new users open with ("help", "which
-frameworks do you cover"), so an empty `refs` is a normal first response, not an
-edge case. Read `refs[0]` defensively.
+also the entries that answer what new users open with ("help", "what frameworks
+do you cover"), so an empty `refs` is a normal first response, not an edge case. Read `refs[0]` defensively.
 
 <!-- ![Saqr tools in Claude Desktop](docs/img/mcp-claude-desktop.png) -->
 
@@ -110,84 +188,6 @@ CLI demo (no setup beyond `composer install`):
 php examples/cli.php "What is NCA ECC?"
 php examples/cli.php "ما هو نظام حماية البيانات الشخصية؟"
 ```
-
----
-
-## How it works
-
-```mermaid
-flowchart LR
-    subgraph clients [Clients]
-        CLI[saqr-cli]
-        MCP[MCP server - Claude Desktop and Cursor]
-        WP[Website chatbot - same retrieval design]
-    end
-    CLI --> P
-    MCP --> P
-    subgraph library [Saqr library - PHP 8.2]
-        P[Pipeline] --> RL[RateLimiter]
-        P --> R[Retriever - deterministic keyword scoring plus Arabic normalization]
-        R --> C[(Curated JSON corpus - 31 entries, frozen IDs, official-source refs)]
-        P --> G[Generator - optional Anthropic API, strict sanitizer]
-    end
-    P --> OUT[answer plus cited sources]
-```
-
-Retrieval is deterministic: keywords are scored by byte length, which weights
-Arabic terms above their Latin equivalents, and the same input always produces
-the same ranking. Every answer carries the ids of the entries it was built from
-and their official-source refs (empty only for the two self-description entries,
-which cite nothing), so any factual claim can be traced to a regulator
-publication. The LLM layer is optional. With no API key configured, Saqr returns
-the top-ranked curated entry verbatim rather than degrading to a guess. (The
-website chatbot in the diagram is a separate WordPress deployment that
-reimplements this retrieval design; it does not consume the library.)
-
-1. **Corpus**: a JSON file of 31 practitioner-written entries. Each has an `id`
-   (frozen in `corpus/ids.lock`), a `category`, a `framework` label, a list of
-   `keywords` (English and transliterated terms), an `answer`, and `refs`: the
-   official document title and URL behind it.
-2. **Retriever**: lowercase the question, expand any Arabic phrases to their
-   English keyword equivalents, then score each corpus entry by summing the byte
-   lengths of its keywords that appear in the question. Return the top 3 by
-   score. No embeddings; deterministic and explainable.
-3. **Generator** (optional): if `SAQR_ANTHROPIC_KEY` (or `ANTHROPIC_API_KEY`) is
-   set, the top entries are passed to Claude Haiku as `[SOURCE 1]…[SOURCE N]`
-   context with a strict grounding system prompt. The model returns sanitized
-   HTML using only `<strong>`, `<em>`, `<br>`; anything else is unwrapped and
-   re-escaped. If no key is set, the retriever returns the top entry verbatim.
-4. **Rate limiter**: a `RateLimiterInterface` is composed into `Pipeline`. The
-   bundled `InMemoryRateLimiter` is fine for CLI and single-process use; plug in
-   Redis or any other backend for production.
-
----
-
-## Engineering highlights
-
-- **Test rigor:** 109 Pest tests, 352 assertions, across Unit, Characterization
-  (pins the byte-level Arabic ranking semantics that a reimplementation in
-  another language would silently drift on), Snapshot (ranking regression),
-  Integration (CLI JSON contract), Smoke, and Eval suites, plus 29 vitest tests
-  for the MCP server. CI runs every suite: the PHP suites on 8.2 and 8.3, the
-  MCP suite on Node 20 and 22. One test, a WordPress handler smoke, skips unless
-  `SAQR_WP_PATH` points at a local install.
-- **Grounded by construction:** answers are assembled from a curated,
-  frozen-ID corpus; every answer-bearing response carries the entries it was
-  retrieved from and their official regulator references.
-- **Bilingual evaluation:** 106 retrieval eval cases (66 English, 40 Arabic)
-  with per-language hit@1 / hit@3 / MRR and a committed baseline that CI refuses
-  to regress.
-- **Corpus as code:** `php bin/corpus-lint` runs in CI and enforces the entry
-  schema, frozen IDs, a framework label and at least one official-source ref on
-  every non-META entry, the `{title, url}` shape of each ref, brand-voice style
-  rules (no em-dashes, no puff words), and a prompt-injection blocklist. The
-  style and injection checks cover ref titles and URLs as well as answers, since
-  those reach clients too. A separate `php bin/refs-check` confirms every ref URL
-  still resolves, including a per-host soft-404 guard for `nca.gov.sa` and
-  `cst.gov.sa`, which answer HTTP 200 for paths that do not exist. It hits the
-  network, so it runs at curation time rather than in CI.
-- **No infra:** plain JSON and plain PHP; no embeddings service, no vector DB,
-  no framework.
 
 ---
 
