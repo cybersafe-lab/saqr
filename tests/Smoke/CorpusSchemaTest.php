@@ -71,6 +71,27 @@ test('lint fails on em-dash in answer', function () {
     unlink($path);
 });
 
+test('lint fails on en-dash in answer', function () {
+    $path = writeTempCorpus([
+        ['id' => 'endash', 'title' => 'En dash', 'category' => 'META', 'framework' => 'META',
+         'keywords' => ['x'], 'answer' => 'This runs 3–6 months.'],
+    ]);
+    $r = runCorpusLint($path);
+    expect($r['code'])->toBe(1)->and($r['output'])->toContain('en-dash in answer');
+    unlink($path);
+});
+
+test('lint fails on en-dash in a ref title', function () {
+    $path = writeTempCorpus([
+        ['id' => 'endash-ref', 'title' => 'En dash ref', 'category' => 'NCA FRAMEWORKS',
+         'framework' => 'NCA', 'keywords' => ['x'], 'answer' => 'ok',
+         'refs' => [['title' => 'NCA ECC – controls list', 'url' => 'https://nca.gov.sa/x']]],
+    ]);
+    $r = runCorpusLint($path);
+    expect($r['code'])->toBe(1)->and($r['output'])->toContain('refs[0] title: em-dash or en-dash');
+    unlink($path);
+});
+
 test('lint fails on a banned puff word', function () {
     $path = writeTempCorpus([
         ['id' => 'puff', 'category' => 'META', 'keywords' => ['x'], 'answer' => 'A comprehensive overview.'],

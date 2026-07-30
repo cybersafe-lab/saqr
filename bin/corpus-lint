@@ -7,12 +7,13 @@ declare(strict_types=1);
  *  - schema: every entry has id, category (allowlisted), non-empty keywords, non-empty answer
  *  - id integrity: unique ids; no duplicate keywords within an entry; ids match corpus/ids.lock
  *  - prompt-injection blocklist on answer (SEC-007)
- *  - style: no em-dash, no banned puff words (corpus/style-bans.txt)
+ *  - style: no em-dash or en-dash, no banned puff words (corpus/style-bans.txt)
  *  - display: every entry carries a non-empty title (the label clients show)
  *  - provenance: every entry carries a non-empty framework label
  *  - provenance: every non-META entry carries >=1 refs item, each {title: non-empty, url: https://...}
- *  - refs content: titles and urls are client-facing, so they get the same
- *    injection-blocklist, em-dash, and puff-word checks as the answer
+ *  - refs content: titles and urls are client-facing, so both get the answer's
+ *    injection blocklist; the style rules run on titles only, since a URL is
+ *    not ours to reword
  * Exit 0 clean, 1 on any violation.
  */
 
@@ -42,6 +43,11 @@ $injectionBlocklist = [
     'ignore previous instructions', 'ignore the above', 'system:',
     '<source>', '</source>', '[SOURCE', 'disregard',
 ];
+
+// Brand voice bans both long dashes: the em-dash as punctuation and the en-dash
+// in ranges ("3-6 months"). Entities too, since answers ship as HTML.
+const DASH_PATTERN = '/\x{2014}|\x{2013}|&mdash;|&ndash;/u';
+const DASH_ADVICE = 'use commas, periods, parentheses, or "to" for a range';
 
 $violations = 0;
 $fail = static function (string $msg) use (&$violations): void {
@@ -93,8 +99,8 @@ foreach ($entries as $i => $entry) {
     }
 
     // Brand-voice style lint.
-    if (preg_match('/\x{2014}|&mdash;/u', (string) $answer)) {
-        $fail("Entry '{$id}': em-dash in answer (use commas, periods, or parentheses)");
+    if (preg_match(DASH_PATTERN, (string) $answer)) {
+        $fail("Entry '{$id}': em-dash or en-dash in answer (" . DASH_ADVICE . ")");
     }
     foreach ($bans as $word) {
         if (preg_match('/\b' . preg_quote($word, '/') . '\b/i', (string) $answer)) {
@@ -130,8 +136,9 @@ foreach ($entries as $i => $entry) {
             continue;
         }
 
-        // Ref titles and urls are served to clients (MCP results, chatbot sources
-        // row), so they carry the same content guards the answer does.
+        // Ref titles and urls are served to clients, so both carry the answer's
+        // injection blocklist. The style rules below run on the title only: a
+        // URL is the publisher's string, not ours to reword.
         foreach ($injectionBlocklist as $needle) {
             if (strpos(strtolower($ref['title']), strtolower($needle)) !== false) {
                 $fail("Entry '{$id}': refs[{$j}] title: forbidden token: {$needle}");
@@ -140,8 +147,8 @@ foreach ($entries as $i => $entry) {
                 $fail("Entry '{$id}': refs[{$j}] url: forbidden token: {$needle}");
             }
         }
-        if (preg_match('/\x{2014}|&mdash;/u', $ref['title'])) {
-            $fail("Entry '{$id}': refs[{$j}] title: em-dash (use commas, periods, or parentheses)");
+        if (preg_match(DASH_PATTERN, $ref['title'])) {
+            $fail("Entry '{$id}': refs[{$j}] title: em-dash or en-dash (" . DASH_ADVICE . ")");
         }
         foreach ($bans as $word) {
             if (preg_match('/\b' . preg_quote($word, '/') . '\b/i', $ref['title'])) {
