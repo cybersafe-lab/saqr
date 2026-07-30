@@ -167,7 +167,7 @@
                 "cloud controls saudi",
                 "csp controls"
             ],
-            "answer": "<strong>NCA CCC</strong> (Cloud Cybersecurity Controls, issued 2020). Applies to both <em>Cloud Service Providers</em> (CSPs) operating in Saudi Arabia and to <em>cloud tenants</em>. Tiered by data classification and service sensitivity: the higher the classification of data you put in the cloud, the tighter the control set. Two practical implications: (1) data localization constraints for sensitive classes, (2) a formal cloud risk assessment before adoption, not after. I usually scope CCC against the data classification from NCA DCC, as they are designed to be read together.",
+            "answer": "<strong>NCA CCC</strong> (Cloud Cybersecurity Controls). The current version is <strong>CCC-2:2024</strong>, which updated and replaced CCC-1:2020. Applies to both <em>Cloud Service Providers</em> (CSPs) operating in Saudi Arabia and to <em>cloud tenants</em> (Cloud Service Tenants, CSTs). Tiered by data classification and service sensitivity: the higher the classification of data you put in the cloud, the tighter the control set. Two practical implications: (1) data localization constraints for sensitive classes, (2) a formal cloud risk assessment before adoption, not after. NCA's stated reason for the 2024 update is that it reflects changes to data localization requirements, so if your cloud assessment was built against CCC-1, re-check the localization assumptions before anything else. I usually scope CCC against the data classification from NCA DCC, as they are designed to be read together.",
             "refs": [
                 {
                     "title": "NCA Cloud Cybersecurity Controls (CCC)",
