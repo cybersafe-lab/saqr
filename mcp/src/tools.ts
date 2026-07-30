@@ -3,7 +3,7 @@ import type { Tool } from "@modelcontextprotocol/sdk/types.js";
 export const TOOLS: Tool[] = [
   {
     name: "saqr_search",
-    description: "Search Saqr's Saudi cybersecurity / data-protection corpus by free-text question. Returns top-3 ranked entries with citations.",
+    description: "Search Saqr's Saudi cybersecurity / data-protection corpus by free-text question. Returns top-3 entries with official-source references.",
     inputSchema: {
       type: "object",
       properties: { question: { type: "string", description: "Free-text question" } },
@@ -12,7 +12,7 @@ export const TOOLS: Tool[] = [
   },
   {
     name: "saqr_compare_frameworks",
-    description: "Compare two Saudi cybersecurity frameworks (NCA ECC, SAMA CSF, CST CRF, Aramco SACS-002, PDPL, ISO 27001) using a curated crosswalk.",
+    description: "Compare two Saudi cybersecurity frameworks (NCA ECC, SAMA CSF, CST CRF, Aramco SACS-210, PDPL, ISO 27001) using a curated crosswalk.",
     inputSchema: {
       type: "object",
       properties: {
@@ -24,7 +24,7 @@ export const TOOLS: Tool[] = [
   },
   {
     name: "saqr_explain_control",
-    description: "Look up a specific control reference (e.g. ECC-2-3-1, SAMA CSF 3.3.5) and return its practitioner explanation.",
+    description: "Look up the corpus entry covering a control reference (e.g. ECC-2-3-1, SAMA CSF 3.3.5). Returns a practitioner explanation of the domain that control belongs to, with official-source references — not the verbatim control text.",
     inputSchema: {
       type: "object",
       properties: { control_ref: { type: "string" } },

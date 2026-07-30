@@ -46,6 +46,33 @@ describe("PhpBridge", () => {
     expect(b.results).toBeInstanceOf(Array);
   });
 
+  // The tool descriptions promise official-source references, so the result
+  // shape has to carry them. 'score' was declared once and always null.
+  it("search results carry refs and no score", async () => {
+    bridge = new PhpBridge({ cliPath: CLI, corpusDefaultPath: CORPUS });
+    const r = await bridge.call("search", { question: "What is the NCA ECC?" }) as {
+      results: Array<Record<string, unknown>>;
+    };
+    expect(r.results.length).toBeGreaterThan(0);
+    const first = r.results[0];
+    expect(Object.keys(first).sort()).toEqual(["content", "framework", "id", "refs", "title"]);
+    const refs = first.refs as Array<{ title: string; url: string }>;
+    expect(refs.length).toBeGreaterThan(0);
+    expect(typeof refs[0].title).toBe("string");
+    expect(refs[0].url).toMatch(/^https:\/\//);
+  });
+
+  it("explain_control returns refs alongside the summary", async () => {
+    bridge = new PhpBridge({ cliPath: CLI, corpusDefaultPath: CORPUS });
+    const r = await bridge.call("explain_control", { control_ref: "ECC-2-3-1" }) as {
+      refs: Array<{ title: string; url: string }>;
+      sources: string[];
+    };
+    expect(r.refs.length).toBeGreaterThan(0);
+    expect(r.refs[0].url).toMatch(/^https:\/\//);
+    expect(r.sources.length).toBeGreaterThan(0);
+  });
+
   it("rejects question longer than 1000 chars", async () => {
     bridge = new PhpBridge({ cliPath: CLI, corpusDefaultPath: CORPUS });
     await expect(bridge.call("search", { question: "a".repeat(1001) }))
