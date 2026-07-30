@@ -72,9 +72,11 @@ adding aliases, since substring matching has no notion of word boundaries:
 - **Definite-article assimilation.** A key beginning with ال never matches the
   لل form: للحوسبة does not contain الحوسبة, and للتدقيق does not contain التدقيق.
   Both aliases were rewritten to stems (حوسبة السحابية, تدقيق). The same trap is
-  live for الموردين (vs للموردين) and الهيئة (vs للهيئة), and stemming those two is
-  not free: موردين → `third party vendor` (11) would outscore `aramco` + `sacs` (10)
-  and pull "إطار SACS الخاص بأرامكو للموردين" away from `aramco-sacs-002`.
+  live for الموردين (vs للموردين), الهيئة (vs للهيئة), and البنك المركزي السعودي (vs
+  للبنك المركزي السعودي, where it quietly keeps `sama-overview` from competing at
+  all). Stemming is not free either: موردين → `third party vendor` (11) would
+  outscore `aramco` + `sacs` (10) and pull "إطار SACS الخاص بأرامكو للموردين" away
+  from `aramco-sacs-002`.
 - **Prefix collisions.** الأطر ("frameworks", → `list frameworks`, 15) is a prefix
   of الأطراف ("parties"), so "الأطراف الثالثة" routes a third-party question to
   `frameworks-index` and outscores `third party` (11). The third-party case uses

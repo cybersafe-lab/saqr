@@ -76,7 +76,7 @@
 {"q": "ما دور البنك المركزي السعودي في الأمن السيبراني؟", "lang": "ar", "expected_ids": ["sama-overview"], "note": "alias 'البنك المركزي السعودي' → 'who is sama saudi central bank'"}
 {"q": "ما هي هيئة الاتصالات والفضاء والتقنية وما القطاع الذي تنظمه؟", "lang": "ar", "expected_ids": ["cst"], "note": "alias 'هيئة الاتصالات' → 'cst communications'"}
 {"q": "ما هي المجالات الرئيسية في ECC وماذا يغطي كل مجال؟", "lang": "ar", "expected_ids": ["ecc-domains"], "note": "Latin acronym inside Arabic; alias 'المجالات الرئيسية' → 'ecc main domains'"}
-{"q": "ما هي ضوابط الأمن السيبراني للحوسبة السحابية في السعودية؟", "lang": "ar", "expected_ids": ["nca-ccc"], "note": "Arabic 'cloud computing cybersecurity controls'; alias 'ضوابط الحوسبة السحابية' → 'nca ccc cloud cybersecurity controls', reached here via the stem alias 'حوسبة السحابية' because 'للحوسبة' assimilates the definite article"}
+{"q": "ما هي ضوابط الأمن السيبراني للحوسبة السحابية في السعودية؟", "lang": "ar", "expected_ids": ["nca-ccc"], "note": "Arabic 'cloud computing cybersecurity controls'; alias 'حوسبة السحابية' (stem of 'ضوابط الحوسبة السحابية', which cannot match 'للحوسبة') → 'nca ccc cloud cybersecurity controls'"}
 {"q": "اشرح ضوابط الأنظمة الحساسة", "lang": "ar", "expected_ids": ["nca-cscc"], "note": "bare-topic phrasing; alias 'ضوابط الأنظمة الحساسة' → 'cscc critical systems controls'"}
 {"q": "ما هي ضوابط البيانات وكيف تصنف البيانات في الجهات الحكومية؟", "lang": "ar", "expected_ids": ["nca-dcc"], "note": "alias 'ضوابط البيانات' → 'nca dcc data'"}
 {"q": "ضوابط العمل عن بعد", "lang": "ar", "expected_ids": ["nca-tcc"], "note": "bare-topic phrasing; alias 'ضوابط العمل عن بعد' → 'nca tcc telework'"}

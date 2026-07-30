@@ -91,8 +91,8 @@ final class Retriever
             'الضوابط الأساسية'                => 'nca ecc essential cybersecurity controls',
             'المجالات الرئيسية'               => 'ecc main domains',
             'ضوابط الأنظمة الحساسة'           => 'cscc critical systems controls',
-            'ضوابط الحوسبة السحابية'          => 'nca ccc cloud cybersecurity controls',
-            // stem: the definite article assimilates in "للحوسبة السحابية"
+            // stem of 'ضوابط الحوسبة السحابية', which it subsumes: the definite
+            // article assimilates in "للحوسبة السحابية"
             'حوسبة السحابية'                  => 'nca ccc cloud cybersecurity controls',
             'ضوابط البيانات'                  => 'nca dcc data',
             'ضوابط العمل عن بعد'              => 'nca tcc telework',
@@ -135,10 +135,13 @@ final class Retriever
             'الموردين'                        => 'third party vendor',
             'قائمة الأطر'                     => 'list frameworks',
             'الأطر'                           => 'list frameworks',
-            // Comparison intents. A comparison entry is only reachable when the
-            // Arabic phrasing names both sides, so these keys carry both; the
-            // value emits the entry's own acronym-pair keywords.
-            'استخدام أيزو'                    => 'iso vs nca iso and ecc',
+            // Comparison intents. A comparison entry only outranks the frameworks
+            // it compares when the Arabic phrasing pins the comparison itself,
+            // by naming both sides or by asking whether one satisfies the other;
+            // the value emits the entry's own acronym-pair keywords. Keep these
+            // keys on the comparison, never on one framework alone: 'استخدام أيزو'
+            // would drag every ordinary "using ISO 27001" question here.
+            'أيزو 27001 لتلبية'               => 'iso vs nca iso and ecc',
             'أيزو 27001 وضوابط'               => 'iso vs nca iso and ecc',
             'مؤسسة النقد أم'                  => 'sama vs nca sama or nca',
             'حماية البيانات الشخصية وضوابط البيانات' => 'pdpl vs dcc pdpl and dcc',
