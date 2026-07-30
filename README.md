@@ -7,7 +7,7 @@
 
 **Grounded retrieval-augmented Q&A library for Saudi Arabia's cybersecurity and data-protection frameworks.**
 
-Saqr (Arabic: *صقر*, "falcon") answers questions about Saudi cybersecurity and data-protection regimes: **NCA** (ECC, CCC, CSCC, DCC, TCC, OSMACC, SCyWF), **SAMA** (CSF, ITGF, BCM), **CST** (CRF), **Aramco** (SACS-210), **SDAIA** (PDPL), and **ISO 27001**. It uses a curated practitioner corpus, deterministic keyword retrieval, and (optionally) an LLM for fluent answer synthesis.
+Saqr (Arabic: *صقر*, "falcon") answers questions about Saudi cybersecurity and data-protection regimes: **NCA** (ECC, CCC, CSCC, DCC, TCC, OTCC, OSMACC, SCyWF), **SAMA** (CSF, ITGF, BCM), **CST** (CRF), **Aramco** (SACS-210), **SDAIA** (PDPL), and **ISO 27001**. It uses a curated practitioner corpus, deterministic keyword retrieval, and (optionally) an LLM for fluent answer synthesis.
 
 The corpus is plain JSON. The retriever is plain PHP. The optional generator is a thin Anthropic Messages API caller. **No vendor lock-in, no embeddings service, no database.**
 
@@ -29,7 +29,7 @@ flowchart LR
     subgraph library [Saqr library - PHP 8.2]
         P[Pipeline] --> RL[RateLimiter]
         P --> R[Retriever - deterministic keyword scoring plus Arabic normalization]
-        R --> C[(Curated JSON corpus - 31 entries, frozen IDs, official-source refs)]
+        R --> C[(Curated JSON corpus - 32 entries, frozen IDs, official-source refs)]
         P --> G[Generator - optional Anthropic API, strict sanitizer]
     end
     P --> OUT[answer plus cited sources]
@@ -198,7 +198,7 @@ php examples/cli.php "ما هو نظام حماية البيانات الشخص�
 
 | Authority | Frameworks in corpus |
 |---|---|
-| **NCA** | ECC, CCC, CSCC, DCC, TCC, OSMACC, SCyWF |
+| **NCA** | ECC, CCC, CSCC, DCC, TCC, OTCC, OSMACC, SCyWF |
 | **SAMA** | CSF, ITGF, BCM |
 | **CST** | CRF |
 | **Saudi Aramco** | SACS-210 / CCC (contractor) |

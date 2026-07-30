@@ -106,3 +106,7 @@
 {"q": "هل شهادة SACS-210 مطلوبة لموردي ارامكو؟", "lang": "ar", "expected_ids": ["aramco-sacs-002"], "note": "alias 'ارامكو' → 'aramco sacs' plus keyword 'sacs-210'"}
 {"q": "وش قانون حمايه البيانات", "lang": "ar", "expected_ids": ["pdpl"], "note": "real user query 2026-07-30; heh-for-taa-marbuta spelling of حماية + colloquial قانون for نظام + dialectal وش"}
 {"q": "ما هو قانون حماية البيانات؟", "lang": "ar", "expected_ids": ["pdpl"], "note": "MSA phrasing using colloquial قانون where the official name says نظام; alias 'قانون حماية البيانات'"}
+{"q":"What is NCA OTCC and who does it apply to?","lang":"en","expected_ids":["nca-otcc"],"note":"OTCC named by acronym"}
+{"q":"Which NCA controls cover industrial control systems and operational technology?","lang":"en","expected_ids":["nca-otcc"],"note":"OTCC by topic, acronym never spoken"}
+{"q":"ضوابط الأمن السيبراني للتقنيات التشغيلية","lang":"ar","expected_ids":["nca-otcc"],"note":"OT controls with the definite article assimilated after lam"}
+{"q":"ضوابط أنظمة التحكم الصناعي في السعودية","lang":"ar","expected_ids":["nca-otcc"],"note":"OTCC expressed as industrial control systems"}

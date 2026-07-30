@@ -150,6 +150,10 @@ final class Retriever
             'ضوابط حسابات التواصل'            => 'nca osmacc social media',
             'سوشال ميديا'                     => 'nca osmacc social media accounts',
             'حسابات المنصات الرسمية'          => 'nca osmacc official social media',
+            // stems, so التقنية/التقنيات and the assimilated للتقنية all land
+            'تقنية التشغيلية'                 => 'nca otcc operational technology cybersecurity',
+            'تقنيات التشغيلية'                => 'nca otcc operational technology cybersecurity',
+            'أنظمة التحكم الصناعي'            => 'otcc industrial control systems cybersecurity',
             'إطار القوى العاملة'              => 'nca scywf workforce',
             'وظائف الأمن السيبراني'           => 'scywf cybersecurity workforce framework',
             'مسارات الوظيفية'                 => 'scywf saudi cybersecurity workforce',
