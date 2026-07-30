@@ -11,7 +11,7 @@ Saqr (Arabic: *صقر*, "falcon") answers questions about Saudi cybersecurity an
 
 The corpus is plain JSON. The retriever is plain PHP. The optional generator is a thin Anthropic Messages API caller. **No vendor lock-in, no embeddings service, no database.**
 
-<!-- ![Saqr chatbot answering with cited sources](docs/img/chatbot-sources.gif) -->
+![Saqr chatbot answering with cited sources](docs/img/chatbot-sources.gif)
 
 ---
 
