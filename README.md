@@ -159,7 +159,7 @@ assistant rather than a framework and so have nothing to cite. Those two are
 also the entries that answer what new users open with ("help", "what frameworks
 do you cover"), so an empty `refs` is a normal first response, not an edge case. Read `refs[0]` defensively.
 
-<!-- ![Saqr tools in Claude Desktop](docs/img/mcp-claude-desktop.png) -->
+![Saqr MCP server answering a PDPL question in MCP Inspector, with official-source refs](docs/img/mcp-inspector.png)
 
 See `docs/mcp.md` for the full integration guide.
 
