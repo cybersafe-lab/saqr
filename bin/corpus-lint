@@ -187,7 +187,7 @@ if (is_file($lockPath) && realpath($path) === realpath(__DIR__ . '/../corpus/fra
     sort($current);
     $missing = array_diff($locked, $current);
     foreach ($missing as $m) {
-        $fail("Frozen id '{$m}' from ids.lock is missing — IDs are immutable; add new ids to the lock, never rename");
+        $fail("Frozen id '{$m}' from ids.lock is missing; IDs are immutable. Add new ids to the lock, never rename.");
     }
 }
 

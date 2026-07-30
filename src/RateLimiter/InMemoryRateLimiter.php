@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Saqr\RateLimiter;
 
 /**
- * In-process rate limiter. Counters live in a static array, so they reset
- * whenever the PHP process restarts. Useful for CLI demos, tests, and
+ * In-process rate limiter. Counters live in an instance property, so they
+ * reset whenever the instance (or the PHP process) goes away. Useful for CLI demos, tests, and
  * single-worker setups; substitute a Redis-backed implementation for any
  * multi-process or multi-host deployment.
  */
