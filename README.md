@@ -308,16 +308,18 @@ any headline metric regresses below `eval/baseline.json`.
 
 | Scope | hit@1 | hit@3 | MRR | n |
 |-------|-------|-------|-----|---|
-| Overall | 0.954 | 0.972 | 0.963 | 108 |
-| en | 0.955 | 0.985 | 0.970 | 66 |
-| ar | 0.952 | 0.952 | 0.952 | 42 |
+| Overall | 0.963 | 0.978 | 0.970 | 135 |
+| en | 0.956 | 0.985 | 0.971 | 68 |
+| ar | 0.970 | 0.970 | 0.970 | 67 |
 
 Read the `ar` figure for what it is: corpus keywords are English, so an Arabic
-question only retrieves when `Retriever::normalizeArabic` recognizes one of its
-phrasings, which makes 0.952 a measure of alias coverage over the phrasings in
-this set rather than open-domain Arabic understanding. The five known misses and
-the three Arabic substring traps behind them are written up in
-[docs/eval.md](docs/eval.md). Regenerate the report locally with
+question only retrieves when `Retriever` recognizes one of its phrasings, which
+makes 0.970 a measure of alias coverage over the phrasings in this set rather
+than open-domain Arabic understanding. Retrieval matches against a normalized
+copy of the question (Unicode folds for diacritics, tatweel, hamza, taa marbuta,
+Arabic-Indic digits, and dash variants); the question the generator sees is never
+touched. The five known misses and the Arabic substring traps behind them are
+written up in [docs/eval.md](docs/eval.md). Regenerate the report locally with
 `php bin/saqr-eval`.
 
 ---

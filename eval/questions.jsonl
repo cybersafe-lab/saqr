@@ -110,3 +110,26 @@
 {"q":"Which NCA controls cover industrial control systems and operational technology?","lang":"en","expected_ids":["nca-otcc"],"note":"OTCC by topic, acronym never spoken"}
 {"q":"ضوابط الأمن السيبراني للتقنيات التشغيلية","lang":"ar","expected_ids":["nca-otcc"],"note":"OT controls with the definite article assimilated after lam"}
 {"q":"ضوابط أنظمة التحكم الصناعي في السعودية","lang":"ar","expected_ids":["nca-otcc"],"note":"OTCC expressed as industrial control systems"}
+{"q":"وش الضوابط الاساسيه للامن السيبراني","lang":"ar","expected_ids":["nca-ecc"],"note":"alef and taa-marbuta folding in colloquial phrasing"}
+{"q":"وش المطلوب للضوابط الاساسيه","lang":"ar","expected_ids":["nca-ecc"],"note":"lam plus definite-article assimilation; requires safe ECC stem"}
+{"q":"ايش ضوابط السحابه عند NCA","lang":"ar","expected_ids":["nca-ccc"],"note":"Saudi shorthand for cloud controls"}
+{"q":"وش ظوابط الانظمه الحساسه","lang":"ar","expected_ids":["nca-cscc"],"note":"frequent ض/ظ typo plus shortened critical-systems title"}
+{"q":"كيف نصنف البيانات حسب ضوابط NCA","lang":"ar","expected_ids":["nca-dcc"],"note":"DCC expressed as data classification, not official title"}
+{"q":"دوام من البيت وش ضوابطه السيبرانيه","lang":"ar","expected_ids":["nca-tcc"],"note":"colloquial remote-work phrasing"}
+{"q":"وش ضوابط حسابات السوشال ميديا للجهه","lang":"ar","expected_ids":["nca-osmacc"],"note":"Saudi code-switching for official social-media accounts"}
+{"q":"اطار الوظايف والمسارات السيبرانيه للهيئه","lang":"ar","expected_ids":["nca-scywf"],"note":"workforce framework expressed through jobs and career paths"}
+{"q":"ايش متطلبات السايبر للبنوك من ساما","lang":"ar","expected_ids":["sama-csf"],"note":"colloquial SAMA CSF phrasing; must outrank sama-overview"}
+{"q":"وش حوكمه الاي تي في ساما","lang":"ar","expected_ids":["sama-itgf"],"note":"IT governance expressed using Arabic-English shorthand"}
+{"q":"خطه استمراريه الاعمال للبنك وش تشمل","lang":"ar","expected_ids":["sama-bcm"],"note":"heh spellings and BCM without the exact official title"}
+{"q":"اطار تنظيم الامن السيبراني لقطاع الاتصالات","lang":"ar","expected_ids":["cst-crf"],"note":"CRF paraphrase without التنظيمي exact form"}
+{"q":"وش SACS 210 المطلوب من مقاولين ارامكو","lang":"ar","expected_ids":["aramco-sacs-002"],"note":"space instead of hyphen plus contractor synonym"}
+{"q":"قانون حِماية البيانات وش يلزمني فيه","lang":"ar","expected_ids":["pdpl"],"note":"Arabic diacritic inside an otherwise valid alias"}
+{"q":"وش نظام حمايـة البيانات الشخصيه","lang":"ar","expected_ids":["pdpl"],"note":"tatweel plus heh-for-taa-marbuta"}
+{"q":"هل ايزو ٢٧٠٠١ الزامي بالسعوديه","lang":"ar","expected_ids":["iso-27001"],"note":"Arabic-Indic digits and colloquial orthography"}
+{"q":"هل إيزو 27001 مطلوب عندنا","lang":"ar","expected_ids":["iso-27001"],"note":"alef-below transliteration variant"}
+{"q":"وش ISO–27001 وهل هو الزامي","lang":"ar","expected_ids":["iso-27001"],"note":"Unicode en dash in ISO identifier"}
+{"q":"وش نكا ودورها بالامن السيبراني","lang":"ar","expected_ids":["nca-overview"],"note":"Arabic transliteration of NCA"}
+{"q":"وش الفرق بين اي سي سي وسي سي سي","lang":"ar","expected_ids":["ecc-vs-ccc"],"note":"Arabic transliterations of ECC and CCC in comparison intent"}
+{"q":"كيف نقيس نضجنا السيبراني","lang":"ar","expected_ids":["maturity"],"note":"bare inflected maturity stem"}
+{"q":"كيف نستعد للمراجعه الرقابيه","lang":"ar","expected_ids":["audit"],"note":"audit expressed as regulatory review"}
+{"q":"مخاطر الموردون والمقاولين كيف نديرها","lang":"ar","expected_ids":["third-party"],"note":"nominative plural and contractor synonym"}
