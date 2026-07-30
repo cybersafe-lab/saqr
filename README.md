@@ -67,7 +67,7 @@ reimplements this retrieval design; it does not consume the library.)
 
 ## Engineering highlights
 
-- **Test rigor:** 117 Pest tests, 373 assertions, across Unit, Characterization
+- **Test rigor:** 122 Pest tests, 387 assertions, across Unit, Characterization
   (pins the byte-level Arabic ranking semantics that a reimplementation in
   another language would silently drift on), Snapshot (ranking regression),
   Integration (CLI JSON contract), Smoke, and Eval suites, plus 29 vitest tests
