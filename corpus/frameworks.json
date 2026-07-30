@@ -332,7 +332,7 @@
                 "sama governance framework",
                 "sama it governance framework"
             ],
-            "answer": "<strong>SAMA ITGF</strong> (IT Governance Framework). The IT governance framework all SAMA-regulated banks and financial institutions must comply with. Expects: a <em>3 lines of defence</em> model, board-level IT risk ownership, KRIs and KPIs tied to real decisions, and inspection-readiness as an ongoing posture, not a point-in-time exercise. <strong>Read it as a decision framework, not a checklist.</strong> SAMA is asking whether your decisions are defensible, not whether you have the controls. I have reduced critical audit findings by ~35% at a Tier-1 bank by applying exactly that reading.",
+            "answer": "<strong>SAMA ITGF</strong> (IT Governance Framework). The IT governance framework all SAMA-regulated banks and financial institutions must comply with. Expects: a <em>3 lines of defence</em> model, board-level IT risk ownership, KRIs and KPIs tied to real decisions, and inspection-readiness as an ongoing posture, not a point-in-time exercise. <strong>Read it as a decision framework, not a checklist.</strong> SAMA is asking whether your decisions are defensible, not whether you have the controls. I have applied that reading at a Tier-1 bank to bring critical audit findings down, by giving every IT risk decision a named owner, a stated rationale, and evidence an inspector can follow.",
             "refs": [
                 {
                     "title": "SAMA Information Technology Governance Framework (ITGF)",
@@ -667,7 +667,7 @@
                 "inspection",
                 "examination"
             ],
-            "answer": "<strong>Audit findings are usually capture problems, not control problems.</strong> If your risk register is filled in by people who do not trust it, you will close findings and grow new ones at the same rate. The fix is upstream: make the act of capturing risk produce useful inputs (asset classification, residual scoring, KRI links, ownership at the right level). I have used this approach to reduce critical findings ~35% in 6 months at a Tier-1 bank, without a tool change.",
+            "answer": "<strong>Audit findings are usually capture problems, not control problems.</strong> If your risk register is filled in by people who do not trust it, you will close findings and grow new ones at the same rate. The fix is upstream: make the act of capturing risk produce useful inputs (asset classification, residual scoring, KRI links, ownership at the right level). I have used this approach at a Tier-1 bank to bring critical findings down without a tool change, because the register started producing the evidence the findings asked for.",
             "refs": [
                 {
                     "title": "SAMA Information Technology Governance Framework (ITGF)",
