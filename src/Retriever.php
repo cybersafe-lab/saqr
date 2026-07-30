@@ -33,7 +33,7 @@ final class Retriever
     }
 
     /**
-     * @return array<int, array{category: ?string, keywords: array<int, string>, answer: string}>
+     * @return array<int, array{id: ?string, title: ?string, framework: ?string, category: ?string, keywords: array<int, string>, answer: string, refs: array<int, array{title: string, url: string}>}>
      */
     public function retrieveTopK(string $question, int $k = 3): array
     {
@@ -89,8 +89,11 @@ final class Retriever
             'الهيئة الوطنية'                  => 'national cybersecurity authority',
             'الضوابط الأساسية للأمن السيبراني' => 'nca ecc essential cybersecurity controls',
             'الضوابط الأساسية'                => 'nca ecc essential cybersecurity controls',
-            'ضوابط الأنظمة الحساسة'           => 'nca ccc critical systems',
-            'ضوابط الحوسبة السحابية'          => 'nca cscc cloud',
+            'المجالات الرئيسية'               => 'ecc main domains',
+            'ضوابط الأنظمة الحساسة'           => 'cscc critical systems controls',
+            // stem of 'ضوابط الحوسبة السحابية', which it subsumes: the definite
+            // article assimilates in "للحوسبة السحابية"
+            'حوسبة السحابية'                  => 'nca ccc cloud cybersecurity controls',
             'ضوابط البيانات'                  => 'nca dcc data',
             'ضوابط العمل عن بعد'              => 'nca tcc telework',
             'ضوابط حسابات التواصل'            => 'nca osmacc social media',
@@ -100,10 +103,13 @@ final class Retriever
             'مؤسسة النقد'                     => 'who is sama',
             'ساما'                            => 'who is sama',
             'إطار الأمن السيبراني ساما'       => 'sama csf cyber security framework',
+            'إطار الأمن السيبراني لمؤسسة النقد' => 'sama csf sama cyber security framework',
+            'إطار الأمن السيبراني للبنك المركزي' => 'sama csf sama cyber security framework',
             'إطار حوكمة تقنية المعلومات'      => 'sama itgf it governance',
             'استمرارية الأعمال'               => 'sama bcm business continuity',
             // CST / Aramco / PDPL / SDAIA / ISO
             'هيئة الاتصالات'                  => 'cst communications',
+            'قطاع الاتصالات'                  => 'cst telecom regulator',
             'الإطار التنظيمي للأمن السيبراني' => 'cst crf',
             'أرامكو'                          => 'aramco sacs',
             'ارامكو'                          => 'aramco sacs',
@@ -122,12 +128,24 @@ final class Retriever
             'كيف أبدأ'                        => 'where do i start',
             'النضج'                           => 'maturity',
             'مستوى النضج'                     => 'maturity',
-            'التدقيق'                         => 'audit',
+            // stem, not 'التدقيق': the definite article assimilates in "للتدقيق"
+            'تدقيق'                           => 'audit',
             'الفحص'                           => 'audit inspection',
             'الطرف الثالث'                    => 'third party',
             'الموردين'                        => 'third party vendor',
             'قائمة الأطر'                     => 'list frameworks',
             'الأطر'                           => 'list frameworks',
+            // Comparison intents. A comparison entry only outranks the frameworks
+            // it compares when the Arabic phrasing pins the comparison itself,
+            // by naming both sides or by asking whether one satisfies the other;
+            // the value emits the entry's own acronym-pair keywords. Keep these
+            // keys on the comparison, never on one framework alone: 'استخدام أيزو'
+            // would drag every ordinary "using ISO 27001" question here.
+            'أيزو 27001 لتلبية'               => 'iso vs nca iso and ecc',
+            'أيزو 27001 وضوابط'               => 'iso vs nca iso and ecc',
+            'مؤسسة النقد أم'                  => 'sama vs nca sama or nca',
+            'حماية البيانات الشخصية وضوابط البيانات' => 'pdpl vs dcc pdpl and dcc',
+            'الفرق بين متطلبات أرامكو'        => 'aramco vs nca aramco and nca',
         ];
 
         $aliases = '';

@@ -7,7 +7,15 @@ declare(strict_types=1);
  *  - schema: every entry has id, category (allowlisted), non-empty keywords, non-empty answer
  *  - id integrity: unique ids; no duplicate keywords within an entry; ids match corpus/ids.lock
  *  - prompt-injection blocklist on answer (SEC-007)
- * Style lint (em-dash / puff words) is appended in a later task.
+ *  - style: no em-dash or en-dash, no banned puff words (corpus/style-bans.txt)
+ *  - display: every entry carries a non-empty title (the label clients show),
+ *    and that title gets the same injection blocklist and style rules as the
+ *    answer, since it reaches clients too
+ *  - provenance: every entry carries a non-empty framework label
+ *  - provenance: every non-META entry carries >=1 refs item, each {title: non-empty, url: https://...}
+ *  - refs content: titles and urls are client-facing, so both get the answer's
+ *    injection blocklist; the style rules run on titles only, since a URL is
+ *    not ours to reword
  * Exit 0 clean, 1 on any violation.
  */
 
@@ -37,6 +45,11 @@ $injectionBlocklist = [
     'ignore previous instructions', 'ignore the above', 'system:',
     '<source>', '</source>', '[SOURCE', 'disregard',
 ];
+
+// Brand voice bans both long dashes: the em-dash as punctuation and the en-dash
+// in ranges ("3-6 months"). Entities too, since answers ship as HTML.
+const DASH_PATTERN = '/\x{2014}|\x{2013}|&mdash;|&ndash;/u';
+const DASH_ADVICE = 'use commas, periods, parentheses, or "to" for a range';
 
 $violations = 0;
 $fail = static function (string $msg) use (&$violations): void {
@@ -88,12 +101,77 @@ foreach ($entries as $i => $entry) {
     }
 
     // Brand-voice style lint.
-    if (preg_match('/\x{2014}|&mdash;/u', (string) $answer)) {
-        $fail("Entry '{$id}': em-dash in answer (use commas, periods, or parentheses)");
+    if (preg_match(DASH_PATTERN, (string) $answer)) {
+        $fail("Entry '{$id}': em-dash or en-dash in answer (" . DASH_ADVICE . ")");
     }
     foreach ($bans as $word) {
         if (preg_match('/\b' . preg_quote($word, '/') . '\b/i', (string) $answer)) {
             $fail("Entry '{$id}': banned puff word: {$word}");
+        }
+    }
+
+    // Showcase sprint: title + framework label + official source refs.
+    // The title is what an MCP client prints above the answer, so an entry
+    // without one has no label a reader can recognize.
+    $title = $entry['title'] ?? null;
+    if (!is_string($title) || trim($title) === '') {
+        $fail("Entry '{$id}': missing title");
+    } else {
+        // A title ships to clients next to the answer, so it carries the same
+        // injection blocklist and the same style rules.
+        foreach ($injectionBlocklist as $needle) {
+            if (strpos(strtolower($title), strtolower($needle)) !== false) {
+                $fail("Entry '{$id}': forbidden token in title: {$needle}");
+            }
+        }
+        if (preg_match(DASH_PATTERN, $title)) {
+            $fail("Entry '{$id}': em-dash or en-dash in title (" . DASH_ADVICE . ")");
+        }
+        foreach ($bans as $word) {
+            if (preg_match('/\b' . preg_quote($word, '/') . '\b/i', $title)) {
+                $fail("Entry '{$id}': banned puff word in title: {$word}");
+            }
+        }
+    }
+
+    $fw = $entry['framework'] ?? null;
+    if (!is_string($fw) || trim($fw) === '') {
+        $fail("Entry '{$id}': missing framework label");
+    }
+
+    $refs = $entry['refs'] ?? null;
+    if (array_key_exists('refs', $entry) && !is_array($refs)) {
+        // META is exempt from *needing* refs, not from the shape of the key.
+        $fail("Entry '{$id}': refs must be an array");
+    } elseif (($entry['category'] ?? '') !== 'META' && (!is_array($refs) || $refs === [])) {
+        $fail("Entry '{$id}': missing refs (official source citations)");
+    }
+    foreach (is_array($refs) ? $refs : [] as $j => $ref) {
+        if (!is_array($ref) || !isset($ref['title'], $ref['url'])
+            || !is_string($ref['title']) || trim($ref['title']) === ''
+            || !is_string($ref['url']) || !str_starts_with($ref['url'], 'https://')) {
+            $fail("Entry '{$id}': refs[{$j}] must be {title: non-empty, url: https://...}");
+            continue;
+        }
+
+        // Ref titles and urls are served to clients, so both carry the answer's
+        // injection blocklist. The style rules below run on the title only: a
+        // URL is the publisher's string, not ours to reword.
+        foreach ($injectionBlocklist as $needle) {
+            if (strpos(strtolower($ref['title']), strtolower($needle)) !== false) {
+                $fail("Entry '{$id}': refs[{$j}] title: forbidden token: {$needle}");
+            }
+            if (strpos(strtolower($ref['url']), strtolower($needle)) !== false) {
+                $fail("Entry '{$id}': refs[{$j}] url: forbidden token: {$needle}");
+            }
+        }
+        if (preg_match(DASH_PATTERN, $ref['title'])) {
+            $fail("Entry '{$id}': refs[{$j}] title: em-dash or en-dash (" . DASH_ADVICE . ")");
+        }
+        foreach ($bans as $word) {
+            if (preg_match('/\b' . preg_quote($word, '/') . '\b/i', $ref['title'])) {
+                $fail("Entry '{$id}': refs[{$j}] title: banned puff word: {$word}");
+            }
         }
     }
 }

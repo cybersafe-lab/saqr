@@ -58,7 +58,18 @@ final class Pipeline
      *     'top'        => array<int, KbEntry>,
      *   ]
      *
-     * @return array{ok: bool, reason: ?string, answer: ?string, used_llm: bool, top: array<int, array{category: ?string, keywords: array<int, string>, answer: string}>}
+     * A `top` entry is a corpus entry passed through verbatim. For a corpus
+     * built by Corpus::loadFromFile, `refs` is always present (possibly empty)
+     * and the id/title/framework keys always exist (possibly null). The shipped
+     * corpus additionally guarantees a non-null framework, and — the limit worth
+     * knowing — refs only on every *non-META* entry; bin/corpus-lint enforces
+     * both. The META entries (about-assistant, frameworks-index) carry no refs
+     * and answer ordinary queries like "help" or "what frameworks", so a hit
+     * with `refs => []` is normal: never index refs[0] unguarded.
+     * bin/dispatcher.php surfaces refs and framework to MCP clients, so entries
+     * must keep those keys.
+     *
+     * @return array{ok: bool, reason: ?string, answer: ?string, used_llm: bool, top: array<int, array{id: ?string, title: ?string, framework: ?string, category: ?string, refs: array<int, array{title: string, url: string}>, keywords: array<int, string>, answer: string}>}
      */
     public function ask(string $question, string $clientId = 'anonymous'): array
     {

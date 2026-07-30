@@ -14,24 +14,28 @@ use Saqr\Exception\InvalidCorpusException;
  *   "language": "en",
  *   "entries": [
  *     { "id": "...", "title": "...", "framework": "...",
- *       "category": "...", "keywords": ["..."], "answer": "..." },
+ *       "category": "...", "keywords": ["..."], "answer": "...",
+ *       "refs": [{ "title": "...", "url": "..." }] },
  *     ...
  *   ]
  * }
  *
  * Required per-entry fields: keywords + answer.
- * Optional (preserved when present): id, title, framework, category.
+ * Optional (preserved when present): id, title, framework, category, refs.
+ * A "refs" entry that is not an object carrying string title + url is
+ * dropped; entries without "refs" normalize to an empty array, so every
+ * consumer can read $entry['refs'] unconditionally.
  * Consumers that surface entries to downstream clients (e.g. the MCP
  * tool result mapper in bin/dispatcher.php) rely on these fields being
  * preserved verbatim when supplied.
  */
 final class Corpus
 {
-    /** @var array<int, array{id: ?string, title: ?string, framework: ?string, category: ?string, keywords: array<int, string>, answer: string}> */
+    /** @var array<int, array{id: ?string, title: ?string, framework: ?string, category: ?string, keywords: array<int, string>, answer: string, refs: array<int, array{title: string, url: string}>}> */
     private array $entries;
 
     /**
-     * @param array<int, array{id?: ?string, title?: ?string, framework?: ?string, category?: ?string, keywords: array<int, string>, answer: string}> $entries
+     * @param array<int, array{id?: ?string, title?: ?string, framework?: ?string, category?: ?string, keywords: array<int, string>, answer: string, refs?: array<int, array{title: string, url: string}>}> $entries
      */
     public function __construct(array $entries)
     {
@@ -71,6 +75,16 @@ final class Corpus
                 'title'     => isset($entry['title']) && is_string($entry['title']) ? $entry['title'] : null,
                 'framework' => isset($entry['framework']) && is_string($entry['framework']) ? $entry['framework'] : null,
                 'category'  => isset($entry['category']) && is_string($entry['category']) ? $entry['category'] : null,
+                'refs'      => isset($entry['refs']) && is_array($entry['refs'])
+                    ? array_values(array_filter(array_map(
+                        static fn ($r) => is_array($r)
+                            && isset($r['title'], $r['url'])
+                            && is_string($r['title']) && is_string($r['url'])
+                            ? ['title' => $r['title'], 'url' => $r['url']]
+                            : null,
+                        $entry['refs']
+                    )))
+                    : [],
                 'keywords'  => array_values(array_filter($entry['keywords'], 'is_string')),
                 'answer'    => $entry['answer'],
             ];
@@ -80,7 +94,7 @@ final class Corpus
     }
 
     /**
-     * @return array<int, array{id: ?string, title: ?string, framework: ?string, category: ?string, keywords: array<int, string>, answer: string}>
+     * @return array<int, array{id: ?string, title: ?string, framework: ?string, category: ?string, keywords: array<int, string>, answer: string, refs: array<int, array{title: string, url: string}>}>
      */
     public function all(): array
     {

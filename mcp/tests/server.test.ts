@@ -28,6 +28,17 @@ describe("MCP tool surface", () => {
     }
   });
 
+  // Descriptions steer which tool the calling model picks, so they must name
+  // the designation Aramco's CCC program cites today. The corpus carries
+  // SACS-002 as the historical designation suppliers still hear, and says
+  // nowhere that one replaced the other; a tool description offering to compare
+  // SACS-002 would advertise a number Aramco's current CCC materials do not use.
+  it("names the designation Aramco cites today, not the historical one", () => {
+    const compare = TOOLS.find(t => t.name === "saqr_compare_frameworks")!.description ?? "";
+    expect(compare).toContain("SACS-210");
+    expect(compare).not.toContain("SACS-002");
+  });
+
   it("required fields are declared on schemas that need them", () => {
     expect(TOOLS.find(t => t.name === "saqr_search")!.inputSchema.required).toContain("question");
     expect(TOOLS.find(t => t.name === "saqr_compare_frameworks")!.inputSchema.required).toEqual(["framework_a", "framework_b"]);

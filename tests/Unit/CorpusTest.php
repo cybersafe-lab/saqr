@@ -39,3 +39,30 @@ test('duplicate ids in corpus both load without error', function () {
     expect($c->all()[0]['id'])->toBe('dup');
     expect($c->all()[1]['id'])->toBe('dup');
 });
+
+test('loadFromFile preserves well-formed refs and defaults to empty array', function () {
+    $path = tempnam(sys_get_temp_dir(), 'saqr');
+    file_put_contents($path, json_encode(['entries' => [
+        ['keywords' => ['a'], 'answer' => 'x',
+         'refs' => [['title' => 'NCA ECC', 'url' => 'https://nca.gov.sa/x']]],
+        ['keywords' => ['b'], 'answer' => 'y'],
+    ]]));
+    $entries = Corpus::loadFromFile($path)->all();
+    unlink($path);
+    expect($entries[0]['refs'])->toBe([['title' => 'NCA ECC', 'url' => 'https://nca.gov.sa/x']]);
+    expect($entries[1]['refs'])->toBe([]);
+});
+
+test('loadFromFile drops malformed ref items', function () {
+    $path = tempnam(sys_get_temp_dir(), 'saqr');
+    file_put_contents($path, json_encode(['entries' => [
+        ['keywords' => ['a'], 'answer' => 'x', 'refs' => [
+            ['title' => 'ok', 'url' => 'https://example.gov.sa/d'],
+            ['title' => 'no url'],
+            'not-an-object',
+        ]],
+    ]]));
+    $entries = Corpus::loadFromFile($path)->all();
+    unlink($path);
+    expect($entries[0]['refs'])->toBe([['title' => 'ok', 'url' => 'https://example.gov.sa/d']]);
+});

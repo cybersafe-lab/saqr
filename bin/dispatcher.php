@@ -39,8 +39,30 @@ function saqr_validate_corpus_path(string $path): void {
 }
 
 /**
+ * Union of the refs across several entries, deduped by URL, input order kept.
+ * A comparison answer is synthesized from every entry in `top`, so no single
+ * entry's refs would cover it.
+ *
+ * @param array<int, array<string, mixed>> $entries
+ * @return array<int, array{title: string, url: string}>
+ */
+function saqr_merge_refs(array $entries): array {
+    $byUrl = [];
+    foreach ($entries as $entry) {
+        foreach ($entry['refs'] ?? [] as $ref) {
+            if (isset($ref['url']) && !isset($byUrl[$ref['url']])) {
+                $byUrl[$ref['url']] = $ref;
+            }
+        }
+    }
+    return array_values($byUrl);
+}
+
+/**
  * Translate a Pipeline result into the documented CLI result shape.
  * The spec §3.3 contract: `result` is one of four shapes, keyed on cmd.
+ * Every answer-bearing shape carries `refs` — the official sources a GRC
+ * reader needs to verify it.
  */
 function saqr_dispatch(string $cmd, array $args, Pipeline $pipeline, Corpus $corpus): array {
     switch ($cmd) {
@@ -53,10 +75,10 @@ function saqr_dispatch(string $cmd, array $args, Pipeline $pipeline, Corpus $cor
             return [
                 'results' => array_map(static fn($t) => [
                     'id' => $t['id'] ?? null,
-                    'title' => $t['title'] ?? $t['category'] ?? null,
-                    'score' => $t['score'] ?? null,
+                    'title' => $t['title'] ?? null,
                     'framework' => $t['framework'] ?? null,
                     'content' => $t['answer'] ?? '',
+                    'refs' => $t['refs'] ?? [],
                 ], $r['top']),
                 'query_normalized' => $r['query_normalized'] ?? $q,
             ];
@@ -65,10 +87,18 @@ function saqr_dispatch(string $cmd, array $args, Pipeline $pipeline, Corpus $cor
             $a = $args['framework_a'] ?? '';
             $b = $args['framework_b'] ?? '';
             $r = $pipeline->ask("Compare {$a} and {$b}");
+            $top = $r['top'] ?? [];
+            $usedLlm = (bool)($r['used_llm'] ?? false);
             return [
                 'comparison' => $r['answer'] ?? '',
-                'used_llm' => (bool)($r['used_llm'] ?? false),
-                'sources' => array_map(static fn($t) => $t['id'] ?? $t['category'] ?? 'unknown', $r['top'] ?? []),
+                'used_llm' => $usedLlm,
+                'sources' => array_map(static fn($t) => $t['id'] ?? $t['category'] ?? 'unknown', $top),
+                // refs must describe the answer that shipped, not the retrieval.
+                // A synthesized comparison draws on every entry in `top`, so it
+                // gets the union. With no API key Pipeline falls back to top[0]'s
+                // answer verbatim, and only that entry's refs support it: merging
+                // there would present unread documents as its sources.
+                'refs' => $usedLlm ? saqr_merge_refs($top) : ($top[0]['refs'] ?? []),
             ];
 
         case 'explain_control':
@@ -79,6 +109,7 @@ function saqr_dispatch(string $cmd, array $args, Pipeline $pipeline, Corpus $cor
                 'control_id' => $ref,
                 'framework' => $first['framework'] ?? null,
                 'summary' => $first['answer'] ?? '',
+                'refs' => $first['refs'] ?? [],
                 'sources' => array_map(static fn($t) => $t['id'] ?? $t['category'] ?? 'unknown', $r['top'] ?? []),
             ];
 

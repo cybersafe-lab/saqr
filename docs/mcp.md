@@ -13,10 +13,67 @@ Saqr's Saudi cybersecurity corpus as tools for any MCP-compatible client.
 
 | Tool | Inputs | What it does |
 |---|---|---|
-| `saqr_search` | `{question: string}` | Free-text search; top-3 ranked entries with citations |
-| `saqr_compare_frameworks` | `{framework_a: string, framework_b: string}` | Crosswalk between two KSA frameworks |
-| `saqr_explain_control` | `{control_ref: string}` | Practitioner explanation of a specific control (e.g. ECC-2-3-1) |
-| `saqr_show_corpus` | `{}` | List frameworks covered |
+| `saqr_search` | `{question: string}` | Free-text search of the corpus; returns up to 3 entries with official-source references |
+| `saqr_compare_frameworks` | `{framework_a: string, framework_b: string}` | Crosswalk between two KSA frameworks, with the references behind the answer it returns |
+| `saqr_explain_control` | `{control_ref: string}` | Looks up the entry covering the control's domain (e.g. `ECC-2-3-1`, `SAMA CSF 3.3.5`) and explains that domain, with references |
+| `saqr_show_corpus` | `{}` | Lists the frameworks covered and the entry count |
+
+### Result shapes
+
+```jsonc
+// saqr_search
+{ "results": [ { "id": "pdpl",
+                 "title": "Personal Data Protection Law (PDPL)",
+                 "framework": "SDAIA",
+                 "content": "<strong>PDPL</strong> ...",
+                 "refs": [ { "title": "...", "url": "https://..." } ] } ],
+  "query_normalized": "What is PDPL?" }
+
+// saqr_compare_frameworks
+{ "comparison": "...", "used_llm": false,
+  "sources": ["iso-27001", "nca-ecc"],
+  "refs": [ { "title": "...", "url": "https://..." } ] }
+
+// saqr_explain_control
+{ "control_id": "ECC-2-3-1", "framework": "NCA", "summary": "...",
+  "refs": [ { "title": "...", "url": "https://..." } ],
+  "sources": ["nca-ecc"] }
+
+// saqr_show_corpus
+{ "frameworks": ["NCA", "SDAIA", "SAMA", "..."], "entry_count": 31 }
+```
+
+`saqr_search` returns **up to** 3 results, fewer when fewer entries match and an
+empty `results` array when none do. Results are ordered best-first, but there is
+no `score` field: the retriever scores by keyword byte length internally and does
+not expose the number, so do not build a confidence threshold on this API.
+`query_normalized` echoes the question as received. `sources` on the other two
+tools lists the ids of the entries retrieved, in retrieval order.
+
+`saqr_explain_control` does **not** return the verbatim text of a control. Saqr's
+corpus is practitioner notes, not regulator text, so the tool resolves the
+reference to the entry covering that control's domain and explains the domain.
+`control_id` echoes what you asked for; `refs` points at the regulator document
+where the control itself is published.
+
+### Official-source references
+
+All three answer-bearing tools return a `refs` array of `{title, url}` objects
+next to the answer, so any factual claim can be checked against the regulator's
+own publication.
+
+| Tool | What `refs` holds |
+|---|---|
+| `saqr_search` | the refs of each returned entry, per result |
+| `saqr_explain_control` | the refs of the entry that answered the lookup |
+| `saqr_compare_frameworks` | when `used_llm` is true, the union of the refs of every entry the comparison drew on, deduplicated by URL, retrieval order kept; when it is false the answer is one entry's text verbatim, so `refs` narrows to that entry's own refs |
+
+`refs` is always present. It is empty for exactly two entries: the META
+self-descriptions (`about-assistant`, `frameworks-index`), which describe the
+assistant rather than a framework and so have nothing to cite. Those two are also
+the entries that answer what new users open with ("help", "what frameworks do
+you cover"), so `refs: []` is a normal first response, not an edge case. Read
+`refs[0]` defensively.
 
 ## Environment variables
 

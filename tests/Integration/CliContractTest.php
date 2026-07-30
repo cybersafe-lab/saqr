@@ -18,15 +18,17 @@ test('once show_corpus returns ok + entry_count', function () {
     expect($resp['result']['entry_count'])->toBeInt()->toBeGreaterThanOrEqual(25);
 });
 
-test('once search returns results array with id+score+content', function () {
+test('once search returns results array with the documented result keys', function () {
     $cmd = 'php ' . saqrCli() . ' once search ' . escapeshellarg('What is PDPL?');
     $out = shell_exec($cmd . ' 2>/dev/null');
     $resp = json_decode(trim($out), true);
     expect($resp['ok'])->toBeTrue();
     expect($resp['result']['results'])->toBeArray()->not->toBeEmpty();
-    // 'id' and 'score' MAY be null on production corpus entries (they don't have those fields).
-    // Just assert the keys exist on the first result.
-    expect($resp['result']['results'][0])->toHaveKeys(['id', 'score', 'content']);
+    // id/title/framework MAY be null on a corpus that omits them; assert the
+    // keys are present. 'refs' is always an array. There is no 'score' key —
+    // Retriever never exposes one, so it was dropped rather than shipped null.
+    expect($resp['result']['results'][0])->toHaveKeys(['id', 'title', 'framework', 'content', 'refs'])
+        ->and($resp['result']['results'][0])->not->toHaveKey('score');
 });
 
 test('once with unknown cmd exits non-zero', function () {
