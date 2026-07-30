@@ -115,6 +115,12 @@ final class Retriever
             'ارامكو'                          => 'aramco sacs',
             'نظام حماية البيانات'             => 'pdpl personal data',
             'حماية البيانات الشخصية'          => 'pdpl personal data',
+            // PDPL is a نظام, but speakers reach for قانون ("law") just as often.
+            'قانون حماية البيانات'            => 'pdpl personal data protection law',
+            // Bare stem, so a question that names neither نظام/قانون nor
+            // الشخصية still lands on PDPL. It subsumes the three keys above;
+            // they stay because their values are not identical.
+            'حماية البيانات'                  => 'pdpl personal data',
             'سدايا'                           => 'sdaia',
             'هيئة البيانات والذكاء الاصطناعي' => 'sdaia',
             'أيزو 27001'                      => 'iso 27001',
@@ -148,12 +154,39 @@ final class Retriever
             'الفرق بين متطلبات أرامكو'        => 'aramco vs nca aramco and nca',
         ];
 
+        // Match on an orthographically folded copy so the same alias catches
+        // both spellings a writer might use. Folding the keys once here keeps
+        // the map itself readable in its canonical spelling.
+        static $folded = null;
+        if ($folded === null) {
+            $folded = [];
+            foreach ($map as $ar => $en) {
+                if ($en !== '') {
+                    $folded[] = [self::foldOrthography($ar), $en];
+                }
+            }
+        }
+
+        $subject = self::foldOrthography($q);
         $aliases = '';
-        foreach ($map as $ar => $en) {
-            if ($en !== '' && mb_strpos($q, $ar) !== false) {
+        foreach ($folded as [$ar, $en]) {
+            if (mb_strpos($subject, $ar) !== false) {
                 $aliases .= ' ' . $en;
             }
         }
+        // $q, not $subject: the caller's text reaches the generator unaltered.
         return $q . $aliases;
+    }
+
+    /**
+     * Fold the Arabic letter pairs that writers use interchangeably and that
+     * carry no distinction worth honouring in a keyword search: a final taa
+     * marbuta written as a plain heh (حمايه for حماية) and an alef maqsura
+     * written as a yaa (مستوي for مستوى). Applied to both sides of the alias
+     * comparison — never to the string handed back to the retriever.
+     */
+    private static function foldOrthography(string $s): string
+    {
+        return strtr($s, ['ة' => 'ه', 'ى' => 'ي']);
     }
 }

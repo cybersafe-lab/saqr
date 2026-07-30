@@ -78,7 +78,7 @@ reimplements this retrieval design; it does not consume the library.)
 - **Grounded by construction:** answers are assembled from a curated,
   frozen-ID corpus; every answer-bearing response carries the entries it was
   retrieved from and their official regulator references.
-- **Bilingual evaluation:** 106 retrieval eval cases (66 English, 40 Arabic)
+- **Bilingual evaluation:** 108 retrieval eval cases (66 English, 42 Arabic)
   with per-language hit@1 / hit@3 / MRR and a committed overall baseline that CI
   refuses to regress.
 - **Corpus as code:** `php bin/corpus-lint` runs in CI and enforces the entry
@@ -308,13 +308,13 @@ any headline metric regresses below `eval/baseline.json`.
 
 | Scope | hit@1 | hit@3 | MRR | n |
 |-------|-------|-------|-----|---|
-| Overall | 0.953 | 0.972 | 0.962 | 106 |
+| Overall | 0.954 | 0.972 | 0.963 | 108 |
 | en | 0.955 | 0.985 | 0.970 | 66 |
-| ar | 0.950 | 0.950 | 0.950 | 40 |
+| ar | 0.952 | 0.952 | 0.952 | 42 |
 
 Read the `ar` figure for what it is: corpus keywords are English, so an Arabic
 question only retrieves when `Retriever::normalizeArabic` recognizes one of its
-phrasings, which makes 0.950 a measure of alias coverage over the phrasings in
+phrasings, which makes 0.952 a measure of alias coverage over the phrasings in
 this set rather than open-domain Arabic understanding. The five known misses and
 the three Arabic substring traps behind them are written up in
 [docs/eval.md](docs/eval.md). Regenerate the report locally with

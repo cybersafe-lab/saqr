@@ -73,3 +73,29 @@ test('generic ECC-compliance question is not misrouted to a comparison entry', f
     $ids = array_column($r->retrieveTopK("I need to comply with ECC, where do I start?", 3), 'id');
     expect($ids[0])->toBe('program-starting-point');
 });
+
+test('Arabic orthographic variants reach the same entry as the canonical spelling', function () {
+    // Real user query, 2026-07-30: "وش قانون حمايه البيانات" returned nothing.
+    // حمايه is spelled with a final heh where every alias key writes حماية with
+    // a taa marbuta, so substring matching failed — a whole class of spellings,
+    // not one alias. Folding runs on both sides of the comparison.
+    $corpus = Corpus::loadFromFile(__DIR__ . '/../../corpus/frameworks.json');
+    $r = new Retriever($corpus);
+
+    $top = fn (string $q) => array_column($r->retrieveTopK($q, 3), 'id')[0] ?? '(no match)';
+
+    expect($top('وش قانون حمايه البيانات'))->toBe('pdpl');
+    expect($top('ما هو قانون حماية البيانات؟'))->toBe('pdpl');
+
+    // The fold is not PDPL-specific: any key carrying a taa marbuta matches its
+    // heh spelling, and an alef maqsura written as a yaa (or the reverse) folds
+    // in the same pass.
+    expect($top('ما هي الهيئه الوطنيه للأمن السيبراني؟'))->toBe('nca-overview');
+    expect($top('ما هي الهيئه الوطنيه للأمن السيبرانى؟'))->toBe('nca-overview');
+    expect($top('ما هو مستوي النضج المطلوب؟'))->toBe('maturity');
+
+    // The bare حماية البيانات stem must not drag data-control questions off the
+    // DCC entry, nor unseat the PDPL/DCC comparison.
+    expect($top('ما هي ضوابط البيانات؟'))->toBe('nca-dcc');
+    expect($top('ما العلاقة بين نظام حماية البيانات الشخصية وضوابط البيانات؟'))->toBe('pdpl-vs-dcc');
+});

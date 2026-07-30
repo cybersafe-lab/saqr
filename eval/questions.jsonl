@@ -104,3 +104,5 @@
 {"q": "لماذا تتكرر ملاحظات التدقيق وكيف أعالجها؟", "lang": "ar", "expected_ids": ["audit"], "note": "stem alias 'تدقيق' → 'audit'"}
 {"q": "كيف أبدأ الالتزام بضوابط الأمن السيبراني في شركة صغيرة؟", "lang": "ar", "expected_ids": ["program-starting-point"], "note": "alias 'كيف أبدأ' → 'where do i start'"}
 {"q": "هل شهادة SACS-210 مطلوبة لموردي ارامكو؟", "lang": "ar", "expected_ids": ["aramco-sacs-002"], "note": "alias 'ارامكو' → 'aramco sacs' plus keyword 'sacs-210'"}
+{"q": "وش قانون حمايه البيانات", "lang": "ar", "expected_ids": ["pdpl"], "note": "real user query 2026-07-30; heh-for-taa-marbuta spelling of حماية + colloquial قانون for نظام + dialectal وش"}
+{"q": "ما هو قانون حماية البيانات؟", "lang": "ar", "expected_ids": ["pdpl"], "note": "MSA phrasing using colloquial قانون where the official name says نظام; alias 'قانون حماية البيانات'"}

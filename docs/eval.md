@@ -11,17 +11,17 @@ implementation to drift.
 - **hit@3** — a gold id is within the top 3.
 - **MRR** — mean reciprocal rank of the first matching id.
 
-## Current results (2026-07-29)
+## Current results (2026-07-30)
 
 | Scope | hit@1 | hit@3 | MRR | n |
 |-------|-------|-------|-----|---|
-| Overall | 0.953 | 0.972 | 0.962 | 106 |
+| Overall | 0.954 | 0.972 | 0.963 | 108 |
 | en | 0.955 | 0.985 | 0.970 | 66 |
-| ar | 0.950 | 0.950 | 0.950 | 40 |
+| ar | 0.952 | 0.952 | 0.952 | 42 |
 
 Regenerate with `php bin/saqr-eval`.
 
-Arabic coverage went from 8 cases over 7 corpus ids to 40 cases over all 31 ids, in
+Arabic coverage went from 8 cases over 7 corpus ids to 42 cases over all 31 ids, in
 practitioner MSA: bare topics, mixed Arabic with Latin acronyms, and both hamza
 spellings (أيزو / ايزو, أرامكو / ارامكو). Read the `ar` number for what it is:
 corpus keywords are English, so an Arabic question only retrieves when
@@ -81,6 +81,14 @@ adding aliases, since substring matching has no notion of word boundaries:
   of الأطراف ("parties"), so "الأطراف الثالثة" routes a third-party question to
   `frameworks-index` and outscores `third party` (11). The third-party case uses
   الموردين instead.
+- **Orthographic variants.** Writers spell a final taa marbuta as a plain heh
+  (حمايه for حماية) and an alef maqsura as a yaa, so a key written in its canonical
+  spelling silently misses the variant. `Retriever::foldOrthography` folds both
+  pairs on the key and on a copy of the question before matching, so an alias only
+  needs its canonical spelling — do not add a variant key by hand. Folding is a
+  matching device only; the question returned to the generator is untouched. The
+  hamza variants (أيزو / ايزو, أرامكو / ارامكو) are **not** folded and still need
+  their own keys.
 - **Bare Latin acronyms** score nothing on their own when every keyword for that
   entry is a multi-token phrase: "NCA" dropped into an Arabic question matches no
   `nca-overview` keyword, because they all read `who is nca`, `nca authority`, and
