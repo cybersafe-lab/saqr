@@ -215,6 +215,12 @@ final class Retriever
             'الفحص'                           => 'audit inspection',
             'مراجعة رقابية'                   => 'audit inspection',
             'مراجعة الرقابية'                 => 'audit inspection',
+            // Aramco contractors are what SACS-210 is for, so name the pair and
+            // emit the Aramco entry's own third-party keyword: the generic
+            // contractor aliases below would otherwise compete with the
+            // standard the question is actually about.
+            'مقاولين أرامكو'                  => 'third party cybersecurity aramco',
+            'موردين أرامكو'                   => 'third party cybersecurity aramco',
             'الطرف الثالث'                    => 'third party',
             'الموردين'                        => 'third party vendor',
             'موردون'                          => 'third party vendor',
