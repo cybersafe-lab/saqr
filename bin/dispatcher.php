@@ -87,11 +87,18 @@ function saqr_dispatch(string $cmd, array $args, Pipeline $pipeline, Corpus $cor
             $a = $args['framework_a'] ?? '';
             $b = $args['framework_b'] ?? '';
             $r = $pipeline->ask("Compare {$a} and {$b}");
+            $top = $r['top'] ?? [];
+            $usedLlm = (bool)($r['used_llm'] ?? false);
             return [
                 'comparison' => $r['answer'] ?? '',
-                'used_llm' => (bool)($r['used_llm'] ?? false),
-                'sources' => array_map(static fn($t) => $t['id'] ?? $t['category'] ?? 'unknown', $r['top'] ?? []),
-                'refs' => saqr_merge_refs($r['top'] ?? []),
+                'used_llm' => $usedLlm,
+                'sources' => array_map(static fn($t) => $t['id'] ?? $t['category'] ?? 'unknown', $top),
+                // refs must describe the answer that shipped, not the retrieval.
+                // A synthesized comparison draws on every entry in `top`, so it
+                // gets the union. With no API key Pipeline falls back to top[0]'s
+                // answer verbatim, and only that entry's refs support it: merging
+                // there would present unread documents as its sources.
+                'refs' => $usedLlm ? saqr_merge_refs($top) : ($top[0]['refs'] ?? []),
             ];
 
         case 'explain_control':

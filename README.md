@@ -151,7 +151,7 @@ All three answer-bearing tools return official sources next to the answer, as a
 |---|---|
 | `saqr_search` | the refs of each returned entry, per result |
 | `saqr_explain_control` | the refs of the entry that answered the lookup |
-| `saqr_compare_frameworks` | the union of the refs of every entry the comparison drew on, deduplicated by URL, retrieval order kept |
+| `saqr_compare_frameworks` | the refs behind the answer returned: the union across every entry a synthesized comparison drew on, deduplicated by URL, or just the refs of the single entry served verbatim when no API key is configured |
 
 `refs` is always present. It is empty for exactly two entries: the META
 self-descriptions (`about-assistant`, `frameworks-index`), which describe the

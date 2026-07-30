@@ -14,7 +14,7 @@ Saqr's Saudi cybersecurity corpus as tools for any MCP-compatible client.
 | Tool | Inputs | What it does |
 |---|---|---|
 | `saqr_search` | `{question: string}` | Free-text search of the corpus; returns up to 3 entries with official-source references |
-| `saqr_compare_frameworks` | `{framework_a: string, framework_b: string}` | Crosswalk between two KSA frameworks, with the references of every entry it drew on |
+| `saqr_compare_frameworks` | `{framework_a: string, framework_b: string}` | Crosswalk between two KSA frameworks, with the references behind the answer it returns |
 | `saqr_explain_control` | `{control_ref: string}` | Looks up the entry covering the control's domain (e.g. `ECC-2-3-1`, `SAMA CSF 3.3.5`) and explains that domain, with references |
 | `saqr_show_corpus` | `{}` | Lists the frameworks covered and the entry count |
 
@@ -66,7 +66,7 @@ own publication.
 |---|---|
 | `saqr_search` | the refs of each returned entry, per result |
 | `saqr_explain_control` | the refs of the entry that answered the lookup |
-| `saqr_compare_frameworks` | the union of the refs of every entry the comparison drew on, deduplicated by URL, retrieval order kept |
+| `saqr_compare_frameworks` | when `used_llm` is true, the union of the refs of every entry the comparison drew on, deduplicated by URL, retrieval order kept; when it is false the answer is one entry's text verbatim, so `refs` narrows to that entry's own refs |
 
 `refs` is always present. It is empty for exactly two entries: the META
 self-descriptions (`about-assistant`, `frameworks-index`), which describe the
