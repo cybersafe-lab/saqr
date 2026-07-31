@@ -133,3 +133,5 @@
 {"q":"كيف نقيس نضجنا السيبراني","lang":"ar","expected_ids":["maturity"],"note":"bare inflected maturity stem"}
 {"q":"كيف نستعد للمراجعه الرقابيه","lang":"ar","expected_ids":["audit"],"note":"audit expressed as regulatory review"}
 {"q":"مخاطر الموردون والمقاولين كيف نديرها","lang":"ar","expected_ids":["third-party"],"note":"nominative plural and contractor synonym"}
+{"q":"وش سالفة ضوابط السوشيال ميديا","lang":"ar","expected_ids":["nca-osmacc"],"note":"live miss 2026-07-31: dialect long-vowel spelling of the social-media loanword"}
+{"q":"ابي اطلع شهادة سايبر للشركة من وين ابدا","lang":"ar","expected_ids":["program-starting-point"],"note":"live miss 2026-07-31: Saudi dialect interrogative وين; the certificate framing is deliberately not aliased"}

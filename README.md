@@ -308,13 +308,13 @@ any headline metric regresses below `eval/baseline.json`.
 
 | Scope | hit@1 | hit@3 | MRR | n |
 |-------|-------|-------|-----|---|
-| Overall | 0.963 | 0.978 | 0.970 | 135 |
+| Overall | 0.964 | 0.978 | 0.971 | 137 |
 | en | 0.956 | 0.985 | 0.971 | 68 |
-| ar | 0.970 | 0.970 | 0.970 | 67 |
+| ar | 0.971 | 0.971 | 0.971 | 69 |
 
 Read the `ar` figure for what it is: corpus keywords are English, so an Arabic
 question only retrieves when `Retriever` recognizes one of its phrasings, which
-makes 0.970 a measure of alias coverage over the phrasings in this set rather
+makes 0.971 a measure of alias coverage over the phrasings in this set rather
 than open-domain Arabic understanding. Retrieval matches against a normalized
 copy of the question (Unicode folds for diacritics, tatweel, hamza, taa marbuta,
 Arabic-Indic digits, and dash variants); the question the generator sees is never

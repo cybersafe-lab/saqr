@@ -11,17 +11,17 @@ implementation to drift.
 - **hit@3** — a gold id is within the top 3.
 - **MRR** — mean reciprocal rank of the first matching id.
 
-## Current results (2026-07-30)
+## Current results (2026-07-31)
 
 | Scope | hit@1 | hit@3 | MRR | n |
 |-------|-------|-------|-----|---|
-| Overall | 0.963 | 0.978 | 0.970 | 135 |
+| Overall | 0.964 | 0.978 | 0.971 | 137 |
 | en | 0.956 | 0.985 | 0.971 | 68 |
-| ar | 0.970 | 0.970 | 0.970 | 67 |
+| ar | 0.971 | 0.971 | 0.971 | 69 |
 
 Regenerate with `php bin/saqr-eval`.
 
-Arabic coverage is 67 cases over all 32 corpus ids, in practitioner MSA and in
+Arabic coverage is 69 cases over all 32 corpus ids, in practitioner MSA and in
 Saudi colloquial: bare topics, mixed Arabic with Latin acronyms, Arabic
 transliterations of those acronyms, Arabic-Indic digits, diacritics, tatweel,
 observed misspellings, and the definite article assimilated after لـ. Read the
@@ -114,6 +114,12 @@ aliases, since substring matching has no notion of word boundaries:
   key for that one word order does not generalize, and PDPL is the closer answer
   to the question read without its trailing عند NCA. The general case needs
   intent detection, the same gap behind the comparison misses above.
+- **Dialect is not orthography, and folding will not reach it.** Two production
+  misses on 2026-07-31 came from words no fold connects to the key: السوشيال for
+  السوشال (a long vowel inside a loanword, and neither spelling contains the
+  other) and وين for أين (a different word, not a spelling of one). Both spellings
+  and both interrogatives now have keys. Expect more of this class: it is found
+  by reading live queries, not by reasoning about the pipeline.
 - **Folds widen keys as well as questions.** أم ("or") folds to ام, which is also
   how أمس and أمانة start, so a comparison key ending in the bare disjunction
   ("مؤسسة النقد أم") fires inside ordinary sentences. Comparison keys name the

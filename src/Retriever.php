@@ -148,7 +148,10 @@ final class Retriever
             'نفاذ عن بعد'                     => 'nca tcc remote access security',
             'تي سي سي'                        => 'nca tcc',
             'ضوابط حسابات التواصل'            => 'nca osmacc social media',
+            // Both spellings of the loanword. سوشيال is not reachable from
+            // سوشال by any fold, and neither contains the other.
             'سوشال ميديا'                     => 'nca osmacc social media accounts',
+            'سوشيال ميديا'                    => 'nca osmacc social media accounts',
             'حسابات المنصات الرسمية'          => 'nca osmacc official social media',
             // stems, so التقنية/التقنيات and the assimilated للتقنية all land
             'تقنية التشغيلية'                 => 'nca otcc operational technology cybersecurity',
@@ -207,6 +210,8 @@ final class Retriever
             // practitioner advice
             'من أين أبدأ'                     => 'where do i start',
             'كيف أبدأ'                        => 'where do i start',
+            // وين is the ordinary Saudi "where"; أين is what the MSA keys assume.
+            'وين أبدأ'                        => 'where do i start',
             // stem, so نضجنا / بالنضج / للنضج all land
             'نضج'                             => 'maturity',
             // stem, not 'التدقيق': the definite article assimilates in "للتدقيق"

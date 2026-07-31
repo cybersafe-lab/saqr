@@ -158,6 +158,22 @@ test('Arabic acronym transliterations reach the entry the Latin acronym names', 
     expect($top('وش الفرق بين اي سي سي وسي سي سي'))->toBe('ecc-vs-ccc');
 });
 
+test('Saudi dialect spellings reach the entry the map is written for', function () {
+    // Both found on production, 2026-07-31. Neither is reachable by a fold:
+    // سوشيال and سوشال differ by a long vowel and neither contains the other,
+    // and وين is a different word from أين, not a spelling of it.
+    $corpus = Corpus::loadFromFile(__DIR__ . '/../../corpus/frameworks.json');
+    $r = new Retriever($corpus);
+    $top = fn (string $q) => array_column($r->retrieveTopK($q, 3), 'id')[0] ?? '(no match)';
+
+    expect($top('وش سالفة ضوابط السوشيال ميديا'))->toBe('nca-osmacc');
+    expect($top('وش ضوابط حسابات السوشال ميديا للجهه'))->toBe('nca-osmacc');
+
+    expect($top('ابي اطلع شهادة سايبر للشركة من وين ابدا'))->toBe('program-starting-point');
+    expect($top('وين ابدا في الامن السيبراني'))->toBe('program-starting-point');
+    expect($top('من أين أبدأ برنامج الأمن السيبراني في منشأتي؟'))->toBe('program-starting-point');
+});
+
 test('the definite article assimilated after lam still reaches the entry', function () {
     $corpus = Corpus::loadFromFile(__DIR__ . '/../../corpus/frameworks.json');
     $r = new Retriever($corpus);
