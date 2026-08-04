@@ -167,11 +167,8 @@ See `docs/mcp.md` for the full integration guide.
 
 ## Quickstart
 
-The package is not on Packagist yet, so install it straight from GitHub:
-
 ```bash
-composer config repositories.saqr vcs https://github.com/cybersafe-lab/saqr
-composer require cybersafe-lab/saqr:dev-main
+composer require cybersafe-lab/saqr
 ```
 
 ```php
